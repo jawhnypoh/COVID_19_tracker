@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
           BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.flagUsa), title: Text('Murica'),
           ),
-          BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.globeAmericas), title: Text('Global'),
+          BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.globeAmericas), title: Text('World'),
           ),
           BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.mapMarked), title: Text('Countries'),
           ),

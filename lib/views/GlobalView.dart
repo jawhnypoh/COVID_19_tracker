@@ -24,6 +24,7 @@ class GlobalViewState extends State<GlobalView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('Worldwide'),
       ),
       body: Container(
@@ -70,7 +71,7 @@ class GlobalViewState extends State<GlobalView> {
       child: Center(
           child: Column(
               children: <Widget>[
-                Text('Total Confirmed', style: TextStyle(fontSize: 15.0, color: Colors.orangeAccent)),
+                Text('Total Confirmed', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
                 Text(numberFormatter.format(snapshot.data.cases).toString(), style: TextStyle(fontSize: 60.0, color: Colors.orangeAccent)),
                 Text('+' + numberFormatter.format(snapshot.data.todayCases).toString() + ' Today', style: TextStyle(fontSize: 25.0, color: Colors.orangeAccent))
               ]
@@ -84,7 +85,7 @@ class GlobalViewState extends State<GlobalView> {
       child: Center(
         child: Column(
           children: <Widget>[
-            Text('Total Deaths', style: TextStyle(fontSize: 15.0, color: Colors.redAccent)),
+            Text('Total Deaths', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
             Text(numberFormatter.format(snapshot.data.deaths).toString(), style: TextStyle(fontSize: 40.0, color: Colors.redAccent)),
           ],
         ),
@@ -97,7 +98,7 @@ class GlobalViewState extends State<GlobalView> {
       child: Center(
         child: Column(
           children: <Widget>[
-            Text('Total Recovered', style: TextStyle(fontSize: 15.0, color: Colors.green)),
+            Text('Total Recovered', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
             Text(numberFormatter.format(snapshot.data.recovered).toString(), style: TextStyle(fontSize: 40.0, color: Colors.green)),
           ],
         ),
@@ -109,7 +110,6 @@ class GlobalViewState extends State<GlobalView> {
   Future<GlobalStats> getGlobalResult() async {
     try {
       final Response response = await dio.get(_globalURL);
-      print(response);
       final jsonResult = json.decode(response.toString());
       return GlobalStats.fromJson(jsonResult);
     } catch (e) {

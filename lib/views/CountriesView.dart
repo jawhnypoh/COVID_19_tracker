@@ -10,7 +10,7 @@ class CountriesViewState extends State<CountriesView> {
   ScrollController _scrollController = ScrollController();
   List countriesList = List();
   final String _countriesURL = "https://disease.sh/v2/countries";
-  bool isLoading = false;
+  bool isLoading = true;
   final numberFormatter = new NumberFormat("#,###", "en_US");
 
   CountriesViewState() {}
@@ -40,7 +40,7 @@ class CountriesViewState extends State<CountriesView> {
   Widget _buildAppBar(BuildContext context) {
     return AppBar(
       centerTitle: true,
-      title: Text('Countries by Case Number')
+      title: Text('Countries')
     );
   }
 
@@ -58,7 +58,7 @@ class CountriesViewState extends State<CountriesView> {
 
   Widget _buildCountriesResultsList() {
     return ListView.separated(
-      itemCount: countriesList == null ? 0 : countriesList.length + 1,
+      itemCount: countriesList == null ? 0 : countriesList.length,
       itemBuilder: (BuildContext context, int idx) {
         if (idx == countriesList.length) {
           return _buildProgressIndicator();
@@ -67,7 +67,8 @@ class CountriesViewState extends State<CountriesView> {
             leading: Image.network(countriesList[idx]['countryInfo']['flag'],
               width: 75.0, height: 50.0),
             title: Text(countriesList[idx]['country'], style: const TextStyle(fontSize: 25.0)),
-            subtitle: Text(numberFormatter.format(countriesList[idx]['cases']).toString() + ' Cases', style: const TextStyle(fontSize: 20.0, color: Colors.orangeAccent)),
+            subtitle: Text(numberFormatter.format(countriesList[idx]['cases']).toString() + ' Cases',
+                style: const TextStyle(fontSize: 20.0, color: Colors.orangeAccent)),
           );
         }
       },
