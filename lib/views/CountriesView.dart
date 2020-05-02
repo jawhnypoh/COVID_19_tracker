@@ -3,7 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:dio/dio.dart';
-
+import 'package:covid_19_tracker/views/SingleCountryView.dart';
+import 'package:covid_19_tracker/utilities/countries_full_name_converter.dart';
 
 class CountriesViewState extends State<CountriesView> {
   var dio = Dio();
@@ -66,9 +67,16 @@ class CountriesViewState extends State<CountriesView> {
           return ListTile(
             leading: Image.network(countriesList[idx]['countryInfo']['flag'],
               width: 75.0, height: 50.0),
-            title: Text(countriesList[idx]['country'], style: const TextStyle(fontSize: 25.0)),
+            title: Text(CountriesFullNameConverter().convertToFullName(countriesList[idx]['country']),
+                style: const TextStyle(fontSize: 25.0)),
             subtitle: Text(numberFormatter.format(countriesList[idx]['cases']).toString() + ' cases',
                 style: const TextStyle(fontSize: 20.0, color: Colors.orangeAccent)),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SingleCountryView(countryName: countriesList[idx]['country']))
+              );
+            },
           );
         }
       },

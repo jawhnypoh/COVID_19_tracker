@@ -10,7 +10,6 @@ import 'package:covid_19_tracker/utilities/time_since_updated_converter.dart';
 class GlobalViewState extends State<GlobalView> {
   var dio = Dio();
   final String _globalURL = 'https://disease.sh/v2/all';
-  int updatedTimeFromJsonResponse = 0;
   Future<GlobalStats> globalStats;
   final numberFormatter = NumberFormat('#,###', 'en_US');
 
@@ -58,16 +57,21 @@ class GlobalViewState extends State<GlobalView> {
                           _buildTotalCritical(snapshot),
                         ],
                       ),
-//                      Expanded(child: Container()),
-//                      Text('Updated ' + TimeSinceUpdatedConverter().convertTimeStamp(snapshot.data.updated)
-//                      ),
+                      const Padding(padding: EdgeInsets.only(top: 40.0)),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Text('API last updated ' + TimeSinceUpdatedConverter().convertTimeStamp(snapshot.data.updated)),
+                      )
                     ],
                   ),
                 );
               }
+              else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
               return const Center(
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(100.0),
                   child: CircularProgressIndicator(),
                 ),
               );
@@ -149,8 +153,6 @@ class GlobalViewState extends State<GlobalView> {
     try {
       final Response response = await dio.get(_globalURL);
       final jsonResult = json.decode(response.toString());
-      updatedTimeFromJsonResponse = jsonResult['updated'];
-      print(TimeSinceUpdatedConverter().convertTimeStamp(updatedTimeFromJsonResponse));
       return GlobalStats.fromJson(jsonResult);
     } catch (e) {
       print(e);
