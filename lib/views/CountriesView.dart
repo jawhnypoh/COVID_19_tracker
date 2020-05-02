@@ -60,14 +60,14 @@ class CountriesViewState extends State<CountriesView> {
     return ListView.separated(
       itemCount: countriesList == null ? 0 : countriesList.length,
       itemBuilder: (BuildContext context, int idx) {
-        if (idx == countriesList.length) {
+        if (countriesList.isEmpty) {
           return _buildProgressIndicator();
         } else {
           return ListTile(
             leading: Image.network(countriesList[idx]['countryInfo']['flag'],
               width: 75.0, height: 50.0),
             title: Text(countriesList[idx]['country'], style: const TextStyle(fontSize: 25.0)),
-            subtitle: Text(numberFormatter.format(countriesList[idx]['cases']).toString() + ' Cases',
+            subtitle: Text(numberFormatter.format(countriesList[idx]['cases']).toString() + ' cases',
                 style: const TextStyle(fontSize: 20.0, color: Colors.orangeAccent)),
           );
         }

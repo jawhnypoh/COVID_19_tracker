@@ -39,7 +39,7 @@ class USViewState extends State<USView> {
   Widget _buildAppBar(BuildContext context) {
     return AppBar(
       centerTitle: true,
-      title: Text('Murica States'),
+      title: const Text('United States'),
     );
   }
 
@@ -59,12 +59,12 @@ class USViewState extends State<USView> {
     return ListView.separated(
       itemCount: statesList == null ? 0 : statesList.length,
       itemBuilder: (BuildContext context, int idx) {
-        if (idx == statesList.length) {
+        if (statesList.isEmpty) {
           return _buildProgressIndicator();
         } else {
           return ListTile(
             title: Text(statesList[idx]['state'], style: const TextStyle(fontSize: 25)),
-            subtitle: Text(numberFormatter.format(statesList[idx]['cases']).toString() + ' Cases',
+            subtitle: Text(numberFormatter.format(statesList[idx]['cases']).toString() + ' cases',
                 style: const TextStyle(fontSize: 20.0, color: Colors.orangeAccent)),
           );
         }
