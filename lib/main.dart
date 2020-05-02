@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import './views/GlobalView.dart';
 import './views/USView.dart';
 import './views/SearchView.dart';
@@ -60,15 +61,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.search), title: Text('Search'),
+          BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.newspaper), title: Text('Search'), // Potentially news?
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Merica'),
+          BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.flagUsa), title: Text('Murica'),
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.explore), title: Text('Global'),
+          BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.globeAmericas), title: Text('Global'),
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.flag), title: Text('Countries'),
+          BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.mapMarked), title: Text('Countries'),
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.info), title: Text('About'),
+          BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.infoCircle), title: Text('About'),
           ),
         ],
         type: BottomNavigationBarType.fixed,
