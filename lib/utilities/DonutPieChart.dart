@@ -35,7 +35,7 @@ class DonutPieChart extends StatelessWidget {
     );
   }
 
-  // Create one series with counts data
+  // Create series with counts data
   static List<charts.Series<CaseTypes, String>> _createCountsData(GlobalStats snapshotData) {
     // Colors definition
     final activeColor = charts.ColorUtil.fromDartColor(Colors.blueAccent);

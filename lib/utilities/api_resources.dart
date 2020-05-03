@@ -1,0 +1,40 @@
+// API Resources methods
+
+import 'package:covid_19_tracker/models/global_model.dart';
+import 'package:covid_19_tracker/models/timeline_date_model.dart';
+import 'package:dio/dio.dart';
+import 'dart:convert';
+
+class ApiResources {
+  final String _globalURL = 'https://disease.sh/v2/all';
+  final String _historicalTimelineURL = 'https://corona-api.com/timeline';
+  var dio = Dio();
+
+  // Get results from disease.sh API for worldwide
+  Future<GlobalStats> getGlobalResult() async {
+    try {
+      final Response response = await dio.get(_globalURL);
+      final jsonResult = json.decode(response.toString());
+      return GlobalStats.fromJson(jsonResult);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  // Get results from corona-api API for timeline
+  Future<List<TimelineDateModel>> getTimelineResults() async {
+    try {
+      final Response response = await dio.get(_historicalTimelineURL);
+      final jsonResult = json.decode(response.toString());
+      final timelineList = jsonResult['data'] as List;
+
+      return timelineList.map<TimelineDateModel>((json) => TimelineDateModel.fromJson(json)).toList();
+    } catch (e) {
+      print(e);
+      return e;
+    }
+  }
+
+  // Get results from api.smartable.ai API for news
+
+}

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import './views/GlobalView.dart';
 import './views/USView.dart';
-import './views/SearchView.dart';
+import './views/NewsView.dart';
 import './views/CountriesView.dart';
 import './views/AboutView.dart';
 
@@ -33,7 +33,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   final List<Widget> screens = [
-    const SearchView(key: PageStorageKey('Search')),
+    const NewsView(key: PageStorageKey('News')),
     const USView(key: PageStorageKey('US')),
     const GlobalView(key: PageStorageKey('Global')),
     const CountriesView(key: PageStorageKey('Countries')),
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.newspaper), title: Text('Search'), // Potentially news?
+          BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.newspaper), title: Text('News'), // Potentially news?
           ),
           BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.flagUsa), title: Text('Murica'),
           ),

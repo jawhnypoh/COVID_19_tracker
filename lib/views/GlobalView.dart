@@ -1,26 +1,24 @@
 // Global Screen
 
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:dio/dio.dart';
 import 'package:covid_19_tracker/models/global_model.dart';
 import 'package:covid_19_tracker/utilities/DonutPieChart.dart';
 import 'package:covid_19_tracker/utilities/ColoredBox.dart';
 import 'package:covid_19_tracker/utilities/utilities.dart';
+import 'package:covid_19_tracker/utilities/api_resources.dart';
 
 class GlobalViewState extends State<GlobalView> {
-  var dio = Dio();
-  final String _globalURL = 'https://disease.sh/v2/all';
   Future<GlobalStats> globalStats;
   final numberFormatter = NumberFormat('#,###', 'en_US');
   var donutPieChart;
+  var historicalLineChart;
 
   GlobalViewState() {}
 
   @override
   void initState() {
-    getGlobalResult();
+    ApiResources().getGlobalResult();
     super.initState();
   }
 
@@ -34,7 +32,7 @@ class GlobalViewState extends State<GlobalView> {
       body: Container(
         child: SingleChildScrollView(
           child: FutureBuilder<GlobalStats>(
-            future: getGlobalResult(),
+            future: ApiResources().getGlobalResult(),
             builder: (context, snapshot) {
               if(snapshot.hasData) {
                 donutPieChart = DonutPieChart.withCountsData(snapshot.data);
@@ -71,6 +69,13 @@ class GlobalViewState extends State<GlobalView> {
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
                       const Divider(color: Colors.grey),
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
+                      Container(
+                        height: 300,
+                        width: 300,
+                        child: historicalLineChart,
+                      ),
+                      const Padding(padding: EdgeInsets.only(top: 20.0)),
+                      const Divider(color: Colors.grey),
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Text('API last updated ' + Utilities().convertTimeStamp(snapshot.data.updated)),
@@ -175,17 +180,6 @@ class GlobalViewState extends State<GlobalView> {
         ),
       ),
     );
-  }
-
-  // Get results from disease.sh API for worldwide
-  Future<GlobalStats> getGlobalResult() async {
-    try {
-      final Response response = await dio.get(_globalURL);
-      final jsonResult = json.decode(response.toString());
-      return GlobalStats.fromJson(jsonResult);
-    } catch (e) {
-      print(e);
-    }
   }
 }
 
