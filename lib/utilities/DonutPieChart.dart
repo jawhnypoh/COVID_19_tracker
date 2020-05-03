@@ -1,19 +1,22 @@
 // DonutPieChart Class with flutter_charts Library
 
+import 'package:covid_19_tracker/utilities/utilities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:covid_19_tracker/models/global_model.dart';
 import 'package:covid_19_tracker/models/case_types_data_model.dart';
 
 class DonutPieChart extends StatelessWidget {
   final List<charts.Series> seriesList;
+  GlobalStats snapshotData;
   final bool animate;
 
-  DonutPieChart(this.seriesList, {this.animate});
+  DonutPieChart(this.seriesList, this.snapshotData, {this.animate});
 
   // Creates a PieChart with data and animation
-  factory DonutPieChart.withCountsData() {
-    return DonutPieChart(_createCountsData(), animate: true);
+  factory DonutPieChart.withCountsData(GlobalStats snapshotData) {
+    return DonutPieChart(_createCountsData(snapshotData), snapshotData, animate: true);
   }
 
   @override
@@ -21,7 +24,7 @@ class DonutPieChart extends StatelessWidget {
     return charts.PieChart(seriesList,
       animate: animate,
       defaultRenderer: charts.ArcRendererConfig(
-        arcWidth: 95,
+        arcWidth: 70,
         arcRendererDecorators: [
           charts.ArcLabelDecorator()
         ]
@@ -30,16 +33,18 @@ class DonutPieChart extends StatelessWidget {
   }
 
   // Create one series with counts data
-  static List<charts.Series<CaseTypes, String>> _createCountsData() {
+  static List<charts.Series<CaseTypes, String>> _createCountsData(GlobalStats snapshotData) {
     // Colors definition
     final activeColor = charts.ColorUtil.fromDartColor(Colors.blue);
     final deathsColor = charts.ColorUtil.fromDartColor(Colors.redAccent);
     final recoveredColor = charts.ColorUtil.fromDartColor(Colors.green);
 
+    final totalCounts = Utilities().addTotalCounts(snapshotData.active, snapshotData.deaths, snapshotData.recovered);
+
     final data = [
-      CaseTypes('Active', 2129700),
-      CaseTypes('Deaths', 244761),
-      CaseTypes('Recovered', 1108886),
+      CaseTypes('Active', snapshotData.active, Utilities().convertCountsToPercentages(snapshotData.active, totalCounts)),
+      CaseTypes('Deaths', snapshotData.deaths, Utilities().convertCountsToPercentages(snapshotData.deaths, totalCounts)),
+      CaseTypes('Recovered', snapshotData.recovered, Utilities().convertCountsToPercentages(snapshotData.recovered, totalCounts)),
     ];
 
     return [
@@ -47,7 +52,7 @@ class DonutPieChart extends StatelessWidget {
           domainFn: (CaseTypes caseTypes, _) => caseTypes.caseType,
           measureFn: (CaseTypes caseTypes, _) => caseTypes.count,
           labelAccessorFn: (CaseTypes caseTypes, _) =>
-            '${caseTypes.count.toString()}',
+            '${caseTypes.percentage.toString()}%',
           colorFn: (CaseTypes caseTypes, _) {
             switch (caseTypes.caseType) {
               case 'Active':

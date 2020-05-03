@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:covid_19_tracker/models/country_model.dart';
-import 'package:covid_19_tracker/utilities/countries_full_name_converter.dart';
+import 'package:covid_19_tracker/utilities/utilities.dart';
 
 class SingleCountryViewState extends State<SingleCountryView> {
   var dio = Dio();
@@ -25,7 +25,7 @@ class SingleCountryViewState extends State<SingleCountryView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(CountriesFullNameConverter().convertToFullName(countryName)),
+        title: Text(Utilities().convertToFullName(countryName)),
       ),
       body: Container(
         child: SingleChildScrollView(

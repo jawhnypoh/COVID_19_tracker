@@ -7,14 +7,14 @@ import 'package:dio/dio.dart';
 import 'package:covid_19_tracker/models/global_model.dart';
 import 'package:covid_19_tracker/utilities/DonutPieChart.dart';
 import 'package:covid_19_tracker/utilities/ColoredBox.dart';
-import 'package:covid_19_tracker/utilities/time_since_updated_converter.dart';
+import 'package:covid_19_tracker/utilities/utilities.dart';
 
 class GlobalViewState extends State<GlobalView> {
   var dio = Dio();
   final String _globalURL = 'https://disease.sh/v2/all';
   Future<GlobalStats> globalStats;
   final numberFormatter = NumberFormat('#,###', 'en_US');
-  var donutPieChart = DonutPieChart.withCountsData();
+  var donutPieChart;
 
   GlobalViewState() {}
 
@@ -38,11 +38,12 @@ class GlobalViewState extends State<GlobalView> {
             future: getGlobalResult(),
             builder: (context, snapshot) {
               if(snapshot.hasData) {
+                donutPieChart = DonutPieChart.withCountsData(snapshot.data);
                 return Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      const Padding(padding: EdgeInsets.only(top: 20.0)),
+                      const Padding(padding: EdgeInsets.only(top: 10.0)),
                       _buildTotalCasesWidget(snapshot),
                       const Padding(padding: EdgeInsets.only(top: 40.0)),
                       Row(
@@ -73,7 +74,7 @@ class GlobalViewState extends State<GlobalView> {
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
                       Align(
                         alignment: Alignment.bottomCenter,
-                        child: Text('API last updated ' + TimeSinceUpdatedConverter().convertTimeStamp(snapshot.data.updated)),
+                        child: Text('API last updated ' + Utilities().convertTimeStamp(snapshot.data.updated)),
                       )
                     ],
                   ),
