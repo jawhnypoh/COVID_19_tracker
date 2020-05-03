@@ -32,7 +32,6 @@ class GlobalViewState extends State<GlobalView> {
         title: Text('Worldwide'),
       ),
       body: Container(
-        margin: const EdgeInsets.all(10.0),
         child: SingleChildScrollView(
           child: FutureBuilder<GlobalStats>(
             future: getGlobalResult(),
@@ -155,7 +154,7 @@ class GlobalViewState extends State<GlobalView> {
         child: Column(
           children: <Widget>[
             Text('Critical Cases', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text(numberFormatter.format(snapshot.data.active).toString(), style: TextStyle(fontSize: 35.0, color: Colors.deepOrangeAccent)),
+            Text(numberFormatter.format(snapshot.data.critical).toString(), style: TextStyle(fontSize: 35.0, color: Colors.deepOrangeAccent)),
           ],
         ),
       ),
@@ -168,8 +167,9 @@ class GlobalViewState extends State<GlobalView> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            ColoredBox(color: Colors.blue, text: 'Active'),
+            ColoredBox(color: Colors.blueAccent, text: 'Active'),
             ColoredBox(color: Colors.redAccent, text: 'Deaths'),
+            ColoredBox(color: Colors.deepOrangeAccent, text: 'Critical'),
             ColoredBox(color: Colors.green, text: 'Recovered'),
           ],
         ),

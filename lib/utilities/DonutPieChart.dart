@@ -26,7 +26,10 @@ class DonutPieChart extends StatelessWidget {
       defaultRenderer: charts.ArcRendererConfig(
         arcWidth: 70,
         arcRendererDecorators: [
-          charts.ArcLabelDecorator()
+          charts.ArcLabelDecorator(
+            insideLabelStyleSpec: charts.TextStyleSpec(fontSize: 12, color: charts.ColorUtil.fromDartColor(Colors.grey[100])),
+            outsideLabelStyleSpec: charts.TextStyleSpec(fontSize: 12, color: charts.ColorUtil.fromDartColor(Colors.grey[350]))
+          )
         ]
       ),
     );
@@ -35,16 +38,18 @@ class DonutPieChart extends StatelessWidget {
   // Create one series with counts data
   static List<charts.Series<CaseTypes, String>> _createCountsData(GlobalStats snapshotData) {
     // Colors definition
-    final activeColor = charts.ColorUtil.fromDartColor(Colors.blue);
+    final activeColor = charts.ColorUtil.fromDartColor(Colors.blueAccent);
     final deathsColor = charts.ColorUtil.fromDartColor(Colors.redAccent);
+    final criticalColor = charts.ColorUtil.fromDartColor(Colors.deepOrangeAccent);
     final recoveredColor = charts.ColorUtil.fromDartColor(Colors.green);
 
     final totalCounts = Utilities().addTotalCounts(snapshotData.active, snapshotData.deaths, snapshotData.recovered);
 
     final data = [
-      CaseTypes('Active', snapshotData.active, Utilities().convertCountsToPercentages(snapshotData.active, totalCounts)),
       CaseTypes('Deaths', snapshotData.deaths, Utilities().convertCountsToPercentages(snapshotData.deaths, totalCounts)),
+      CaseTypes('Critical', snapshotData.critical, Utilities().convertCountsToPercentages(snapshotData.critical, totalCounts)),
       CaseTypes('Recovered', snapshotData.recovered, Utilities().convertCountsToPercentages(snapshotData.recovered, totalCounts)),
+      CaseTypes('Active', snapshotData.active, Utilities().convertCountsToPercentages(snapshotData.active, totalCounts)),
     ];
 
     return [
@@ -59,6 +64,8 @@ class DonutPieChart extends StatelessWidget {
                 return activeColor;
               case 'Deaths':
                 return deathsColor;
+              case 'Critical':
+                return criticalColor;
               case 'Recovered':
                 return recoveredColor;
               default:

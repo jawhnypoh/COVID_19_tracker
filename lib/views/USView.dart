@@ -1,5 +1,6 @@
 // United States Screen
 
+import 'package:covid_19_tracker/views/SingleStateView.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:dio/dio.dart';
@@ -66,6 +67,12 @@ class USViewState extends State<USView> {
             title: Text(statesList[idx]['state'], style: const TextStyle(fontSize: 25)),
             subtitle: Text(numberFormatter.format(statesList[idx]['cases']).toString() + ' cases',
                 style: const TextStyle(fontSize: 20.0, color: Colors.orangeAccent)),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SingleStateView(stateName: statesList[idx]['state']))
+              );
+            },
           );
         }
       },

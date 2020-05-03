@@ -1,4 +1,5 @@
 // Colored Circle Class
+import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 class ColoredBox extends StatelessWidget {
@@ -16,7 +17,7 @@ class ColoredBox extends StatelessWidget {
           height: 10.0,
           color: this.color,
         ),
-        Text('  ' + this.text)
+        Text('  ' + this.text, style: TextStyle(color: Colors.grey[350]),)
       ],
     );
   }
