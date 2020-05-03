@@ -55,9 +55,10 @@ class SingleCountryViewState extends State<SingleCountryView> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           _buildCasesToday(snapshot),
-                          _buildDeathsToday(snapshot,)
+                          _buildDeathsToday(snapshot),
                         ],
-                      )
+                      ),
+                      const Padding(padding: EdgeInsets.only(top: 30.0)),
                     ],
                   ),
                 );
@@ -174,7 +175,7 @@ class SingleCountryViewState extends State<SingleCountryView> {
     return _countryURL + countryName;
   }
 
-  // Get results from diseaseh.sh API for specific country
+  // Get results from disease.sh API for specific country
   Future<CountryStats> getCountryResults() async {
     try {
       final Response response = await dio.get(addCountryNameToURL(countryName));

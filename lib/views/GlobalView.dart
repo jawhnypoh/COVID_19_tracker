@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:dio/dio.dart';
 import 'package:covid_19_tracker/models/global_model.dart';
+import 'package:covid_19_tracker/utilities/DonutPieChart.dart';
+import 'package:covid_19_tracker/utilities/ColoredBox.dart';
 import 'package:covid_19_tracker/utilities/time_since_updated_converter.dart';
 
 class GlobalViewState extends State<GlobalView> {
@@ -12,6 +14,7 @@ class GlobalViewState extends State<GlobalView> {
   final String _globalURL = 'https://disease.sh/v2/all';
   Future<GlobalStats> globalStats;
   final numberFormatter = NumberFormat('#,###', 'en_US');
+  var donutPieChart = DonutPieChart.withCountsData();
 
   GlobalViewState() {}
 
@@ -57,7 +60,17 @@ class GlobalViewState extends State<GlobalView> {
                           _buildTotalCritical(snapshot),
                         ],
                       ),
-                      const Padding(padding: EdgeInsets.only(top: 40.0)),
+                      const Padding(padding: EdgeInsets.only(top: 20.0)),
+                      const Divider(color: Colors.grey),
+                      Container(
+                        height: 300,
+                        width: 300,
+                        child: donutPieChart,
+                      ),
+                      _buildPieChartLegend(),
+                      const Padding(padding: EdgeInsets.only(top: 20.0)),
+                      const Divider(color: Colors.grey),
+                      const Padding(padding: EdgeInsets.only(top: 20.0)),
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Text('API last updated ' + TimeSinceUpdatedConverter().convertTimeStamp(snapshot.data.updated)),
@@ -142,6 +155,21 @@ class GlobalViewState extends State<GlobalView> {
           children: <Widget>[
             Text('Critical Cases', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
             Text(numberFormatter.format(snapshot.data.active).toString(), style: TextStyle(fontSize: 35.0, color: Colors.deepOrangeAccent)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPieChartLegend() {
+    return Container(
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            ColoredBox(color: Colors.blue, text: 'Active'),
+            ColoredBox(color: Colors.redAccent, text: 'Deaths'),
+            ColoredBox(color: Colors.green, text: 'Recovered'),
           ],
         ),
       ),
