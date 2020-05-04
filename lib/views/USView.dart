@@ -1,23 +1,19 @@
 // United States Screen
 
+import 'package:covid_19_tracker/utilities/api_resources.dart';
 import 'package:covid_19_tracker/views/SingleStateView.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:dio/dio.dart';
 
 class USViewState extends State<USView> {
-  var dio = Dio();
   ScrollController _scrollController = ScrollController();
   List statesList = List();
-  final String _statesURL = "https://disease.sh/v2/states";
-  bool isLoading = true;
   final numberFormatter = new NumberFormat("#,###", "en_US");
 
   USViewState() {}
 
   @override
   void initState() {
-    getUSResults();
     super.initState();
   }
 
@@ -30,10 +26,14 @@ class USViewState extends State<USView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: Container(
-        child: _buildStatesResultsList(),
-      ),
-      resizeToAvoidBottomPadding: false,
+      body: FutureBuilder(
+        future: ApiResources().getUSResults(),
+        builder: (context, snapshot) {
+          return snapshot.data != null
+              ? _buildStatesResultsList(snapshot.data)
+              : _buildProgressIndicator();
+      },
+    ),
     );
   }
 
@@ -45,18 +45,15 @@ class USViewState extends State<USView> {
   }
 
   Widget _buildProgressIndicator() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+    return const Padding(
+      padding: EdgeInsets.all(100.0),
       child: Center(
-        child: Opacity(
-          opacity: isLoading ? 1.0 : 00,
-          child: const CircularProgressIndicator(),
-        ),
+        child: CircularProgressIndicator(),
       ),
     );
   }
 
-  Widget _buildStatesResultsList() {
+  Widget _buildStatesResultsList(List statesList) {
     return ListView.separated(
       itemCount: statesList == null ? 0 : statesList.length,
       itemBuilder: (BuildContext context, int idx) {
@@ -81,28 +78,6 @@ class USViewState extends State<USView> {
       },
       controller: _scrollController,
     );
-  }
-
-  // Get results from diseash.sh API for all US states
-  Future<Response> getUSResults() async {
-    final List resultsList = List();
-
-    try {
-      final Response response = await dio.get(_statesURL);
-      for(int i = 0; i < response.data.length; i++) {
-        resultsList.add(response.data[i]);
-      }
-
-      resultsList.sort((b, a) => a['cases'].compareTo(b['cases']));
-
-      setState(() {
-        statesList = resultsList;
-        isLoading = false;
-      });
-      return response;
-    } catch (e) {
-      print(e);
-    }
   }
 }
 

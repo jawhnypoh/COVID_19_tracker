@@ -1,5 +1,6 @@
 // Countries Screen
 
+import 'package:covid_19_tracker/utilities/api_resources.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:dio/dio.dart';
@@ -10,7 +11,6 @@ class CountriesViewState extends State<CountriesView> {
   var dio = Dio();
   ScrollController _scrollController = ScrollController();
   List countriesList = List();
-  final String _countriesURL = "https://disease.sh/v2/countries";
   bool isLoading = true;
   final numberFormatter = new NumberFormat("#,###", "en_US");
 
@@ -18,7 +18,6 @@ class CountriesViewState extends State<CountriesView> {
 
   @override
   void initState() {
-    getCountryResults();
     super.initState();
   }
 
@@ -31,17 +30,21 @@ class CountriesViewState extends State<CountriesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: Container(
-        child: _buildCountriesResultsList(),
+      body: FutureBuilder(
+        future: ApiResources().getCountryResults(),
+        builder: (context, snapshot) {
+          return snapshot.data != null
+              ? _buildCountriesResultsList(snapshot.data)
+              : _buildProgressIndicator();
+        },
       ),
-      resizeToAvoidBottomPadding: false,
     );
   }
 
   Widget _buildAppBar(BuildContext context) {
     return AppBar(
-      centerTitle: true,
-      title: Text('Countries')
+        centerTitle: true,
+        title: Text('Countries')
     );
   }
 
@@ -57,7 +60,7 @@ class CountriesViewState extends State<CountriesView> {
     );
   }
 
-  Widget _buildCountriesResultsList() {
+  Widget _buildCountriesResultsList(List countriesList) {
     return ListView.separated(
       itemCount: countriesList == null ? 0 : countriesList.length,
       itemBuilder: (BuildContext context, int idx) {
@@ -66,7 +69,7 @@ class CountriesViewState extends State<CountriesView> {
         } else {
           return ListTile(
             leading: Image.network(countriesList[idx]['countryInfo']['flag'],
-              width: 75.0, height: 50.0),
+                width: 75.0, height: 50.0),
             title: Text(Utilities().convertToFullName(countriesList[idx]['country']),
                 style: const TextStyle(fontSize: 25.0)),
             subtitle: Text(numberFormatter.format(countriesList[idx]['cases']).toString() + ' cases',
@@ -85,29 +88,6 @@ class CountriesViewState extends State<CountriesView> {
       },
       controller: _scrollController,
     );
-  }
-
-  // Get results from disease.sh API for all countries
-  Future<Response> getCountryResults() async {
-    final List resultsList = List();
-
-    try {
-      final Response response = await dio.get(_countriesURL);
-      for(int i = 0; i <response.data.length; i++) {
-        resultsList.add(response.data[i]);
-      }
-
-      resultsList.sort((b, a) => a['cases'].compareTo(b['cases']));
-
-      setState(() {
-        countriesList = resultsList;
-        isLoading = false;
-      });
-      return response;
-    } catch (e) {
-      print(e);
-      return e;
-    }
   }
 }
 

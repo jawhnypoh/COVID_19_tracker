@@ -49,7 +49,7 @@ class GlobalViewState extends State<GlobalView> {
                           _buildTotalRecovered(snapshot),
                         ],
                       ),
-                      const Padding(padding: EdgeInsets.only(top: 40.0)),
+                      const Padding(padding: EdgeInsets.only(top: 20.0)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
@@ -86,16 +86,20 @@ class GlobalViewState extends State<GlobalView> {
               else if (snapshot.hasError) {
                 return Text('${snapshot.error}');
               }
-              return const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(100.0),
-                  child: CircularProgressIndicator(),
-                ),
-              );
+              return _buildProgressIndicator();
             }
           ),
         ),
       )
+    );
+  }
+
+  Widget _buildProgressIndicator() {
+    return const Padding(
+      padding: EdgeInsets.all(100.0),
+      child: Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 

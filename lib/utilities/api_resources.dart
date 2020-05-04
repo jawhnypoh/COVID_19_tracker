@@ -8,8 +8,11 @@ import 'dart:convert';
 
 class ApiResources {
   final String _globalURL = 'https://disease.sh/v2/all';
+  final String _countriesURL = 'https://disease.sh/v2/countries';
+  final String _statesURL = "https://disease.sh/v2/states";
   final String _historicalTimelineURL = 'https://corona-api.com/timeline';
   final String _newsArticlesURL = 'https://api.smartable.ai/coronavirus/news/US';
+
   var dio = Dio();
 
   // Get results from disease.sh API for worldwide
@@ -17,6 +20,7 @@ class ApiResources {
     try {
       final Response response = await dio.get(_globalURL);
       final jsonResult = json.decode(response.toString());
+
       return GlobalStats.fromJson(jsonResult);
     } catch (e) {
       print(e);
@@ -49,10 +53,45 @@ class ApiResources {
       final newsArticlesFromJSON = jsonResult['news'] as List;
       newsArticlesList = newsArticlesFromJSON.map<NewsArticleModel>((json) =>
           NewsArticleModel.fromJson(json)).toList();
+
       return newsArticlesList;
     } catch (e) {
       print(e);
       return e;
+    }
+  }
+
+  // Get results from disease.sh API for all countries
+  Future<List> getCountryResults() async {
+    final List resultsList = List();
+
+    try {
+      final Response response = await dio.get(_countriesURL);
+      for(int i = 0; i <response.data.length; i++) {
+        resultsList.add(response.data[i]);
+      }
+      resultsList.sort((b, a) => a['cases'].compareTo(b['cases']));
+      return resultsList;
+    } catch (e) {
+      print(e);
+      return e;
+    }
+  }
+
+  // Get results from disease.sh API for all US states
+  Future<List> getUSResults() async {
+    final List resultsList = List();
+
+    try {
+      final Response response = await dio.get(_statesURL);
+      for(int i = 0; i < response.data.length; i++) {
+        resultsList.add(response.data[i]);
+      }
+      resultsList.sort((b, a) => a['cases'].compareTo(b['cases']));
+
+      return resultsList;
+    } catch (e) {
+      print(e);
     }
   }
 }
