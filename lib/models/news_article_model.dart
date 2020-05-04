@@ -22,11 +22,11 @@ class NewsArticleModel {
     path: parsedJSON['path'],
     title: parsedJSON['title'],
     excerpt: parsedJSON['excerpt'],
-    webURL: parsedJON['webUrl'],
+    webURL: parsedJSON['webUrl'],
     publishedDateTime: parsedJSON['publishedDateTime'],
-    providerInfo: ProviderInfo.fromJSON(parsedJSON['name']),
-    articleImages: List<ArticleImage>.from(parsedJSON['images'].map((x) =>
-        ArticleImage.fromJSON(x))),
+    providerInfo: ProviderInfo.fromJson(parsedJSON['provider']),
+    articleImages: parsedJSON['images'] == null ? null : List<ArticleImage>.from(parsedJSON['images'].map((x) =>
+        ArticleImage.fromJson(x))),
   );
 
   Map<String, dynamic> toJSON() => {
@@ -36,7 +36,7 @@ class NewsArticleModel {
     'webUrl': webURL,
     'publishedDateTime': publishedDateTime,
     'providerInfo': providerInfo.toJSON(),
-    'articleImages': List<dynamic>.from(articleImages.map((x => x.toJSON(x))),
+    'articleImages': List<dynamic>.from(articleImages.map((x) => x.toJSON())),
   };
 }
 
@@ -48,7 +48,7 @@ class ProviderInfo {
     this.name,
   });
 
-  factory Provider.fromJSON(Map<String, dynamic> parsedJSON) => ProviderInfo(
+  factory ProviderInfo.fromJson(Map<String, dynamic> parsedJSON) => ProviderInfo(
     name: parsedJSON['name'],
   );
 
@@ -71,5 +71,5 @@ class ArticleImage {
 
   Map<String, dynamic> toJSON() => {
     'imageURL': imageURL,
-  }
+  };
 }

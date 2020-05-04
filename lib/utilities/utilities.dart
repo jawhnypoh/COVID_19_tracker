@@ -1,11 +1,16 @@
 // Utility class for conversions and stuff
 
+import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 
 class Utilities {
   String convertTimeStamp(int epochTimestamp) {
     final DateTime convertedTimeStamp = DateTime.fromMillisecondsSinceEpoch(epochTimestamp);
     return Jiffy(convertedTimeStamp).fromNow();
+  }
+
+  String convertDateTime(String dateTime) {
+    return Jiffy(dateTime).yMMMd;
   }
 
   String convertToFullName(String countryName) {

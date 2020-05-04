@@ -18,7 +18,6 @@ class GlobalViewState extends State<GlobalView> {
 
   @override
   void initState() {
-    ApiResources().getGlobalResult();
     super.initState();
   }
 
