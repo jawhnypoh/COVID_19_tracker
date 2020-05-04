@@ -1,16 +1,29 @@
-# covid_19_tracker
+# COVID-19 Dashboard
 
-Application to track COVID-19 around the world 
+A cross platform application that compiles COVID-19 related information into a nice, useful dashboard. This application was developed using [Flutter](https://flutter.dev/), and is compatible with both iOS and Android devices. 
 
-## Getting Started
+![COVID-19 Dashboard Screenshots](https://i.imgur.com/k6lVyNG.png)
 
-This project is a starting point for a Flutter application.
+## Meta
+-  **State:** Development
+- **Point People:** [@jawhnypoh](https://github.com/jawhnypoh)
 
-A few resources to get you started if this is your first Flutter project:
+## Features
+- **Cross Platform:** This application was designed from the ground up to run on both iOS and Android devices
+- **Updated Data:** The most updated data provided by various data sources
+- **Statistics:** Statistics for global, country specific, or US state specific cases 
+- **Color Coded:** Color coded statistics for Tested, Confirmed, Active, Deaths, Critical, and Recovered cases 
+- **Charts:** Currently the only supported chart is a Pie Chart, but more are planned 
+- **News:** Get the latest on COVID related news 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Planned/Work In Progress Features
+- **Search:** Search for specific country or US state in the lists 
+- **Charts:** Line Chart for historical data, Bar Chart for top countries data 
+- **News:** Tapping on a news article leads to a webview with news URL 
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Credits
+### Data
+* Johns Hopkins University Center for Systems Science and Engineering ([JHU CSSE](https://github.com/CSSEGISandData/COVID-19))
+* World Meters Coronavirus Update ([WorldMeters](https://www.worldometers.info/coronavirus/))
+* disease.sh API ([disease.sh](https://disease.sh/))
+* Coronavirus smartable ([smartable.ai](https://documenter.getpostman.com/view/8854915/SzS7R74q?version=latest))
