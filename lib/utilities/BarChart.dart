@@ -77,15 +77,28 @@ class BarChart extends StatelessWidget {
     List<TopCountry> topCountries = new List();
 
     // Colors definition
-    final barOne = charts.MaterialPalette.red;
-    final barTwo = charts.MaterialPalette.pink;
-    final barThree = charts.MaterialPalette.deepOrange;
-    final barFour = charts.MaterialPalette.yellow;
-    final barFive = charts.MaterialPalette.green;
-
+    final barOne = charts.ColorUtil.fromDartColor(Colors.redAccent);
+    final barTwo = charts.ColorUtil.fromDartColor(Colors.deepOrangeAccent);
+    final barThree = charts.ColorUtil.fromDartColor(Colors.orangeAccent);
+    final barFour = charts.ColorUtil.fromDartColor(Colors.amberAccent);
+    final barFive = charts.ColorUtil.fromDartColor(Colors.yellow);
 
     for (int i = 0; i < 5; i++) {
-      topCountries.add(TopCountry(apiData[i]['country'], apiData[i]['cases']));
+      if (i == 0) {
+        topCountries.add(TopCountry(apiData[i]['country'], apiData[i]['cases'], barOne));
+      }
+      else if (i == 1) {
+        topCountries.add(TopCountry(apiData[i]['country'], apiData[i]['cases'], barTwo));
+      }
+      else if (i == 2) {
+        topCountries.add(TopCountry(apiData[i]['country'], apiData[i]['cases'], barThree));
+      }
+      else if (i == 3) {
+        topCountries.add(TopCountry(apiData[i]['country'], apiData[i]['cases'], barFour));
+      }
+      else {
+        topCountries.add(TopCountry(apiData[i]['country'], apiData[i]['cases'], barFive));
+      }
     }
 
     return [
@@ -95,11 +108,7 @@ class BarChart extends StatelessWidget {
         measureFn: (TopCountry topCountry, _) => topCountry.count,
         data: topCountries,
         labelAccessorFn: (TopCountry topCountry, _) => '${topCountry.countryName}',
-//        colorFn: (TopCountry topCountry, _) {
-//          switch (topCountry.count) {
-//
-//          }
-//        }
+        colorFn: (TopCountry topCountry, _) => topCountry.barColor
       )
     ];
   }
