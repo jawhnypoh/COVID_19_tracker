@@ -3,7 +3,9 @@
 import 'package:covid_19_tracker/models/news_article_model.dart';
 import 'package:covid_19_tracker/utilities/api_resources.dart';
 import 'package:covid_19_tracker/utilities/utilities.dart';
+import 'package:covid_19_tracker/views/NewsURLView.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class NewsViewState extends State<NewsView> {
   Future<List<NewsArticleModel>> newsArticles;
@@ -65,6 +67,12 @@ class NewsViewState extends State<NewsView> {
                     + ' by ' + newsArticles[idx].providerInfo.name,
                   style: const TextStyle(fontSize: 15.0)
                 ),
+              onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NewsURLView(newsURL: newsArticles[idx].webURL))
+                  );
+              },
               );
           },
           separatorBuilder: (context, idx) {

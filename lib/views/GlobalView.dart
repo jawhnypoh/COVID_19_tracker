@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:covid_19_tracker/models/global_model.dart';
 import 'package:covid_19_tracker/utilities/DonutPieChart.dart';
+import 'package:covid_19_tracker/utilities/BarChart.dart';
 import 'package:covid_19_tracker/utilities/ColoredBox.dart';
 import 'package:covid_19_tracker/utilities/utilities.dart';
 import 'package:covid_19_tracker/utilities/api_resources.dart';
@@ -13,6 +14,7 @@ class GlobalViewState extends State<GlobalView> {
   final numberFormatter = NumberFormat('#,###', 'en_US');
   var donutPieChart;
   var historicalLineChart;
+  var barChart;
 
   GlobalViewState() {}
 
@@ -35,6 +37,7 @@ class GlobalViewState extends State<GlobalView> {
             builder: (context, snapshot) {
               if(snapshot.hasData) {
                 donutPieChart = DonutPieChart.withCountsData(snapshot.data);
+                barChart = BarChart.withCountsData();
                 return Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -71,14 +74,16 @@ class GlobalViewState extends State<GlobalView> {
                       Container(
                         height: 300,
                         width: 300,
-                        child: historicalLineChart,
+                        child: barChart,
                       ),
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
                       const Divider(color: Colors.grey),
+                      const Padding(padding: EdgeInsets.only(top: 10.0)),
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Text('API last updated ' + Utilities().convertTimeStamp(snapshot.data.updated)),
-                      )
+                      ),
+                      const Padding(padding: EdgeInsets.only(top: 20.0)),
                     ],
                   ),
                 );

@@ -21,7 +21,8 @@ class DonutPieChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return charts.PieChart(seriesList,
+    return charts.PieChart(
+      seriesList,
       animate: animate,
       defaultRenderer: charts.ArcRendererConfig(
         arcWidth: 70,
