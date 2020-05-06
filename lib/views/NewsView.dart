@@ -53,13 +53,14 @@ class NewsViewState extends State<NewsView> {
           itemBuilder: (context, idx) {
             return ListTile(
                 contentPadding: EdgeInsets.all(10.0),
-                leading: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    child: newsArticles[idx].articleImages == null
-                        ? null
-                        : Image.network(newsArticles[idx].articleImages[0].imageURL),
-                  ),
+                leading: newsArticles[idx].articleImages == null
+                    ? Container(width: 80.0, height: 50.0,
+                        child: Text('No Image Available',
+                          style: TextStyle(color: Colors.grey[600]),
+                        ),
+                      )
+                    : Image.network(newsArticles[idx].articleImages[0].imageURL,
+                      width: 80.0, height: 50.0,
                 ),
                 title: Text(newsArticles[idx].title,
                   style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
