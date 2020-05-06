@@ -54,7 +54,9 @@ class DonutPieChart extends StatelessWidget {
     ];
 
     return [
-      charts.Series(id: 'Case Counts', data: data,
+      charts.Series(
+          id: 'Case Counts',
+          data: data,
           domainFn: (CaseTypes caseTypes, _) => caseTypes.caseType,
           measureFn: (CaseTypes caseTypes, _) => caseTypes.count,
           labelAccessorFn: (CaseTypes caseTypes, _) =>

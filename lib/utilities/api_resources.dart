@@ -1,7 +1,6 @@
 // API Resources methods
 
 import 'package:covid_19_tracker/models/global_model.dart';
-import 'package:covid_19_tracker/models/timeline_date_model.dart';
 import 'package:covid_19_tracker/models/news_article_model.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert';
@@ -28,13 +27,15 @@ class ApiResources {
   }
 
   // Get results from corona-api API for timeline
-  Future<List<TimelineDateModel>> getTimelineResults() async {
+  Future<List> getHistoricalDataResults() async {
+    final List resultsList = List();
+
     try {
       final Response response = await dio.get(_historicalTimelineURL);
-      final jsonResult = json.decode(response.toString());
-      final timelineList = jsonResult['data'] as List;
-
-      return timelineList.map<TimelineDateModel>((json) => TimelineDateModel.fromJson(json)).toList();
+      for(int i = 0; i < response.data['data'].length; i++) {
+        resultsList.add(response.data['data'][i]);
+      }
+      return resultsList;
     } catch (e) {
       print(e);
       return e;

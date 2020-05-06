@@ -13,6 +13,10 @@ class Utilities {
     return Jiffy(dateTime).yMMMd;
   }
 
+  DateTime convertStringToDateTime(String dateTime) {
+    return DateTime.parse(dateTime);
+  }
+
   String convertToFullName(String countryName) {
     switch (countryName) {
       case 'USA':
@@ -35,5 +39,9 @@ class Utilities {
 
   String convertCountsToPercentages(int count, int totalCount) {
     return ((count / totalCount) * 100).toStringAsFixed(1);
+  }
+
+  String convertNumberToReadable(num count) {
+    return NumberFormat.compact().format(count);
   }
 }

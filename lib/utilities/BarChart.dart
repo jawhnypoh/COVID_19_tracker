@@ -1,8 +1,8 @@
 // BarChart Class with flutter_charts Library
 
+import 'package:covid_19_tracker/utilities/utilities.dart';
 import 'package:covid_19_tracker/models/top_country_data_model.dart';
 import 'package:covid_19_tracker/utilities/api_resources.dart';
-import 'package:covid_19_tracker/utilities/utilities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -38,18 +38,23 @@ class BarChart extends StatelessWidget {
               primaryMeasureAxis: charts.NumericAxisSpec(
                 renderSpec: charts.GridlineRendererSpec(
                   lineStyle: charts.LineStyleSpec(
-                    color: charts.MaterialPalette.gray.shadeDefault
+                    color: charts.ColorUtil.fromDartColor(Colors.grey[600])
                   ),
                   labelStyle: charts.TextStyleSpec(
                     color: charts.ColorUtil.fromDartColor(Colors.grey[350])
                   ),
                 ),
-                tickProviderSpec: charts.BasicNumericTickProviderSpec(desiredTickCount: 6)
+                tickProviderSpec: charts.BasicNumericTickProviderSpec(desiredTickCount: 6),
+                tickFormatterSpec: charts.BasicNumericTickFormatterSpec(
+                    Utilities().convertNumberToReadable
+                ),
               ),
             );
           }
           else if (snapshot.hasError) {
-            return Text('Error loading graph');
+            return Center(
+              child: Text('Error loading Bar Graph'),
+            );
           }
           else {
            return _buildProgressIndicator();
@@ -74,7 +79,7 @@ class BarChart extends StatelessWidget {
 
   // Create series with counts data
   static List<charts.Series<TopCountry, String>> dataList(List<dynamic> apiData) {
-    List<TopCountry> topCountries = new List();
+    List<TopCountry> topCountries = List();
 
     // Colors definition
     final barOne = charts.ColorUtil.fromDartColor(Colors.redAccent);
@@ -83,7 +88,7 @@ class BarChart extends StatelessWidget {
     final barFour = charts.ColorUtil.fromDartColor(Colors.amberAccent);
     final barFive = charts.ColorUtil.fromDartColor(Colors.yellow);
 
-    for (int i = 0; i < 5; i++) {
+    for(int i = 0; i < 5; i++) {
       if (i == 0) {
         topCountries.add(TopCountry(apiData[i]['country'], apiData[i]['cases'], barOne));
       }

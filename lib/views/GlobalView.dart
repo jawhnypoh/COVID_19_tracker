@@ -1,5 +1,6 @@
 // Global Screen
 
+import 'package:covid_19_tracker/utilities/HistoricalLineChart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:covid_19_tracker/models/global_model.dart';
@@ -38,6 +39,7 @@ class GlobalViewState extends State<GlobalView> {
               if(snapshot.hasData) {
                 donutPieChart = DonutPieChart.withCountsData(snapshot.data);
                 barChart = BarChart.withCountsData();
+                historicalLineChart = HistoricalLineChart.withHistoricalData();
                 return Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -72,9 +74,23 @@ class GlobalViewState extends State<GlobalView> {
                       const Divider(color: Colors.grey),
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
                       Container(
-                        height: 300,
-                        width: 300,
+                        height: 200,
+                        width: 350,
+                        child: historicalLineChart,
+                      ),
+                      const Padding(padding: EdgeInsets.only(top: 20.0)),
+                      _buildLineChartLegend(),
+                      const Padding(padding: EdgeInsets.only(top: 20.0)),
+                      const Divider(color: Colors.grey),
+                      const Padding(padding: EdgeInsets.only(top: 10.0)),
+                      Container(
+                        height: 250,
+                        width: 350,
                         child: barChart,
+                      ),
+                      const Padding(padding: EdgeInsets.only(top: 10.0)),
+                      Center(
+                        child: Text('Countries Most Affected', style: TextStyle(color: Colors.grey[350])),
                       ),
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
                       const Divider(color: Colors.grey),
@@ -183,6 +199,21 @@ class GlobalViewState extends State<GlobalView> {
             ColoredBox(color: Colors.blueAccent, text: 'Active'),
             ColoredBox(color: Colors.redAccent, text: 'Deaths'),
             ColoredBox(color: Colors.deepOrangeAccent, text: 'Critical'),
+            ColoredBox(color: Colors.green, text: 'Recovered'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLineChartLegend() {
+    return Container(
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            ColoredBox(color: Colors.orangeAccent, text: 'Confirmed'),
+            ColoredBox(color: Colors.redAccent, text: 'Deaths'),
             ColoredBox(color: Colors.green, text: 'Recovered'),
           ],
         ),
