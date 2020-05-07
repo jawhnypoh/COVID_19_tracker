@@ -13,13 +13,12 @@ A cross platform application that compiles COVID-19 related information into a n
 - **Updated Data:** The most updated data provided by various data sources
 - **Statistics:** Statistics for global, country specific, or US state specific cases 
 - **Color Coded:** Color coded statistics for Tested, Confirmed, Active, Deaths, Critical, and Recovered cases 
-- **Charts:** Currently the only supported chart is a Pie Chart, but more are planned 
-- **News:** Get the latest on COVID related news 
+- **Charts:** Pie Chart showing percentages, Line Chart showing historical data, Bar Chart showing the most affected countries
+- **News:** Get the latest on COVID related news, tapping on a news article leads to a webview of that article via the URL
 
 ## Planned/Work In Progress Features
-- **Search:** Search for specific country or US state in the lists 
-- **Charts:** Line Chart for historical data, Bar Chart for top countries data 
-- **News:** Tapping on a news article leads to a webview with news URL 
+- **Search:** Search for a specific country or US state in the list views
+- **Charts:** Pie and Line Charts for specific country and/or state data 
 
 ## Credits
 ### Data
