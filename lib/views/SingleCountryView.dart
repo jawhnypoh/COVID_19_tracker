@@ -1,6 +1,9 @@
 // Single Country Screen
 
 import 'dart:convert';
+import 'package:covid_19_tracker/charts/ColoredBox.dart';
+import 'package:covid_19_tracker/charts/CountryDonutPieChart.dart';
+import 'package:covid_19_tracker/utilities/api_resources.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
@@ -9,10 +12,12 @@ import 'package:covid_19_tracker/utilities/utilities.dart';
 
 class SingleCountryViewState extends State<SingleCountryView> {
   var dio = Dio();
-  String countryName;
-  SingleCountryViewState(this.countryName);
-  final String _countryURL = "https://disease.sh/v2/countries/";
-  Future<CountryStats> countryStats;
+  String countryName, countryCode;
+  int totalTested, totalActive;
+  var donutPieChart;
+
+  SingleCountryViewState(this.countryName, this.countryCode, this.totalTested, this.totalActive);
+
   final numberFormatter = NumberFormat('#,###', 'en_US');
 
   @override
@@ -30,9 +35,10 @@ class SingleCountryViewState extends State<SingleCountryView> {
       body: Container(
         child: SingleChildScrollView(
           child: FutureBuilder<CountryStats>(
-            future: getCountryResults(),
+            future: ApiResources().getSingleCountryResults(countryCode),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                donutPieChart = CountryDonutPieChart.withCountsData(snapshot.data, totalActive);
                 return Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -45,20 +51,29 @@ class SingleCountryViewState extends State<SingleCountryView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          _buildTotalActive(snapshot),
-                          _buildTotalRecovered(snapshot),
                           _buildTotalDeaths(snapshot),
+                          _buildTotalRecovered(snapshot),
                         ],
                       ),
-                      const Padding(padding: EdgeInsets.only(top: 40.0)),
+                      const Padding(padding: EdgeInsets.only(top: 20.0)),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          _buildCasesToday(snapshot),
-                          _buildDeathsToday(snapshot),
+                          _buildTotalActive(snapshot),
+                          _buildTotalCritical(snapshot),
                         ],
                       ),
-                      const Padding(padding: EdgeInsets.only(top: 30.0)),
+                      const Padding(padding: EdgeInsets.only(top: 20.0)),
+                      const Divider(color: Colors.grey),
+                      Container(
+                        height: 300,
+                        width: 300,
+                        child: donutPieChart,
+                      ),
+                      _buildPieChartLegend(),
+                      const Padding(padding: EdgeInsets.only(top: 20.0)),
+                      const Divider(color: Colors.grey),
+                      const Padding(padding: EdgeInsets.only(top: 20.0)),
                     ],
                   ),
                 );
@@ -85,7 +100,10 @@ class SingleCountryViewState extends State<SingleCountryView> {
             child: Column(
                 children: <Widget>[
                   Text('Total Tested', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-                  Text(numberFormatter.format(snapshot.data.tested).toString(), style: TextStyle(fontSize: 60.0, color: Colors.lightBlueAccent)),
+                  Text(totalTested == 0
+                      ? 'N/A'
+                      : numberFormatter.format(totalTested).toString(),
+                      style: TextStyle(fontSize: 60.0, color: Colors.lightBlueAccent)),
                 ]
             )
         )
@@ -98,7 +116,8 @@ class SingleCountryViewState extends State<SingleCountryView> {
             child: Column(
                 children: <Widget>[
                   Text('Total Confirmed', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-                  Text(numberFormatter.format(snapshot.data.cases).toString(), style: TextStyle(fontSize: 60.0, color: Colors.orangeAccent)),
+                  Text(numberFormatter.format(snapshot.data.data.latestData.confirmed).toString(), style: TextStyle(fontSize: 60.0, color: Colors.orangeAccent)),
+                  Text('+' + numberFormatter.format(snapshot.data.data.today.confirmed).toString() + ' Today', style: TextStyle(fontSize: 25.0, color: Colors.orangeAccent))
                 ]
             )
         )
@@ -110,8 +129,8 @@ class SingleCountryViewState extends State<SingleCountryView> {
       child: Center(
         child: Column(
           children: <Widget>[
-            Text('Deaths', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text(numberFormatter.format(snapshot.data.deaths).toString(), style: TextStyle(fontSize: 35.0, color: Colors.redAccent)),
+            Text('Total Deaths', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
+            Text(numberFormatter.format(snapshot.data.data.latestData.deaths).toString(), style: TextStyle(fontSize: 40.0, color: Colors.redAccent)),
           ],
         ),
       ),
@@ -123,8 +142,8 @@ class SingleCountryViewState extends State<SingleCountryView> {
       child: Center(
         child: Column(
           children: <Widget>[
-            Text('Recovered', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text(numberFormatter.format(snapshot.data.recovered).toString(), style: TextStyle(fontSize: 35.0, color: Colors.green)),
+            Text('Total Recovered', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
+            Text(numberFormatter.format(snapshot.data.data.latestData.recovered).toString(), style: TextStyle(fontSize: 40.0, color: Colors.green)),
           ],
         ),
       ),
@@ -136,64 +155,52 @@ class SingleCountryViewState extends State<SingleCountryView> {
       child: Center(
         child: Column(
           children: <Widget>[
-            Text('Active', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text(numberFormatter.format(snapshot.data.active).toString(), style: TextStyle(fontSize: 35.0, color: Colors.blueAccent)),
+            Text('Active Cases', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
+            Text(numberFormatter.format(totalActive).toString(), style: TextStyle(fontSize: 40.0, color: Colors.blueAccent)),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildCasesToday(snapshot) {
+  Widget _buildTotalCritical(snapshot) {
     return Container(
       child: Center(
         child: Column(
           children: <Widget>[
-            Text('Cases Today', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text('+' + numberFormatter.format(snapshot.data.todayCases).toString(), style: TextStyle(fontSize: 35.0, color: Colors.orangeAccent)),
+            Text('Critical Cases', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
+            Text(numberFormatter.format(snapshot.data.data.latestData.critical).toString(), style: TextStyle(fontSize: 40.0, color: Colors.deepOrangeAccent)),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildDeathsToday(snapshot) {
+  Widget _buildPieChartLegend() {
     return Container(
       child: Center(
-        child: Column(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Text('Deaths Today', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text('+' + numberFormatter.format(snapshot.data.todayDeaths).toString(), style: TextStyle(fontSize: 35.0, color: Colors.redAccent)),
+            ColoredBox(color: Colors.blueAccent, text: 'Active'),
+            ColoredBox(color: Colors.redAccent, text: 'Deaths'),
+            ColoredBox(color: Colors.deepOrangeAccent, text: 'Critical'),
+            ColoredBox(color: Colors.green, text: 'Recovered'),
           ],
         ),
       ),
     );
-  }
-
-  // Append countryName to end of URL
-  String addCountryNameToURL(String countryName) {
-    return _countryURL + countryName;
-  }
-
-  // Get results from disease.sh API for specific country
-  Future<CountryStats> getCountryResults() async {
-    try {
-      final Response response = await dio.get(addCountryNameToURL(countryName));
-      final jsonResult = json.decode(response.toString());
-      return CountryStats.fromJson(jsonResult);
-    } catch (e) {
-      print(e);
-    }
   }
 }
 
 class SingleCountryView extends StatefulWidget {
   // Declare countryName that holds country name
-  final String countryName;
+  final String countryName, countryCode;
+  final int totalTested, totalActive;
 
   // Require countryName in constructor
-  SingleCountryView({Key key, @required this.countryName}) : super(key : key);
+  SingleCountryView({Key key, @required this.countryName, @required this.countryCode, @required this.totalTested, @required this.totalActive}) : super(key : key);
 
   @override
-  SingleCountryViewState createState() => SingleCountryViewState(countryName);
+  SingleCountryViewState createState() => SingleCountryViewState(countryName, countryCode, totalTested, totalActive);
 }

@@ -1,12 +1,12 @@
 // Global Screen
 
-import 'package:covid_19_tracker/utilities/HistoricalLineChart.dart';
+import 'package:covid_19_tracker/charts/HistoricalLineChart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:covid_19_tracker/models/global_model.dart';
-import 'package:covid_19_tracker/utilities/DonutPieChart.dart';
-import 'package:covid_19_tracker/utilities/BarChart.dart';
-import 'package:covid_19_tracker/utilities/ColoredBox.dart';
+import 'package:covid_19_tracker/charts/GlobalDonutPieChart.dart';
+import 'package:covid_19_tracker/charts/BarChart.dart';
+import 'package:covid_19_tracker/charts/ColoredBox.dart';
 import 'package:covid_19_tracker/utilities/utilities.dart';
 import 'package:covid_19_tracker/utilities/api_resources.dart';
 
@@ -37,7 +37,7 @@ class GlobalViewState extends State<GlobalView> {
             future: ApiResources().getGlobalResult(),
             builder: (context, snapshot) {
               if(snapshot.hasData) {
-                donutPieChart = DonutPieChart.withCountsData(snapshot.data);
+                donutPieChart = GlobalDonutPieChart.withCountsData(snapshot.data);
                 barChart = BarChart.withCountsData();
                 historicalLineChart = HistoricalLineChart.withHistoricalData();
                 return Container(

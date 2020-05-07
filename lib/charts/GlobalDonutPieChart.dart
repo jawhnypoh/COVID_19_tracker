@@ -1,4 +1,4 @@
-// DonutPieChart Class with flutter_charts Library
+// GlobalDonutPieChart Class with flutter_charts Library
 
 import 'package:covid_19_tracker/utilities/utilities.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,16 +7,16 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:covid_19_tracker/models/global_model.dart';
 import 'package:covid_19_tracker/models/case_types_data_model.dart';
 
-class DonutPieChart extends StatelessWidget {
+class GlobalDonutPieChart extends StatelessWidget {
   final List<charts.Series> seriesList;
   GlobalStats snapshotData;
   final bool animate;
 
-  DonutPieChart(this.seriesList, this.snapshotData, {this.animate});
+  GlobalDonutPieChart(this.seriesList, this.snapshotData, {this.animate});
 
   // Creates a PieChart with data and animation
-  factory DonutPieChart.withCountsData(GlobalStats snapshotData) {
-    return DonutPieChart(_createCountsData(snapshotData), snapshotData, animate: true);
+  factory GlobalDonutPieChart.withCountsData(GlobalStats snapshotData) {
+    return GlobalDonutPieChart(_createCountsData(snapshotData), snapshotData, animate: true);
   }
 
   @override

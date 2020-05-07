@@ -77,7 +77,11 @@ class CountriesViewState extends State<CountriesView> {
             onTap: () {
               Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SingleCountryView(countryName: countriesList[idx]['country']))
+                  MaterialPageRoute(builder: (context) => SingleCountryView(
+                      countryName: countriesList[idx]['country'],
+                      countryCode: countriesList[idx]['countryInfo']['iso2'],
+                      totalTested: countriesList[idx]['tests'],
+                      totalActive: countriesList[idx]['active']))
               );
             },
           );

@@ -1,52 +1,212 @@
 // CountryStats Class for an Individual Country Screen
 class CountryStats {
-  int updated;
-  String countryName;
-  int cases;
-  int todayCases;
-  int deaths;
-  int todayDeaths;
-  int recovered;
-  int active;
-  int critical;
-  int tested;
+  Data data;
 
   CountryStats({
-    this.updated,
-    this.countryName,
-    this.cases,
-    this.todayCases,
-    this.deaths,
-    this.todayDeaths,
-    this.recovered,
-    this.active,
-    this.critical,
-    this.tested,
+    this.data,
   });
 
-  factory CountryStats.fromJson(Map<String, dynamic> parsedJSON) => CountryStats(
-    updated: parsedJSON['updated'],
-    countryName: parsedJSON['country'],
-    cases: parsedJSON['cases'],
-    todayCases: parsedJSON['todayCases'],
-    deaths: parsedJSON['deaths'],
-    todayDeaths: parsedJSON['todayDeaths'],
-    recovered: parsedJSON['recovered'],
-    active: parsedJSON['active'],
-    critical: parsedJSON['critical'],
-    tested: parsedJSON['tests'],
+  factory CountryStats.fromJson(Map<String, dynamic> json) => CountryStats(
+    data: Data.fromJson(json["data"]),
   );
 
-  Map<String, dynamic> toJSON() => {
-    'updated': updated,
-    'countryName': countryName,
-    'cases': cases,
-    'todayCases': todayCases,
-    'deaths': deaths,
-    'todayDeaths': todayDeaths,
-    'recovered': recovered,
-    'active': active,
-    'critical': critical,
-    'tested': tested,
+  Map<String, dynamic> toJson() => {
+    "data": data.toJson(),
+  };
+}
+
+class Data {
+  Coordinates coordinates;
+  String name;
+  String code;
+  int population;
+  DateTime updatedAt;
+  Today today;
+  LatestData latestData;
+  List<Timeline> timeline;
+
+  Data({
+    this.coordinates,
+    this.name,
+    this.code,
+    this.population,
+    this.updatedAt,
+    this.today,
+    this.latestData,
+    this.timeline,
+  });
+
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+    coordinates: Coordinates.fromJson(json["coordinates"]),
+    name: json["name"],
+    code: json["code"],
+    population: json["population"],
+    updatedAt: DateTime.parse(json["updated_at"]),
+    today: Today.fromJson(json["today"]),
+    latestData: LatestData.fromJson(json["latest_data"]),
+    timeline: List<Timeline>.from(json["timeline"].map((x) => Timeline.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "coordinates": coordinates.toJson(),
+    "name": name,
+    "code": code,
+    "population": population,
+    "updated_at": updatedAt.toIso8601String(),
+    "today": today.toJson(),
+    "latest_data": latestData.toJson(),
+    "timeline": List<dynamic>.from(timeline.map((x) => x.toJson())),
+  };
+}
+
+class Coordinates {
+  int latitude;
+  int longitude;
+
+  Coordinates({
+    this.latitude,
+    this.longitude,
+  });
+
+  factory Coordinates.fromJson(Map<String, dynamic> json) => Coordinates(
+    latitude: json["latitude"],
+    longitude: json["longitude"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "latitude": latitude,
+    "longitude": longitude,
+  };
+}
+
+class LatestData {
+  int deaths;
+  int confirmed;
+  int recovered;
+  int critical;
+  Calculated calculated;
+
+  LatestData({
+    this.deaths,
+    this.confirmed,
+    this.recovered,
+    this.critical,
+    this.calculated,
+  });
+
+  factory LatestData.fromJson(Map<String, dynamic> json) => LatestData(
+    deaths: json["deaths"],
+    confirmed: json["confirmed"],
+    recovered: json["recovered"],
+    critical: json["critical"],
+    calculated: Calculated.fromJson(json["calculated"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "deaths": deaths,
+    "confirmed": confirmed,
+    "recovered": recovered,
+    "critical": critical,
+    "calculated": calculated.toJson(),
+  };
+}
+
+class Calculated {
+  double deathRate;
+  double recoveryRate;
+  dynamic recoveredVsDeathRatio;
+  int casesPerMillionPopulation;
+
+  Calculated({
+    this.deathRate,
+    this.recoveryRate,
+    this.recoveredVsDeathRatio,
+    this.casesPerMillionPopulation,
+  });
+
+  factory Calculated.fromJson(Map<String, dynamic> json) => Calculated(
+    deathRate: json["death_rate"].toDouble(),
+    recoveryRate: json["recovery_rate"].toDouble(),
+    recoveredVsDeathRatio: json["recovered_vs_death_ratio"],
+    casesPerMillionPopulation: json["cases_per_million_population"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "death_rate": deathRate,
+    "recovery_rate": recoveryRate,
+    "recovered_vs_death_ratio": recoveredVsDeathRatio,
+    "cases_per_million_population": casesPerMillionPopulation,
+  };
+}
+
+class Timeline {
+  DateTime updatedAt;
+  DateTime date;
+  int deaths;
+  int confirmed;
+  int active;
+  int recovered;
+  int newConfirmed;
+  int newRecovered;
+  int newDeaths;
+  bool isInProgress;
+
+  Timeline({
+    this.updatedAt,
+    this.date,
+    this.deaths,
+    this.confirmed,
+    this.active,
+    this.recovered,
+    this.newConfirmed,
+    this.newRecovered,
+    this.newDeaths,
+    this.isInProgress,
+  });
+
+  factory Timeline.fromJson(Map<String, dynamic> json) => Timeline(
+    updatedAt: DateTime.parse(json["updated_at"]),
+    date: DateTime.parse(json["date"]),
+    deaths: json["deaths"],
+    confirmed: json["confirmed"],
+    active: json["active"],
+    recovered: json["recovered"],
+    newConfirmed: json["new_confirmed"],
+    newRecovered: json["new_recovered"],
+    newDeaths: json["new_deaths"],
+    isInProgress: json["is_in_progress"] == null ? null : json["is_in_progress"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "updated_at": updatedAt.toIso8601String(),
+    "date": "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
+    "deaths": deaths,
+    "confirmed": confirmed,
+    "active": active,
+    "recovered": recovered,
+    "new_confirmed": newConfirmed,
+    "new_recovered": newRecovered,
+    "new_deaths": newDeaths,
+    "is_in_progress": isInProgress == null ? null : isInProgress,
+  };
+}
+
+class Today {
+  int deaths;
+  int confirmed;
+
+  Today({
+    this.deaths,
+    this.confirmed,
+  });
+
+  factory Today.fromJson(Map<String, dynamic> json) => Today(
+    deaths: json["deaths"],
+    confirmed: json["confirmed"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "deaths": deaths,
+    "confirmed": confirmed,
   };
 }
