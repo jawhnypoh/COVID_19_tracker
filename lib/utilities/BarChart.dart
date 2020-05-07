@@ -82,11 +82,11 @@ class BarChart extends StatelessWidget {
     List<TopCountry> topCountries = List();
 
     // Colors definition
-    final barOne = charts.ColorUtil.fromDartColor(Colors.redAccent);
-    final barTwo = charts.ColorUtil.fromDartColor(Colors.deepOrangeAccent);
-    final barThree = charts.ColorUtil.fromDartColor(Colors.orangeAccent);
-    final barFour = charts.ColorUtil.fromDartColor(Colors.amberAccent);
-    final barFive = charts.ColorUtil.fromDartColor(Colors.yellow);
+    final barOne = charts.ColorUtil.fromDartColor(Colors.purple);
+    final barTwo = charts.ColorUtil.fromDartColor(Colors.purple[400]);
+    final barThree = charts.ColorUtil.fromDartColor(Colors.purple[300]);
+    final barFour = charts.ColorUtil.fromDartColor(Colors.purple[200]);
+    final barFive = charts.ColorUtil.fromDartColor(Colors.purple[100]);
 
     for(int i = 0; i < 5; i++) {
       if (i == 0) {

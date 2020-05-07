@@ -83,6 +83,7 @@ class GlobalViewState extends State<GlobalView> {
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
                       const Divider(color: Colors.grey),
                       const Padding(padding: EdgeInsets.only(top: 10.0)),
+                      _buildAffectedCountries(snapshot),
                       Container(
                         height: 250,
                         width: 350,
@@ -218,6 +219,19 @@ class GlobalViewState extends State<GlobalView> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildAffectedCountries(snapshot) {
+    return Container(
+        child: Center(
+            child: Column(
+                children: <Widget>[
+                  Text('Countries Affected', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
+                  Text(numberFormatter.format(snapshot.data.affectedCountries).toString(), style: TextStyle(fontSize: 60.0, color: Colors.purple)),
+                ]
+            )
+        )
     );
   }
 }
