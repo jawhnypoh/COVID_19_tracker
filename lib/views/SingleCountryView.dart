@@ -1,6 +1,5 @@
 // Single Country Screen
 
-import 'dart:convert';
 import 'package:covid_19_tracker/charts/ColoredBox.dart';
 import 'package:covid_19_tracker/charts/CountryDonutPieChart.dart';
 import 'package:covid_19_tracker/utilities/api_resources.dart';
@@ -67,7 +66,7 @@ class SingleCountryViewState extends State<SingleCountryView> {
                       const Divider(color: Colors.grey),
                       Container(
                         height: 300,
-                        width: 300,
+                        width: 400,
                         child: donutPieChart,
                       ),
                       _buildPieChartLegend(),

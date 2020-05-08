@@ -16,7 +16,6 @@ class CountryStats {
 }
 
 class Data {
-  Coordinates coordinates;
   String name;
   String code;
   int population;
@@ -26,7 +25,6 @@ class Data {
   List<Timeline> timeline;
 
   Data({
-    this.coordinates,
     this.name,
     this.code,
     this.population,
@@ -37,7 +35,6 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    coordinates: Coordinates.fromJson(json["coordinates"]),
     name: json["name"],
     code: json["code"],
     population: json["population"],
@@ -48,7 +45,6 @@ class Data {
   );
 
   Map<String, dynamic> toJson() => {
-    "coordinates": coordinates.toJson(),
     "name": name,
     "code": code,
     "population": population,
@@ -56,26 +52,6 @@ class Data {
     "today": today.toJson(),
     "latest_data": latestData.toJson(),
     "timeline": List<dynamic>.from(timeline.map((x) => x.toJson())),
-  };
-}
-
-class Coordinates {
-  int latitude;
-  int longitude;
-
-  Coordinates({
-    this.latitude,
-    this.longitude,
-  });
-
-  factory Coordinates.fromJson(Map<String, dynamic> json) => Coordinates(
-    latitude: json["latitude"],
-    longitude: json["longitude"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "latitude": latitude,
-    "longitude": longitude,
   };
 }
 

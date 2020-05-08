@@ -32,6 +32,7 @@ class GlobalViewState extends State<GlobalView> {
         title: Text('Worldwide'),
       ),
       body: Container(
+        margin: const EdgeInsets.only(left: 10.0, right: 10.0),
         child: SingleChildScrollView(
           child: FutureBuilder<GlobalStats>(
             future: ApiResources().getGlobalResult(),
