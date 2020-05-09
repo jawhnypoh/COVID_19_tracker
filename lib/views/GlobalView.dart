@@ -1,17 +1,16 @@
 // Global Screen
 
-import 'package:covid_19_tracker/charts/HistoricalLineChart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:covid_19_tracker/models/global_model.dart';
 import 'package:covid_19_tracker/charts/GlobalDonutPieChart.dart';
+import 'package:covid_19_tracker/charts/GlobalHistoricalLineChart.dart';
 import 'package:covid_19_tracker/charts/BarChart.dart';
 import 'package:covid_19_tracker/charts/ColoredBox.dart';
 import 'package:covid_19_tracker/utilities/utilities.dart';
 import 'package:covid_19_tracker/utilities/api_resources.dart';
 
 class GlobalViewState extends State<GlobalView> {
-  Future<GlobalStats> globalStats;
   final numberFormatter = NumberFormat('#,###', 'en_US');
   var donutPieChart;
   var historicalLineChart;
@@ -40,7 +39,7 @@ class GlobalViewState extends State<GlobalView> {
               if(snapshot.hasData) {
                 donutPieChart = GlobalDonutPieChart.withCountsData(snapshot.data);
                 barChart = BarChart.withCountsData();
-                historicalLineChart = HistoricalLineChart.withHistoricalData();
+                historicalLineChart = GlobalHistoricalLineChart.withHistoricalData();
                 return Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -99,7 +98,8 @@ class GlobalViewState extends State<GlobalView> {
                       const Padding(padding: EdgeInsets.only(top: 10.0)),
                       Align(
                         alignment: Alignment.bottomCenter,
-                        child: Text('API last updated ' + Utilities().convertTimeStamp(snapshot.data.updated)),
+                        child: Text('disease.sh API last updated ' + Utilities().convertEpochTimeStamp(snapshot.data.updated),
+                        style: const TextStyle(color: Colors.grey)),
                       ),
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
                     ],

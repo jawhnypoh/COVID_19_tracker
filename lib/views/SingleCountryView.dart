@@ -2,6 +2,7 @@
 
 import 'package:covid_19_tracker/charts/ColoredBox.dart';
 import 'package:covid_19_tracker/charts/CountryDonutPieChart.dart';
+import 'package:covid_19_tracker/charts/CountryHistoricalLineChart.dart';
 import 'package:covid_19_tracker/utilities/api_resources.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
@@ -13,11 +14,11 @@ class SingleCountryViewState extends State<SingleCountryView> {
   var dio = Dio();
   String countryName, countryCode;
   int totalTested, totalActive;
+  final numberFormatter = NumberFormat('#,###', 'en_US');
   var donutPieChart;
+  var historicalLineChart;
 
   SingleCountryViewState(this.countryName, this.countryCode, this.totalTested, this.totalActive);
-
-  final numberFormatter = NumberFormat('#,###', 'en_US');
 
   @override
   void initState() {
@@ -32,12 +33,14 @@ class SingleCountryViewState extends State<SingleCountryView> {
         title: Text(Utilities().convertToFullName(countryName)),
       ),
       body: Container(
-        child: SingleChildScrollView(
+          margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+          child: SingleChildScrollView(
           child: FutureBuilder<CountryStats>(
             future: ApiResources().getSingleCountryResults(countryCode),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 donutPieChart = CountryDonutPieChart.withCountsData(snapshot.data, totalActive);
+                historicalLineChart = CountryHistoricalLineChart.withCountsData(snapshot.data);
                 return Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -72,6 +75,22 @@ class SingleCountryViewState extends State<SingleCountryView> {
                       _buildPieChartLegend(),
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
                       const Divider(color: Colors.grey),
+                      const Padding(padding: EdgeInsets.only(top: 20.0)),
+                      Container(
+                        height: 200,
+                        width: 350,
+                        child: historicalLineChart,
+                      ),
+                      const Padding(padding: EdgeInsets.only(top: 20.0)),
+                      _buildLineChartLegend(),
+                      const Padding(padding: EdgeInsets.only(top: 20.0)),
+                      const Divider(color: Colors.grey),
+                      const Padding(padding: EdgeInsets.only(top: 10.0)),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Text('corona-api API last updated ' + Utilities().convertDateTimeTimeStamp(snapshot.data.data.updatedAt),
+                            style: const TextStyle(color: Colors.grey)),
+                      ),
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
                     ],
                   ),
@@ -184,6 +203,21 @@ class SingleCountryViewState extends State<SingleCountryView> {
             ColoredBox(color: Colors.blueAccent, text: 'Active'),
             ColoredBox(color: Colors.redAccent, text: 'Deaths'),
             ColoredBox(color: Colors.deepOrangeAccent, text: 'Critical'),
+            ColoredBox(color: Colors.green, text: 'Recovered'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLineChartLegend() {
+    return Container(
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            ColoredBox(color: Colors.orangeAccent, text: 'Confirmed'),
+            ColoredBox(color: Colors.redAccent, text: 'Deaths'),
             ColoredBox(color: Colors.green, text: 'Recovered'),
           ],
         ),

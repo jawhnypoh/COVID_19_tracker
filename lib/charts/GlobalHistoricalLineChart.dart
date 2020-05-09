@@ -1,4 +1,4 @@
-// HistoricalLineChart Class with flutter_charts Library
+// GlobalHistoricalLineChart Class with flutter_charts Library
 
 import 'package:covid_19_tracker/utilities/utilities.dart';
 import 'package:flutter/material.dart';
@@ -7,15 +7,15 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:covid_19_tracker/models/case_historical_data_model.dart';
 import 'package:covid_19_tracker/utilities/api_resources.dart';
 
-class HistoricalLineChart extends StatelessWidget {
+class GlobalHistoricalLineChart extends StatelessWidget {
   final List<charts.Series> seriesList;
   final bool animate;
 
-  HistoricalLineChart(this.seriesList, {this.animate});
+  GlobalHistoricalLineChart(this.seriesList, {this.animate});
 
   // Creates a LineChart with data and animation
-  factory HistoricalLineChart.withHistoricalData() {
-    return HistoricalLineChart(_createHistoricalData(), animate: true);
+  factory GlobalHistoricalLineChart.withHistoricalData() {
+    return GlobalHistoricalLineChart(_createHistoricalData(), animate: true);
   }
 
   @override
@@ -124,7 +124,7 @@ class HistoricalLineChart extends StatelessWidget {
         domainFn: (CaseHistorical caseHistorical, _) => Utilities().convertStringToDateTime(caseHistorical.date),
         measureFn: (CaseHistorical caseHistorical, _) => caseHistorical.count,
         colorFn: (CaseHistorical caseHistorical, _) => confirmedColor,
-        dashPatternFn: (CaseHistorical caseHistorical, _) => caseHistorical.dashPattern,
+//        dashPatternFn: (CaseHistorical caseHistorical, _) => caseHistorical.dashPattern,
         data: confirmedHistoricalList,
       ),
       charts.Series<CaseHistorical, DateTime>(
@@ -132,7 +132,7 @@ class HistoricalLineChart extends StatelessWidget {
         domainFn: (CaseHistorical caseHistorical, _) => Utilities().convertStringToDateTime(caseHistorical.date),
         measureFn: (CaseHistorical caseHistorical, _) => caseHistorical.count,
         colorFn: (CaseHistorical caseHistorical, _) => deathsColor,
-        dashPatternFn: (CaseHistorical caseHistorical, _) => caseHistorical.dashPattern,
+//        dashPatternFn: (CaseHistorical caseHistorical, _) => caseHistorical.dashPattern,
         data: deathsHistoricalList,
       ),
       charts.Series<CaseHistorical, DateTime>(
@@ -140,7 +140,7 @@ class HistoricalLineChart extends StatelessWidget {
         domainFn: (CaseHistorical caseHistorical, _) => Utilities().convertStringToDateTime(caseHistorical.date),
         measureFn: (CaseHistorical caseHistorical, _) => caseHistorical.count,
         colorFn: (CaseHistorical caseHistorical, _) => recoveredColor,
-        dashPatternFn: (CaseHistorical caseHistorical, _) => caseHistorical.dashPattern,
+//        dashPatternFn: (CaseHistorical caseHistorical, _) => caseHistorical.dashPattern,
         data: recoveredHistoricalList,
       )
     ];

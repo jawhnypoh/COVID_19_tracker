@@ -19,7 +19,7 @@ class Data {
   String name;
   String code;
   int population;
-  DateTime updatedAt;
+  String updatedAt;
   Today today;
   LatestData latestData;
   List<Timeline> timeline;
@@ -38,7 +38,7 @@ class Data {
     name: json["name"],
     code: json["code"],
     population: json["population"],
-    updatedAt: DateTime.parse(json["updated_at"]),
+    updatedAt: json["updated_at"],
     today: Today.fromJson(json["today"]),
     latestData: LatestData.fromJson(json["latest_data"]),
     timeline: List<Timeline>.from(json["timeline"].map((x) => Timeline.fromJson(x))),
@@ -48,7 +48,7 @@ class Data {
     "name": name,
     "code": code,
     "population": population,
-    "updated_at": updatedAt.toIso8601String(),
+    "updated_at": updatedAt,
     "today": today.toJson(),
     "latest_data": latestData.toJson(),
     "timeline": List<dynamic>.from(timeline.map((x) => x.toJson())),
@@ -101,8 +101,8 @@ class Calculated {
   });
 
   factory Calculated.fromJson(Map<String, dynamic> json) => Calculated(
-    deathRate: json["death_rate"].toDouble(),
-    recoveryRate: json["recovery_rate"].toDouble(),
+    deathRate: json["death_rate"] == null ? null : json["death_rate"].toDouble(),
+    recoveryRate: json["recovery_rate"] == null ? null : json["recovery_rate"].toDouble(),
     recoveredVsDeathRatio: json["recovered_vs_death_ratio"],
     casesPerMillionPopulation: json["cases_per_million_population"],
   );

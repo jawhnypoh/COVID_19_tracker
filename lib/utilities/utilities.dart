@@ -4,9 +4,13 @@ import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 
 class Utilities {
-  String convertTimeStamp(int epochTimestamp) {
+  String convertEpochTimeStamp(int epochTimestamp) {
     final DateTime convertedTimeStamp = DateTime.fromMillisecondsSinceEpoch(epochTimestamp);
     return Jiffy(convertedTimeStamp).fromNow();
+  }
+
+  String convertDateTimeTimeStamp(String dateTime) {
+    return Jiffy(dateTime).fromNow();
   }
 
   String convertDateTime(String dateTime) {
