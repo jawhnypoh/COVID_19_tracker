@@ -82,7 +82,7 @@ class SingleStateViewState extends State<SingleStateView> {
                 const Padding(padding: EdgeInsets.only(top: 10.0)),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: Text('state data last updated ' + Utilities().convertDateTimeTimeStamp(stateStats.dateChecked),
+                  child: Text('state data updated ' + Utilities().convertDateTimeTimeStamp(stateStats.dateChecked),
                       style: const TextStyle(color: Colors.grey)),
                 ),
                 const Padding(padding: EdgeInsets.only(top: 20.0)),

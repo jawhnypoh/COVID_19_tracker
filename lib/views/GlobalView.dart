@@ -98,7 +98,7 @@ class GlobalViewState extends State<GlobalView> {
                       const Padding(padding: EdgeInsets.only(top: 10.0)),
                       Align(
                         alignment: Alignment.bottomCenter,
-                        child: Text('global data last updated ' + Utilities().convertEpochTimeStamp(snapshot.data.updated),
+                        child: Text('global data updated ' + Utilities().convertEpochTimeStamp(snapshot.data.updated),
                         style: const TextStyle(color: Colors.grey)),
                       ),
                       const Padding(padding: EdgeInsets.only(top: 20.0)),

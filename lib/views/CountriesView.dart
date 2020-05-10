@@ -1,6 +1,5 @@
 // Countries Screen
 
-import 'package:covid_19_tracker/utilities/api_resources.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:dio/dio.dart';
@@ -8,10 +7,17 @@ import 'package:covid_19_tracker/views/SingleCountryView.dart';
 import 'package:covid_19_tracker/utilities/utilities.dart';
 
 class CountriesViewState extends State<CountriesView> {
+  final String _countriesURL = 'https://disease.sh/v2/countries';
   var dio = Dio();
+
   ScrollController _scrollController = ScrollController();
+  TextEditingController _editingController = new TextEditingController();
+
+  Future _future;
+
   List countriesList = List();
-  bool isLoading = true;
+  List searchCountriesList = List();
+
   final numberFormatter = new NumberFormat("#,###", "en_US");
 
   CountriesViewState() {}
@@ -19,6 +25,7 @@ class CountriesViewState extends State<CountriesView> {
   @override
   void initState() {
     super.initState();
+    _future = getCountryResults();
   }
 
   @override
@@ -31,10 +38,10 @@ class CountriesViewState extends State<CountriesView> {
     return Scaffold(
       appBar: _buildAppBar(context),
       body: FutureBuilder(
-        future: ApiResources().getCountryResults(),
+        future: _future,
         builder: (context, snapshot) {
           return snapshot.data != null
-              ? _buildCountriesResultsList(snapshot.data)
+              ? _buildListAndSearchContainer(snapshot.data)
               : _buildProgressIndicator();
         },
       ),
@@ -49,13 +56,35 @@ class CountriesViewState extends State<CountriesView> {
   }
 
   Widget _buildProgressIndicator() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+    return const Padding(
+      padding: EdgeInsets.all(100.0),
       child: Center(
-        child: Opacity(
-          opacity: isLoading ? 1.0 : 00,
-          child: const CircularProgressIndicator(),
-        ),
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+  
+  Widget _buildListAndSearchContainer(List countriesList) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: (value) {
+                filterCountryResults(value);
+              },
+              controller: _editingController,
+              decoration: InputDecoration(
+                  hintText: 'Search for Country',
+                  prefixIcon: Icon(Icons.search),
+              ),
+            ),
+          ),
+          Expanded(
+            child: _buildCountriesResultsList(searchCountriesList),
+          )
+        ],
       ),
     );
   }
@@ -92,6 +121,58 @@ class CountriesViewState extends State<CountriesView> {
       },
       controller: _scrollController,
     );
+  }
+
+  // Filter country results list based on querying value from search
+  void filterCountryResults(String queryValue) {
+    List duplicateCountryList = List();
+    duplicateCountryList.addAll(searchCountriesList);
+
+    if (queryValue.isNotEmpty) {
+      List countriesSearchList = List();
+
+      duplicateCountryList.forEach((country) {
+        if (Utilities().convertToFullName(country['country']).toLowerCase().contains(queryValue.toLowerCase())) {
+          print(country['country']);
+          countriesSearchList.add(country);
+        }
+      });
+
+      print(countriesSearchList.length);
+
+      setState(() {
+        searchCountriesList.clear();
+        searchCountriesList.addAll(countriesSearchList);
+      });
+      return;
+    } else {
+      setState(() {
+        searchCountriesList.clear();
+        searchCountriesList.addAll(countriesList);
+      });
+    }
+  }
+
+  // Get results from disease.sh API for all countries
+  Future<List> getCountryResults() async {
+    final List resultsList = List();
+
+    try {
+      final Response response = await dio.get(_countriesURL);
+      for(int i = 0; i <response.data.length; i++) {
+        resultsList.add(response.data[i]);
+      }
+      resultsList.sort((b, a) => a['cases'].compareTo(b['cases']));
+
+      setState(() {
+        countriesList = resultsList;
+        searchCountriesList.addAll(resultsList);
+      });
+      return resultsList;
+    } catch (e) {
+      print(e);
+      return e;
+    }
   }
 }
 

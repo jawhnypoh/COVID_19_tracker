@@ -1,15 +1,24 @@
 // United States Screen
 
 import 'package:covid_19_tracker/models/state_model.dart';
-import 'package:covid_19_tracker/utilities/api_resources.dart';
 import 'package:covid_19_tracker/views/SingleStateView.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:us_states/us_states.dart';
 
 class USViewState extends State<USView> {
+  final String _statesURL = "https://covidtracking.com/api/states";
+  var dio = Dio();
+
   ScrollController _scrollController = ScrollController();
+  TextEditingController _editingController = TextEditingController();
+
+  Future _future;
+
   List statesList = List();
+  List searchStatesList = List();
+
   final numberFormatter = new NumberFormat("#,###", "en_US");
 
   USViewState() {}
@@ -17,6 +26,7 @@ class USViewState extends State<USView> {
   @override
   void initState() {
     super.initState();
+    _future = getUSResults();
   }
 
   @override
@@ -29,13 +39,13 @@ class USViewState extends State<USView> {
     return Scaffold(
       appBar: _buildAppBar(context),
       body: FutureBuilder(
-        future: ApiResources().getUSResults(),
+        future: _future,
         builder: (context, snapshot) {
           return snapshot.data != null
-              ? _buildStatesResultsList(snapshot.data)
-              : _buildProgressIndicator();
-      },
-    ),
+            ? _buildListAndSearchContainer(snapshot.data)
+            : _buildProgressIndicator();
+          },
+      ),
     );
   }
 
@@ -55,7 +65,32 @@ class USViewState extends State<USView> {
     );
   }
 
-  Widget _buildStatesResultsList(List<StateStats> statesList) {
+  Widget _buildListAndSearchContainer(List statesList) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: (value) {
+                filterStateResults(value);
+              },
+              controller: _editingController,
+              decoration: InputDecoration(
+                hintText: 'Search for State',
+                prefixIcon: Icon(Icons.search),
+              ),
+            ),
+          ),
+          Expanded(
+            child: _buildStatesResultsList(searchStatesList),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatesResultsList(List statesList) {
     return ListView.separated(
       itemCount: statesList == null ? 0 : statesList.length,
       itemBuilder: (BuildContext context, int idx) {
@@ -80,6 +115,55 @@ class USViewState extends State<USView> {
       },
       controller: _scrollController,
     );
+  }
+
+  // Filter state results list based on querying value from search
+  void filterStateResults(String queryValue) {
+    List duplicateStateList = List();
+    duplicateStateList.addAll(searchStatesList);
+
+    if (queryValue.isNotEmpty) {
+      List statesSearchList = List();
+
+      duplicateStateList.forEach((state) {
+        if (USStates.getName(state.state).toLowerCase().contains(queryValue.toLowerCase())) {
+          statesSearchList.add(state);
+        }
+      });
+
+      setState(() {
+        searchStatesList.clear();
+        searchStatesList.addAll(statesSearchList);
+      });
+      return;
+    } else {
+      setState(() {
+        searchStatesList.clear();
+        searchStatesList.addAll(statesList);
+      });
+    }
+  }
+
+  // Get results from disease.sh API for all US states
+  Future<List<StateStats>> getUSResults() async {
+    final List<StateStats> resultsList = List();
+
+    try {
+      final Response response = await dio.get(_statesURL);
+      for(int i = 0; i < response.data.length; i++) {
+        resultsList.add(StateStats.fromJson(response.data[i]));
+      }
+      resultsList.sort((b, a) => a.positive.compareTo(b.positive));
+
+      setState(() {
+        statesList = resultsList;
+        searchStatesList.addAll(resultsList);
+      });
+
+      return resultsList;
+    } catch (e) {
+      print(e);
+    }
   }
 }
 

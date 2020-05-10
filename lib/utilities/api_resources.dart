@@ -3,7 +3,6 @@
 import 'package:covid_19_tracker/models/country_model.dart';
 import 'package:covid_19_tracker/models/global_model.dart';
 import 'package:covid_19_tracker/models/news_article_model.dart';
-import 'package:covid_19_tracker/models/state_model.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert';
 
@@ -11,7 +10,6 @@ class ApiResources {
   final String _globalURL = 'https://disease.sh/v2/all';
   final String _countriesURL = 'https://disease.sh/v2/countries';
   final String _singleCountryURL = 'https://corona-api.com/countries/';
-  final String _statesURL = "https://covidtracking.com/api/states";
   final String _globalHistoricalTimelineURL = 'https://corona-api.com/timeline';
   final String _stateHistoricalTimelineURL = 'https://covidtracking.com/api/v1/states/';
   final String _newsArticlesURL = 'https://api.smartable.ai/coronavirus/news/US';
@@ -109,23 +107,6 @@ class ApiResources {
     } catch (e) {
       print(e);
       return e;
-    }
-  }
-
-  // Get results from disease.sh API for all US states
-  Future<List<StateStats>> getUSResults() async {
-    final List<StateStats> resultsList = List();
-
-    try {
-      final Response response = await dio.get(_statesURL);
-      for(int i = 0; i < response.data.length; i++) {
-        resultsList.add(StateStats.fromJson(response.data[i]));
-      }
-      resultsList.sort((b, a) => a.positive.compareTo(b.positive));
-
-      return resultsList;
-    } catch (e) {
-      print(e);
     }
   }
 }

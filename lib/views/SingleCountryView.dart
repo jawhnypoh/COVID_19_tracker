@@ -88,7 +88,7 @@ class SingleCountryViewState extends State<SingleCountryView> {
                       const Padding(padding: EdgeInsets.only(top: 10.0)),
                       Align(
                         alignment: Alignment.bottomCenter,
-                        child: Text('country data last updated ' + Utilities().convertDateTimeTimeStamp(snapshot.data.data.updatedAt),
+                        child: Text('country data updated ' + Utilities().convertDateTimeTimeStamp(snapshot.data.data.updatedAt),
                             style: const TextStyle(color: Colors.grey)),
                       ),
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
