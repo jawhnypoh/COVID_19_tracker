@@ -26,8 +26,8 @@ class StateStats {
   int totalTestResults;
   int posNeg;
   String fips;
-  DateTime dateModified;
-  DateTime dateChecked;
+  String dateModified;
+  String dateChecked;
   String hash;
 
   StateStats({
@@ -89,8 +89,8 @@ class StateStats {
     totalTestResults: json["totalTestResults"],
     posNeg: json["posNeg"],
     fips: json["fips"],
-    dateModified: DateTime.parse(json["dateModified"]),
-    dateChecked: DateTime.parse(json["dateChecked"]),
+    dateModified: json["dateModified"],
+    dateChecked: json["dateChecked"],
     hash: json["hash"],
   );
 
@@ -121,8 +121,8 @@ class StateStats {
     "totalTestResults": totalTestResults,
     "posNeg": posNeg,
     "fips": fips,
-    "dateModified": dateModified.toIso8601String(),
-    "dateChecked": dateChecked.toIso8601String(),
+    "dateModified": dateModified,
+    "dateChecked": dateChecked,
     "hash": hash,
   };
 }

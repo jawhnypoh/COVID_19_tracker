@@ -1,4 +1,4 @@
-// GlobalHistoricalLineChart Class with flutter_charts Library
+// StateHistoricalLineChart Class with flutter_charts Library
 
 import 'package:covid_19_tracker/utilities/utilities.dart';
 import 'package:flutter/material.dart';
@@ -7,22 +7,23 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:covid_19_tracker/models/case_historical_data_model.dart';
 import 'package:covid_19_tracker/utilities/api_resources.dart';
 
-class GlobalHistoricalLineChart extends StatelessWidget {
+class StateHistoricalLineChart extends StatelessWidget {
+  final String stateName;
   final List<charts.Series> seriesList;
   final bool animate;
 
-  GlobalHistoricalLineChart(this.seriesList, {this.animate});
+  StateHistoricalLineChart(this.seriesList, this.stateName, {this.animate});
 
   // Creates a LineChart with data and animation
-  factory GlobalHistoricalLineChart.withHistoricalData() {
-    return GlobalHistoricalLineChart(_createHistoricalData(), animate: true);
+  factory StateHistoricalLineChart.withHistoricalData(String stateName) {
+    return StateHistoricalLineChart(_createHistoricalData(), stateName, animate: true);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: ApiResources().getGlobalHistoricalDataResults(),
+        future: ApiResources().getStateHistoricalDataResults(stateName),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return charts.TimeSeriesChart(
@@ -31,40 +32,40 @@ class GlobalHistoricalLineChart extends StatelessWidget {
               primaryMeasureAxis: charts.NumericAxisSpec(
                 tickProviderSpec: charts.BasicNumericTickProviderSpec(desiredTickCount: 6),
                 tickFormatterSpec: charts.BasicNumericTickFormatterSpec(
-                  Utilities().convertNumberToReadable
+                    Utilities().convertNumberToReadable
                 ),
                 renderSpec: charts.GridlineRendererSpec(
-                  lineStyle: charts.LineStyleSpec(
-                    dashPattern: [4,4],
-                    color: charts.ColorUtil.fromDartColor(Colors.grey[600])
-                  ),
-                  labelStyle: charts.TextStyleSpec(
-                color: charts.ColorUtil.fromDartColor(Colors.grey[350])
-              )
+                    lineStyle: charts.LineStyleSpec(
+                        dashPattern: [4,4],
+                        color: charts.ColorUtil.fromDartColor(Colors.grey[600])
+                    ),
+                    labelStyle: charts.TextStyleSpec(
+                        color: charts.ColorUtil.fromDartColor(Colors.grey[350])
+                    )
                 ),
               ),
               domainAxis: charts.DateTimeAxisSpec(
-                renderSpec: charts.GridlineRendererSpec(
+                  renderSpec: charts.GridlineRendererSpec(
                     labelStyle: charts.TextStyleSpec(
                         color: charts.ColorUtil.fromDartColor(Colors.grey[350])
                     ),
-                  lineStyle: charts.LineStyleSpec(
-                      dashPattern: [4,4],
-                      color: charts.ColorUtil.fromDartColor(Colors.grey[600])
+                    lineStyle: charts.LineStyleSpec(
+                        dashPattern: [4,4],
+                        color: charts.ColorUtil.fromDartColor(Colors.grey[600])
+                    ),
                   ),
-                ),
-                tickProviderSpec: const charts.DayTickProviderSpec(increments: [25]),
-                tickFormatterSpec: const charts.AutoDateTimeTickFormatterSpec(
-                  day: charts.TimeFormatterSpec(
-                    format: 'MMM dd', transitionFormat: 'MMM dd',
-                  ),
-                )
+                  tickProviderSpec: const charts.DayTickProviderSpec(increments: [15]),
+                  tickFormatterSpec: const charts.AutoDateTimeTickFormatterSpec(
+                    day: charts.TimeFormatterSpec(
+                      format: 'MMM dd', transitionFormat: 'MMM dd',
+                    ),
+                  )
               ),
             );
           }
           else if (snapshot.hasError) {
             return Center(
-                child: Text('Error loading Timeline Graph'),
+              child: Text('Error loading Timeline Graph'),
             );
           }
           else {
@@ -102,20 +103,22 @@ class GlobalHistoricalLineChart extends StatelessWidget {
 
     // Confirmed Cases Timeline
     for(int i = 0; i < apiData.length; i++) {
-      confirmedHistoricalList.add(CaseHistorical(apiData[i]['date'],
-          apiData[i]['confirmed'], [2,4]));
+      confirmedHistoricalList.add(CaseHistorical(apiData[i]['date'].toString(),
+          apiData[i]['positive'], [2,4]));
     }
 
     // Deaths Timeline
     for(int i = 0; i < apiData.length; i++) {
-      deathsHistoricalList.add(CaseHistorical(apiData[i]['date'],
-          apiData[i]['deaths'], [2,4]));
+      deathsHistoricalList.add(CaseHistorical(apiData[i]['date'].toString(),
+          apiData[i]['death'], [2,4]));
     }
 
     // Recovered Timeline
     for(int i = 0; i < apiData.length; i++) {
-      recoveredHistoricalList.add(CaseHistorical(apiData[i]['date'],
-          apiData[i]['recovered'], [2,4]));
+      if (apiData[i]['recovered'] != null) {
+        recoveredHistoricalList.add(CaseHistorical(apiData[i]['date'].toString(),
+            apiData[i]['recovered'], [2,4]));
+      }
     }
 
     return [

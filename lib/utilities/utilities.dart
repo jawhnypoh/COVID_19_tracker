@@ -32,13 +32,23 @@ class Utilities {
       case 'UAE':
         return 'United Arab Emirates';
         break;
+      case 'S. Korea':
+        return 'South Korea';
+        break;
       default:
         return countryName;
     }
   }
 
-  int addTotalCounts(int active, int deaths, int recovered) {
-    return active + deaths + recovered;
+  int addTotalCounts(int active, int deaths, int recovered, int critical) {
+    return active + deaths + recovered + critical;
+  }
+
+  int addTotalCountsForState(int active, int deaths, int recovered) {
+    if (active != null && deaths != null || recovered != null) {
+      return active + deaths + recovered;
+    }
+    return null;
   }
 
   String convertCountsToPercentages(int count, int totalCount) {
@@ -49,7 +59,10 @@ class Utilities {
     return NumberFormat.compact().format(count);
   }
 
-  int calculateTotalActiveCases(int confirmed, int deaths, int recovered) {
-    return confirmed - (deaths + recovered);
+  int calculateActiveCases(int confirmed, int deaths, int recovered) {
+    if (confirmed != null && deaths != null && recovered != null) {
+      return confirmed - (deaths + recovered);
+    }
+    return null;
   }
 }

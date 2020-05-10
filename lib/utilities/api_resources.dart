@@ -12,7 +12,8 @@ class ApiResources {
   final String _countriesURL = 'https://disease.sh/v2/countries';
   final String _singleCountryURL = 'https://corona-api.com/countries/';
   final String _statesURL = "https://covidtracking.com/api/states";
-  final String _historicalTimelineURL = 'https://corona-api.com/timeline';
+  final String _globalHistoricalTimelineURL = 'https://corona-api.com/timeline';
+  final String _stateHistoricalTimelineURL = 'https://covidtracking.com/api/v1/states/';
   final String _newsArticlesURL = 'https://api.smartable.ai/coronavirus/news/US';
 
   var dio = Dio();
@@ -29,14 +30,30 @@ class ApiResources {
     }
   }
 
-  // Get results from corona-api API for timeline
-  Future<List> getHistoricalDataResults() async {
+  // Get results from corona-api API for global timeline
+  Future<List> getGlobalHistoricalDataResults() async {
     final List resultsList = List();
 
     try {
-      final Response response = await dio.get(_historicalTimelineURL);
+      final Response response = await dio.get(_globalHistoricalTimelineURL);
       for(int i = 0; i < response.data['data'].length; i++) {
         resultsList.add(response.data['data'][i]);
+      }
+      return resultsList;
+    } catch (e) {
+      print(e);
+      return e;
+    }
+  }
+
+  // Get results from covidtracking.com API for state timeline
+  Future<List> getStateHistoricalDataResults(String stateName) async {
+    final List resultsList = List();
+
+    try {
+      final Response response = await dio.get(_stateHistoricalTimelineURL + stateName + '/daily.json');
+      for(int i = 0; i < response.data.length; i++) {
+        resultsList.add(response.data[i]);
       }
       return resultsList;
     } catch (e) {

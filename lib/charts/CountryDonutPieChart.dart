@@ -45,7 +45,7 @@ class CountryDonutPieChart extends StatelessWidget {
     final criticalColor = charts.ColorUtil.fromDartColor(Colors.deepOrangeAccent);
     final recoveredColor = charts.ColorUtil.fromDartColor(Colors.green);
 
-    final totalCounts = Utilities().addTotalCounts(totalActive, snapshotData.data.latestData.deaths, snapshotData.data.latestData.recovered);
+    final totalCounts = Utilities().addTotalCounts(totalActive, snapshotData.data.latestData.deaths, snapshotData.data.latestData.recovered, snapshotData.data.latestData.critical);
 
     final data = [
       CaseTypes('Deaths', snapshotData.data.latestData.deaths, Utilities().convertCountsToPercentages(snapshotData.data.latestData.deaths, totalCounts)),
