@@ -19,6 +19,12 @@ class AboutView extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 const Padding(padding: EdgeInsets.only(top: 20.0)),
+                Container(
+                  height: 200,
+                  width: 200,
+                  child: Image.asset('assets/images/covid_19_dashboard_icon.png')
+                ),
+                const Padding(padding: EdgeInsets.only(top: 20.0)),
                 _buildAboutApp(),
                 const Padding(padding: EdgeInsets.only(top: 20.0)),
                 const Divider(color: Colors.grey),
@@ -26,12 +32,17 @@ class AboutView extends StatelessWidget {
                 _buildAboutDisease(),
                 const Padding(padding: EdgeInsets.only(top: 20.0)),
                 const Divider(color: Colors.grey),
-                const Padding(padding: EdgeInsets.only(top: 10.0)),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: const Text('Version 1.0.0', style: TextStyle(color: Colors.grey)),
+                Container(
+                  margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text('Version 1.0.0', style: TextStyle(color: Colors.grey)),
+                      Text('Developed by Johnny Po', style: TextStyle(color: Colors.grey)),
+                    ],
+                  ),
                 ),
-                const Padding(padding: EdgeInsets.only(top: 20.0)),
+                const Padding(padding: EdgeInsets.only(top: 10.0)),
               ],
             ),
           ),
@@ -46,7 +57,7 @@ class AboutView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           // Insert icon here later
-          Text('This COVID-19 Dashboard efficiently integrates data from a variety of API sources '
+          Text('The COVID-19 Dashboard efficiently integrates data from a variety of API sources '
               'and generates colorful statistics for the 2019 Novel Coronavirus. '
               'Data is pulled from following sources: ',
               style: TextStyle(color: Colors.grey[350], fontSize: 20.0),

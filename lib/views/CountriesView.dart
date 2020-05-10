@@ -133,12 +133,9 @@ class CountriesViewState extends State<CountriesView> {
 
       duplicateCountryList.forEach((country) {
         if (Utilities().convertToFullName(country['country']).toLowerCase().contains(queryValue.toLowerCase())) {
-          print(country['country']);
           countriesSearchList.add(country);
         }
       });
-
-      print(countriesSearchList.length);
 
       setState(() {
         searchCountriesList.clear();
