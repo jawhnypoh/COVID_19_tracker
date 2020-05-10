@@ -1,9 +1,11 @@
 // United States Screen
 
+import 'package:covid_19_tracker/models/state_model.dart';
 import 'package:covid_19_tracker/utilities/api_resources.dart';
 import 'package:covid_19_tracker/views/SingleStateView.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:us_states/us_states.dart';
 
 class USViewState extends State<USView> {
   ScrollController _scrollController = ScrollController();
@@ -53,7 +55,7 @@ class USViewState extends State<USView> {
     );
   }
 
-  Widget _buildStatesResultsList(List statesList) {
+  Widget _buildStatesResultsList(List<StateStats> statesList) {
     return ListView.separated(
       itemCount: statesList == null ? 0 : statesList.length,
       itemBuilder: (BuildContext context, int idx) {
@@ -61,13 +63,13 @@ class USViewState extends State<USView> {
           return _buildProgressIndicator();
         } else {
           return ListTile(
-            title: Text(statesList[idx]['state'], style: const TextStyle(fontSize: 25)),
-            subtitle: Text(numberFormatter.format(statesList[idx]['cases']).toString() + ' cases',
+            title: Text(USStates.getName(statesList[idx].state), style: const TextStyle(fontSize: 25)),
+            subtitle: Text(numberFormatter.format(statesList[idx].positive).toString() + ' cases',
                 style: const TextStyle(fontSize: 20.0, color: Colors.orangeAccent)),
             onTap: () {
               Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SingleStateView(stateName: statesList[idx]['state']))
+                  MaterialPageRoute(builder: (context) => SingleStateView(stateStats: statesList[idx]))
               );
             },
           );

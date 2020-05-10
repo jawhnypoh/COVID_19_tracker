@@ -48,4 +48,8 @@ class Utilities {
   String convertNumberToReadable(num count) {
     return NumberFormat.compact().format(count);
   }
+
+  int calculateTotalActiveCases(int confirmed, int deaths, int recovered) {
+    return confirmed - (deaths + recovered);
+  }
 }

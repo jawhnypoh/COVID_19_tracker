@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:covid_19_tracker/utilities/utilities.dart';
+import 'package:us_states/us_states.dart';
 
 class SingleStateViewState extends State<SingleStateView> {
   var dio = Dio();
-  String stateName;
-  SingleStateViewState(this.stateName);
-  final String _stateURL = "https://disease.sh/v2/states/";
-  Future<StateStats> stateStats;
+  StateStats stateStats;
+  SingleStateViewState(this.stateStats);
+//  Future<StateStats> stateStats;
   final numberFormatter = NumberFormat('#,###', 'en_US');
 
   @override
@@ -25,163 +25,117 @@ class SingleStateViewState extends State<SingleStateView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(stateName),
+        title: Text(USStates.getName(stateStats.state)),
       ),
       body: Container(
         child: SingleChildScrollView(
-          child: FutureBuilder<StateStats>(
-            future: getStateStats(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Padding(padding: EdgeInsets.only(top: 20.0)),
-                      _buildTotalTestedWidget(snapshot),
-                      const Padding(padding: EdgeInsets.only(top: 30.0)),
-                      _buildTotalCasesWidget(snapshot),
-                      const Padding(padding: EdgeInsets.only(top: 30.0)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          _buildTotalActive(snapshot),
-                          _buildTotalDeaths(snapshot),
-                        ],
-                      ),
-                      const Padding(padding: EdgeInsets.only(top: 40.0)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          _buildCasesToday(snapshot),
-                          _buildDeathsToday(snapshot),
-                        ],
-                      ),
-                      const Padding(padding: EdgeInsets.only(top: 30.0)),
-                    ],
-                  ),
-                );
-              }
-              else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              return const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(100.0),
-                  child: CircularProgressIndicator(),
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Padding(padding: EdgeInsets.only(top: 20.0)),
+                _buildTotalTestedWidget(stateStats),
+                const Padding(padding: EdgeInsets.only(top: 30.0)),
+                _buildTotalCasesWidget(stateStats),
+                const Padding(padding: EdgeInsets.only(top: 30.0)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    _buildTotalActive(stateStats),
+                    _buildTotalDeaths(stateStats),
+                    _buildTotalRecovered(stateStats),
+                  ],
                 ),
-              );
-            },
-          ),
-        ),
-      ),
+                const Padding(padding: EdgeInsets.only(top: 40.0)),
+//                Row(
+//                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                  children: <Widget>[
+//                    _buildCasesToday(stateStats),
+//                    _buildDeathsToday(stateStats),
+//                  ],
+//                ),
+                const Padding(padding: EdgeInsets.only(top: 30.0)),
+              ],
+            ),
+          )
+        )
+      )
     );
   }
 
-  Widget _buildTotalTestedWidget(snapshot) {
+  Widget _buildTotalTestedWidget(stateStat) {
     return Container(
         child: Center(
             child: Column(
                 children: <Widget>[
                   Text('Total Tested', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-                  Text(numberFormatter.format(snapshot.data.tested).toString(), style: TextStyle(fontSize: 60.0, color: Colors.lightBlueAccent)),
+                  Text(numberFormatter.format(stateStat.totalTestResults).toString(), style: TextStyle(fontSize: 60.0, color: Colors.lightBlueAccent)),
                 ]
             )
         )
     );
   }
 
-  Widget _buildTotalCasesWidget(snapshot) {
+  Widget _buildTotalCasesWidget(stateStat) {
     return Container(
         child: Center(
             child: Column(
                 children: <Widget>[
                   Text('Total Confirmed', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-                  Text(numberFormatter.format(snapshot.data.cases).toString(), style: TextStyle(fontSize: 60.0, color: Colors.orangeAccent)),
+                  Text(numberFormatter.format(stateStat.positive).toString(), style: TextStyle(fontSize: 60.0, color: Colors.orangeAccent)),
                 ]
             )
         )
     );
   }
 
-  Widget _buildTotalActive(snapshot) {
+  Widget _buildTotalActive(stateStat) {
     return Container(
       child: Center(
         child: Column(
           children: <Widget>[
             Text('Active', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text(numberFormatter.format(snapshot.data.active).toString(), style: TextStyle(fontSize: 35.0, color: Colors.blueAccent)),
+            Text(numberFormatter.format(Utilities().calculateTotalActiveCases(stateStat.positive, stateStat.death, stateStat.recovered)).toString(), style: TextStyle(fontSize: 35.0, color: Colors.blueAccent)),
           ],
         ),
       ),
     );
   }
 
+  Widget _buildTotalRecovered(stateStat) {
+    return Container(
+      child: Center(
+        child: Column(
+          children: <Widget>[
+            Text('Total Recovered', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
+            Text(numberFormatter.format(stateStat.recovered).toString(), style: TextStyle(fontSize: 35.0, color: Colors.green)),
+          ],
+        ),
+      ),
+    );
+  }
 
-
-  Widget _buildTotalDeaths(snapshot) {
+  Widget _buildTotalDeaths(stateStat) {
     return Container(
       child: Center(
         child: Column(
           children: <Widget>[
             Text('Deaths', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text(numberFormatter.format(snapshot.data.deaths).toString(), style: TextStyle(fontSize: 35.0, color: Colors.redAccent)),
+            Text(numberFormatter.format(stateStat.death).toString(), style: TextStyle(fontSize: 35.0, color: Colors.redAccent)),
           ],
         ),
       ),
     );
-  }
-
-  Widget _buildCasesToday(snapshot) {
-    return Container(
-      child: Center(
-        child: Column(
-          children: <Widget>[
-            Text('Cases Today', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text('+' + numberFormatter.format(snapshot.data.todayCases).toString(), style: TextStyle(fontSize: 35.0, color: Colors.orangeAccent)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDeathsToday(snapshot) {
-    return Container(
-      child: Center(
-        child: Column(
-          children: <Widget>[
-            Text('Deaths Today', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text('+' + numberFormatter.format(snapshot.data.todayDeaths).toString(), style: TextStyle(fontSize: 35.0, color: Colors.redAccent)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Append stateName to end of URL
-  String addStateNameToURL(String stateName) {
-      return _stateURL + stateName;
-  }
-
-  // Get results from disease.sh API for specific state
-  Future<StateStats> getStateStats() async {
-    try {
-      final Response response = await dio.get(addStateNameToURL(stateName));
-      final jsonResult = json.decode(response.toString());
-      return StateStats.fromJson(jsonResult);
-    } catch (e) {
-      print(e);
-    }
   }
 }
 
 class SingleStateView extends StatefulWidget {
   // Declare stateName that holds state name
-  final String stateName;
+  final StateStats stateStats;
 
   // Require stateName in constructor
-  SingleStateView({Key key, @required this.stateName}) : super(key : key);
+  SingleStateView({Key key, @required this.stateStats}) : super(key : key);
 
   @override
-  SingleStateViewState createState() => SingleStateViewState(stateName);
+  SingleStateViewState createState() => SingleStateViewState(stateStats);
 }
