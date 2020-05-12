@@ -4,6 +4,12 @@ A cross platform application that efficiently integrates data from a variety of 
 
 ![COVID-19 Dashboard Screenshots](https://i.imgur.com/g2iQW8c.png)
 
+![Build](https://img.shields.io/badge/build-passing-brightgreen)
+![iOS](https://img.shields.io/badge/iOS-10%20-blue)
+![Android](https://img.shields.io/badge/Android-6-blue?logo=Android&logoColor=white)
+![Flutter](https://img.shields.io/badge/Flutter-1.10.7-orange?logo=Flutter&logoColor=white)
+
+
 ## Meta
 -  **State:** Release v1.1.0
 - **Point People:** [@jawhnypoh](https://github.com/jawhnypoh)
