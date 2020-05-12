@@ -1,11 +1,11 @@
 # COVID-19 Dashboard
 
-A cross platform application that compiles COVID-19 related information into a nice, useful dashboard. This application was developed using [Flutter](https://flutter.dev/), and is compatible with both iOS and Android devices. 
+A cross platform application that efficiently integrates data from a variety of API sources and generates colorful and useful statistics for the 2019 Novel Coronavirus (COVID-19). This application was developed using [Flutter](https://flutter.dev/), and is compatible with both iOS and Android devices. 
 
 ![COVID-19 Dashboard Screenshots](https://i.imgur.com/g2iQW8c.png)
 
 ## Meta
--  **State:** Release v1.0.0
+-  **State:** Release v1.1.0
 - **Point People:** [@jawhnypoh](https://github.com/jawhnypoh)
 
 ## Features
@@ -25,7 +25,7 @@ A cross platform application that compiles COVID-19 related information into a n
 * Johns Hopkins University Center for Systems Science and Engineering ([JHU CSSE](https://github.com/CSSEGISandData/COVID-19))
 * World Meters Coronavirus Update ([WorldMeters](https://www.worldometers.info/coronavirus/))
 * disease.sh API ([disease.sh](https://disease.sh/))
-* Coronavirus smartable ([smartable.ai](https://documenter.getpostman.com/view/8854915/SzS7R74q?version=latest))
+* r/Coronavirus Subreddit ([r/Coronavirus](https://www.reddit.com/r/Coronavirus/))
 * covidtracking.com API ([covidtracking.com](https://covidtracking.com/data))
 
 ### Libraries
