@@ -12,7 +12,7 @@ class ApiResources {
   final String _singleCountryURL = 'https://corona-api.com/countries/';
   final String _globalHistoricalTimelineURL = 'https://corona-api.com/timeline';
   final String _stateHistoricalTimelineURL = 'https://covidtracking.com/api/v1/states/';
-  final String _newsArticlesURL = 'https://api.smartable.ai/coronavirus/news/US';
+  final String _newsArticlesURL = 'https://www.reddit.com/r/Coronavirus.json?limit=100';
 
   var dio = Dio();
 
@@ -62,15 +62,18 @@ class ApiResources {
 
   // Get results from api.smartable.ai API for news
   Future<List<NewsArticleModel>> getNewsArticleResults() async {
-    String subscriptionKey = '3009d4ccc29e4808af1ccc25c69b4d5d';
     List<NewsArticleModel> newsArticlesList;
+    List newsArticlesFromReddit = List();
 
-    dio.options.headers = {'Subscription-Key' : subscriptionKey};
     try {
       final Response response = await dio.get(_newsArticlesURL);
       final jsonResult = json.decode(response.toString());
-      final newsArticlesFromJSON = jsonResult['news'] as List;
-      newsArticlesList = newsArticlesFromJSON.map<NewsArticleModel>((json) =>
+
+      for (int i = 2; i < response.data['data']['children'].length; i++) {
+        newsArticlesFromReddit.add(response.data['data']['children'][i]);
+      }
+
+      newsArticlesList = newsArticlesFromReddit.map<NewsArticleModel>((json) =>
           NewsArticleModel.fromJson(json)).toList();
 
       return newsArticlesList;

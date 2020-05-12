@@ -37,7 +37,7 @@ class AboutView extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text('Version 1.0.0', style: TextStyle(color: Colors.grey)),
+                      Text('Version 1.1.0', style: TextStyle(color: Colors.grey)),
                       Text('Developed by Johnny Po', style: TextStyle(color: Colors.grey)),
                     ],
                   ),
@@ -79,7 +79,7 @@ class AboutView extends StatelessWidget {
               style: TextStyle(color: Colors.grey[350], fontSize: 20.0),
               textAlign: TextAlign.left),
           const Padding(padding: EdgeInsets.only(top: 10.0)),
-          Text('• Coronavirus smartable API',
+          Text('• r/Coronavirus subreddit',
               style: TextStyle(color: Colors.grey[350], fontSize: 20.0),
               textAlign: TextAlign.left),
           const Padding(padding: EdgeInsets.only(top: 10.0)),

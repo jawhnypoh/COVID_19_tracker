@@ -5,7 +5,6 @@ import 'package:covid_19_tracker/utilities/api_resources.dart';
 import 'package:covid_19_tracker/utilities/utilities.dart';
 import 'package:covid_19_tracker/views/NewsURLView.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class NewsViewState extends State<NewsView> {
   Future<List<NewsArticleModel>> newsArticles;
@@ -53,25 +52,24 @@ class NewsViewState extends State<NewsView> {
           itemBuilder: (context, idx) {
             return ListTile(
                 contentPadding: EdgeInsets.all(10.0),
-                leading: newsArticles[idx].articleImages == null
+                leading: newsArticles[idx].data.thumbnail == "self"
                     ? Container(width: 80.0, height: 50.0,
                         child: Text('No Image Available',
                           style: TextStyle(color: Colors.grey[600]),
                         ),
                       )
-                    : Image.network(newsArticles[idx].articleImages[0].imageURL,
+                    : Image.network(newsArticles[idx].data.thumbnail,
                       width: 80.0, height: 50.0,
                 ),
-                title: Text(newsArticles[idx].title,
+                title: Text(newsArticles[idx].data.title,
                   style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
-                subtitle: Text('Published ' + Utilities().convertDateTime(newsArticles[idx].publishedDateTime)
-                    + ' by ' + newsArticles[idx].providerInfo.name,
+                subtitle: Text('Published by ' + newsArticles[idx].data.domain,
                   style: const TextStyle(fontSize: 15.0)
                 ),
               onTap: () {
                   Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => NewsURLView(newsURL: newsArticles[idx].webURL))
+                      MaterialPageRoute(builder: (context) => NewsURLView(newsURL: newsArticles[idx].data.url))
                   );
               },
               );
