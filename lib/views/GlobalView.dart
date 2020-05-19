@@ -6,7 +6,7 @@ import 'package:covid_19_tracker/models/global_model.dart';
 import 'package:covid_19_tracker/charts/GlobalDonutPieChart.dart';
 import 'package:covid_19_tracker/charts/GlobalHistoricalLineChart.dart';
 import 'package:covid_19_tracker/charts/BarChart.dart';
-import 'package:covid_19_tracker/charts/ColoredBox.dart';
+import 'package:covid_19_tracker/charts/LegendColoredBox.dart';
 import 'package:covid_19_tracker/utilities/utilities.dart';
 import 'package:covid_19_tracker/utilities/api_resources.dart';
 
@@ -198,10 +198,10 @@ class GlobalViewState extends State<GlobalView> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            ColoredBox(color: Colors.blueAccent, text: 'Active'),
-            ColoredBox(color: Colors.redAccent, text: 'Deaths'),
-            ColoredBox(color: Colors.deepOrangeAccent, text: 'Critical'),
-            ColoredBox(color: Colors.green, text: 'Recovered'),
+            LegendColoredBox(color: Colors.blueAccent, text: 'Active'),
+            LegendColoredBox(color: Colors.redAccent, text: 'Deaths'),
+            LegendColoredBox(color: Colors.deepOrangeAccent, text: 'Critical'),
+            LegendColoredBox(color: Colors.green, text: 'Recovered'),
           ],
         ),
       ),
@@ -214,9 +214,9 @@ class GlobalViewState extends State<GlobalView> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            ColoredBox(color: Colors.orangeAccent, text: 'Confirmed'),
-            ColoredBox(color: Colors.redAccent, text: 'Deaths'),
-            ColoredBox(color: Colors.green, text: 'Recovered'),
+            LegendColoredBox(color: Colors.orangeAccent, text: 'Confirmed'),
+            LegendColoredBox(color: Colors.redAccent, text: 'Deaths'),
+            LegendColoredBox(color: Colors.green, text: 'Recovered'),
           ],
         ),
       ),

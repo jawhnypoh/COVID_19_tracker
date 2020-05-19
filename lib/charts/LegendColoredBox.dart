@@ -2,11 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-class ColoredBox extends StatelessWidget {
+class LegendColoredBox extends StatelessWidget {
   final String text;
   final Color color;
 
-  ColoredBox({this.text, this.color});
+  LegendColoredBox({this.text, this.color});
 
   @override
   Widget build(BuildContext context) {
