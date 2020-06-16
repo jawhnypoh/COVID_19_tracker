@@ -1,5 +1,6 @@
 // Global Screen
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:covid_19_tracker/models/global_model.dart';
@@ -62,7 +63,7 @@ class GlobalViewState extends State<GlobalView> {
                           _buildTotalCritical(snapshot),
                         ],
                       ),
-                      const Padding(padding: EdgeInsets.only(top: 20.0)),
+                      const Padding(padding: EdgeInsets.only(top: 10.0)),
                       const Divider(color: Colors.grey),
                       Container(
                         height: 300,
@@ -142,11 +143,18 @@ class GlobalViewState extends State<GlobalView> {
 
   Widget _buildTotalDeaths(snapshot) {
     return Container(
-      child: Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+            minWidth: 150.0,
+            maxWidth: 150.0,
+            minHeight: 80.0,
+            maxHeight: 80.0
+        ),
         child: Column(
           children: <Widget>[
             Text('Total Deaths', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text(numberFormatter.format(snapshot.data.deaths).toString(), style: TextStyle(fontSize: 40.0, color: Colors.redAccent)),
+            AutoSizeText(numberFormatter.format(snapshot.data.deaths).toString(),
+                style: TextStyle(fontSize: 40.0, color: Colors.redAccent), maxLines: 1),
           ],
         ),
       ),
@@ -155,11 +163,18 @@ class GlobalViewState extends State<GlobalView> {
 
   Widget _buildTotalRecovered(snapshot) {
     return Container(
-      child: Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+            minWidth: 150.0,
+            maxWidth: 150.0,
+            minHeight: 80.0,
+            maxHeight: 80.0
+        ),
         child: Column(
           children: <Widget>[
             Text('Total Recovered', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text(numberFormatter.format(snapshot.data.recovered).toString(), style: TextStyle(fontSize: 40.0, color: Colors.green)),
+            AutoSizeText(numberFormatter.format(snapshot.data.recovered).toString(),
+                style: TextStyle(fontSize: 40.0, color: Colors.green), maxLines: 1),
           ],
         ),
       ),
@@ -168,11 +183,18 @@ class GlobalViewState extends State<GlobalView> {
 
   Widget _buildTotalActive(snapshot) {
     return Container(
-      child: Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+            minWidth: 150.0,
+            maxWidth: 150.0,
+            minHeight: 80.0,
+            maxHeight: 80.0
+        ),
         child: Column(
           children: <Widget>[
             Text('Active Cases', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text(numberFormatter.format(snapshot.data.active).toString(), style: TextStyle(fontSize: 35.0, color: Colors.blueAccent)),
+            AutoSizeText(numberFormatter.format(snapshot.data.active).toString(),
+                style: TextStyle(fontSize: 35.0, color: Colors.blueAccent), maxLines: 1),
           ],
         ),
       ),
@@ -181,11 +203,18 @@ class GlobalViewState extends State<GlobalView> {
 
   Widget _buildTotalCritical(snapshot) {
     return Container(
-      child: Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+            minWidth: 150.0,
+            maxWidth: 150.0,
+            minHeight: 80.0,
+            maxHeight: 80.0
+        ),
         child: Column(
           children: <Widget>[
             Text('Critical Cases', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text(numberFormatter.format(snapshot.data.critical).toString(), style: TextStyle(fontSize: 35.0, color: Colors.deepOrangeAccent)),
+            AutoSizeText(numberFormatter.format(snapshot.data.critical).toString(),
+                style: TextStyle(fontSize: 35.0, color: Colors.deepOrangeAccent), maxLines: 1),
           ],
         ),
       ),

@@ -1,5 +1,6 @@
 // Single State Screen
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:covid_19_tracker/charts/LegendColoredBox.dart';
 import 'package:covid_19_tracker/charts/StateDonutPieChart.dart';
 import 'package:covid_19_tracker/charts/StateHistoricalLineChart.dart';
@@ -54,7 +55,7 @@ class SingleStateViewState extends State<SingleStateView> {
                     _buildTotalRecovered(stateStats),
                   ],
                 ),
-                const Padding(padding: EdgeInsets.only(top: 20.0)),
+                const Padding(padding: EdgeInsets.only(top: 10.0)),
                 const Divider(color: Colors.grey),
                 Container(
                   height: 300,
@@ -122,14 +123,20 @@ class SingleStateViewState extends State<SingleStateView> {
 
   Widget _buildTotalActive(stateStat) {
     return Container(
-      child: Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+            minWidth: 110.0,
+            maxWidth: 110.0,
+            minHeight: 80.0,
+            maxHeight: 80.0
+        ),
         child: Column(
           children: <Widget>[
             Text('Active', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text(Utilities().calculateActiveCases(stateStat.positive, stateStat.death, stateStat.recovered)  == null
+            AutoSizeText(Utilities().calculateActiveCases(stateStat.positive, stateStat.death, stateStat.recovered)  == null
                 ? "N/A"
                 : numberFormatter.format(Utilities().calculateActiveCases(stateStat.positive, stateStat.death, stateStat.recovered)).toString(),
-                style: TextStyle(fontSize: 35.0, color: Colors.blueAccent)),
+                style: TextStyle(fontSize: 35.0, color: Colors.blueAccent), maxLines: 1),
           ],
         ),
       ),
@@ -138,14 +145,20 @@ class SingleStateViewState extends State<SingleStateView> {
 
   Widget _buildTotalRecovered(stateStat) {
     return Container(
-      child: Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+            minWidth: 110.0,
+            maxWidth: 110.0,
+            minHeight: 80.0,
+            maxHeight: 80.0
+        ),
         child: Column(
           children: <Widget>[
-            Text('Total Recovered', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text(stateStat.recovered == null
+            Text('Recovered', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
+            AutoSizeText(stateStat.recovered == null
                 ? "N/A"
                 : numberFormatter.format(stateStat.recovered).toString(),
-                style: TextStyle(fontSize: 35.0, color: Colors.green)),
+                style: TextStyle(fontSize: 35.0, color: Colors.green), maxLines: 1),
           ],
         ),
       ),
@@ -154,11 +167,18 @@ class SingleStateViewState extends State<SingleStateView> {
 
   Widget _buildTotalDeaths(stateStat) {
     return Container(
-      child: Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+            minWidth: 110.0,
+            maxWidth: 110.0,
+            minHeight: 80.0,
+            maxHeight: 80.0
+        ),
         child: Column(
           children: <Widget>[
             Text('Deaths', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text(numberFormatter.format(stateStat.death).toString(), style: TextStyle(fontSize: 35.0, color: Colors.redAccent)),
+            AutoSizeText(numberFormatter.format(stateStat.death).toString(),
+                style: TextStyle(fontSize: 35.0, color: Colors.redAccent), maxLines: 1),
           ],
         ),
       ),

@@ -4,11 +4,12 @@ import 'package:covid_19_tracker/charts/LegendColoredBox.dart';
 import 'package:covid_19_tracker/charts/CountryDonutPieChart.dart';
 import 'package:covid_19_tracker/charts/CountryHistoricalLineChart.dart';
 import 'package:covid_19_tracker/utilities/api_resources.dart';
+import 'package:covid_19_tracker/models/country_model.dart';
+import 'package:covid_19_tracker/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
-import 'package:covid_19_tracker/models/country_model.dart';
-import 'package:covid_19_tracker/utilities/utilities.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class SingleCountryViewState extends State<SingleCountryView> {
   var dio = Dio();
@@ -65,7 +66,7 @@ class SingleCountryViewState extends State<SingleCountryView> {
                           _buildTotalCritical(snapshot),
                         ],
                       ),
-                      const Padding(padding: EdgeInsets.only(top: 20.0)),
+                      const Padding(padding: EdgeInsets.only(top: 10.0)),
                       const Divider(color: Colors.grey),
                       Container(
                         height: 300,
@@ -131,24 +132,31 @@ class SingleCountryViewState extends State<SingleCountryView> {
   Widget _buildTotalCasesWidget(snapshot) {
     return Container(
         child: Center(
-            child: Column(
-                children: <Widget>[
-                  Text('Total Confirmed', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-                  Text(numberFormatter.format(snapshot.data.data.latestData.confirmed).toString(), style: TextStyle(fontSize: 60.0, color: Colors.orangeAccent)),
-                  Text('+' + numberFormatter.format(snapshot.data.data.today.confirmed).toString() + ' Today', style: TextStyle(fontSize: 25.0, color: Colors.orangeAccent))
-                ]
-            )
+          child: Column(
+              children: <Widget>[
+                Text('Total Confirmed', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
+                Text(numberFormatter.format(snapshot.data.data.latestData.confirmed).toString(), style: TextStyle(fontSize: 60.0, color: Colors.orangeAccent)),
+                Text('+' + numberFormatter.format(snapshot.data.data.today.confirmed).toString() + ' Today', style: TextStyle(fontSize: 25.0, color: Colors.orangeAccent))
+              ]
+          )
         )
     );
   }
 
   Widget _buildTotalDeaths(snapshot) {
     return Container(
-      child: Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+            minWidth: 150.0,
+            maxWidth: 150.0,
+            minHeight: 80.0,
+            maxHeight: 80.0
+        ),
         child: Column(
           children: <Widget>[
-            Text('Total Deaths', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text(numberFormatter.format(snapshot.data.data.latestData.deaths).toString(), style: TextStyle(fontSize: 40.0, color: Colors.redAccent)),
+            AutoSizeText('Total Deaths', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
+            Text(numberFormatter.format(snapshot.data.data.latestData.deaths).toString(),
+                style: TextStyle(fontSize: 40.0, color: Colors.redAccent), maxLines: 1),
           ],
         ),
       ),
@@ -157,11 +165,18 @@ class SingleCountryViewState extends State<SingleCountryView> {
 
   Widget _buildTotalRecovered(snapshot) {
     return Container(
-      child: Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+            minWidth: 150.0,
+            maxWidth: 150.0,
+            minHeight: 80.0,
+            maxHeight: 80.0
+        ),
         child: Column(
           children: <Widget>[
             Text('Total Recovered', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text(numberFormatter.format(snapshot.data.data.latestData.recovered).toString(), style: TextStyle(fontSize: 40.0, color: Colors.green)),
+            AutoSizeText(numberFormatter.format(snapshot.data.data.latestData.recovered).toString(),
+                style: TextStyle(fontSize: 40.0, color: Colors.green), maxLines: 1),
           ],
         ),
       ),
@@ -170,11 +185,18 @@ class SingleCountryViewState extends State<SingleCountryView> {
 
   Widget _buildTotalActive(snapshot) {
     return Container(
-      child: Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          minWidth: 150.0,
+          maxWidth: 150.0,
+          minHeight: 80.0,
+          maxHeight: 80.0
+        ),
         child: Column(
           children: <Widget>[
             Text('Active Cases', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text(numberFormatter.format(totalActive).toString(), style: TextStyle(fontSize: 40.0, color: Colors.blueAccent)),
+            AutoSizeText(numberFormatter.format(totalActive).toString(),
+                style: TextStyle(fontSize: 40.0, color: Colors.blueAccent), maxLines: 1),
           ],
         ),
       ),
@@ -183,11 +205,18 @@ class SingleCountryViewState extends State<SingleCountryView> {
 
   Widget _buildTotalCritical(snapshot) {
     return Container(
-      child: Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          minWidth: 150.0,
+          maxWidth: 150.0,
+          minHeight: 80.0,
+          maxHeight: 80.0
+        ),
         child: Column(
           children: <Widget>[
             Text('Critical Cases', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text(numberFormatter.format(snapshot.data.data.latestData.critical).toString(), style: TextStyle(fontSize: 40.0, color: Colors.deepOrangeAccent)),
+            AutoSizeText(numberFormatter.format(snapshot.data.data.latestData.critical).toString(),
+                style: TextStyle(fontSize: 40.0, color: Colors.deepOrangeAccent), maxLines: 1),
           ],
         ),
       ),

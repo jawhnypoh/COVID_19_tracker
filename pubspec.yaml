@@ -30,6 +30,7 @@ dependencies:
   flutter_webview_plugin: ^0.3.11
   us_states: ^1.0.3
   flutter_launcher_icons: ^0.7.4
+  auto_size_text: ^2.1.0
 
 dev_dependencies:
   flutter_test:

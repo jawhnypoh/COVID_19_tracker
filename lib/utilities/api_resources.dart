@@ -49,7 +49,7 @@ class ApiResources {
     final List resultsList = List();
 
     try {
-      final Response response = await dio.get(_stateHistoricalTimelineURL + stateName + '/daily.json');
+      final Response response = await dio.get(_stateHistoricalTimelineURL + stateName.toLowerCase() + '/daily.json');
       for(int i = 0; i < response.data.length; i++) {
         resultsList.add(response.data[i]);
       }
