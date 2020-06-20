@@ -12,11 +12,13 @@ import 'package:us_states/us_states.dart';
 
 class SingleStateViewState extends State<SingleStateView> {
   StateStats stateStats;
+  List countiesList;
+
   final numberFormatter = NumberFormat('#,###', 'en_US');
   var donutPieChart;
   var historicalLineChart;
 
-  SingleStateViewState(this.stateStats);
+  SingleStateViewState(this.stateStats, List countiesList);
 
 
   @override
@@ -25,6 +27,8 @@ class SingleStateViewState extends State<SingleStateView> {
       donutPieChart = StateDonutPieChart.withCountsData(stateStats);
     }
     historicalLineChart = StateHistoricalLineChart.withHistoricalData(stateStats.state);
+
+    print(countiesList);
     super.initState();
   }
 
@@ -220,10 +224,11 @@ class SingleStateViewState extends State<SingleStateView> {
 class SingleStateView extends StatefulWidget {
   // Declare stateName that holds state name
   final StateStats stateStats;
+  final List countiesList;
 
   // Require stateName in constructor
-  SingleStateView({Key key, @required this.stateStats}) : super(key : key);
+  SingleStateView({Key key, @required this.stateStats, @required this.countiesList}) : super(key : key);
 
   @override
-  SingleStateViewState createState() => SingleStateViewState(stateStats);
+  SingleStateViewState createState() => SingleStateViewState(stateStats, countiesList);
 }

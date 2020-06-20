@@ -1,6 +1,7 @@
 // United States Screen
 
 import 'package:covid_19_tracker/models/state_model.dart';
+import 'package:covid_19_tracker/models/us_county_model.dart';
 import 'package:covid_19_tracker/views/SingleStateView.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:us_states/us_states.dart';
 
 class USViewState extends State<USView> {
   final String _statesURL = "https://covidtracking.com/api/states";
+  final String _usCountiesURL = "https://covid19-us-api.herokuapp.com/county";
   var dio = Dio();
 
   ScrollController _scrollController = ScrollController();
@@ -18,6 +20,7 @@ class USViewState extends State<USView> {
 
   List statesList = List();
   List searchStatesList = List();
+  List usCountiesList = List();
 
   final numberFormatter = new NumberFormat("#,###", "en_US");
 
@@ -26,7 +29,7 @@ class USViewState extends State<USView> {
   @override
   void initState() {
     super.initState();
-    _future = getUSResults();
+    _future = getUSStateAndCountyResults();
   }
 
   @override
@@ -42,7 +45,7 @@ class USViewState extends State<USView> {
         future: _future,
         builder: (context, snapshot) {
           return snapshot.data != null
-            ? _buildListAndSearchContainer(snapshot.data)
+            ? _buildListAndSearchContainer(snapshot.data, usCountiesList)
             : _buildProgressIndicator();
           },
       ),
@@ -65,7 +68,7 @@ class USViewState extends State<USView> {
     );
   }
 
-  Widget _buildListAndSearchContainer(List statesList) {
+  Widget _buildListAndSearchContainer(List statesList, List usCountiesList) {
     return Container(
       child: Column(
         children: <Widget>[
@@ -83,14 +86,14 @@ class USViewState extends State<USView> {
             ),
           ),
           Expanded(
-            child: _buildStatesResultsList(searchStatesList),
+            child: _buildStatesResultsList(searchStatesList, usCountiesList),
           )
         ],
       ),
     );
   }
 
-  Widget _buildStatesResultsList(List statesList) {
+  Widget _buildStatesResultsList(List statesList, List usCountiesList) {
     return ListView.separated(
       itemCount: statesList == null ? 0 : statesList.length,
       itemBuilder: (BuildContext context, int idx) {
@@ -104,7 +107,7 @@ class USViewState extends State<USView> {
             onTap: () {
               Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SingleStateView(stateStats: statesList[idx]))
+                  MaterialPageRoute(builder: (context) => SingleStateView(stateStats: statesList[idx], countiesList: usCountiesList))
               );
             },
           );
@@ -144,23 +147,33 @@ class USViewState extends State<USView> {
     }
   }
 
-  // Get results from disease.sh API for all US states
-  Future<List<StateStats>> getUSResults() async {
-    final List<StateStats> resultsList = List();
+  Future<List<StateStats>> getUSStateAndCountyResults() async {
+    final List<StateStats> statesResultsList = List();
+    final List<USCountyStats> countiesResultsList = List();
 
     try {
-      final Response response = await dio.get(_statesURL);
-      for(int i = 0; i < response.data.length; i++) {
-        resultsList.add(StateStats.fromJson(response.data[i]));
+      // Get results from disease.sh API for all US states
+      final Response stateResponse = await dio.get(_statesURL);
+      for(int i = 0; i < stateResponse.data.length; i++) {
+        statesResultsList.add(StateStats.fromJson(stateResponse.data[i]));
       }
-      resultsList.sort((b, a) => a.positive.compareTo(b.positive));
+
+      // Get results from covid19-us-api for all US counties
+      final Response countiesResponse = await dio.get(_usCountiesURL);
+      for(int i = 0; i < countiesResponse.data.length; i++) {
+        countiesResultsList.add(USCountyStats.fromJson(countiesResponse.data['message'][i]));
+      }
+
+      statesResultsList.sort((b, a) => a.positive.compareTo(b.positive));
 
       setState(() {
-        statesList = resultsList;
-        searchStatesList.addAll(resultsList);
+        statesList = statesResultsList;
+        searchStatesList.addAll(statesResultsList);
+        usCountiesList = countiesResultsList;
       });
+      print(usCountiesList);
 
-      return resultsList;
+      return statesResultsList;
     } catch (e) {
       print(e);
     }

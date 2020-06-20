@@ -13,6 +13,7 @@ class ApiResources {
   final String _globalHistoricalTimelineURL = 'https://corona-api.com/timeline';
   final String _stateHistoricalTimelineURL = 'https://covidtracking.com/api/v1/states/';
   final String _newsArticlesURL = 'https://www.reddit.com/r/Coronavirus.json?limit=100';
+  final String _usCountiesURL = "https://covid19-us-api.herokuapp.com/county";
 
   var dio = Dio();
 
@@ -107,6 +108,22 @@ class ApiResources {
       final jsonResult = json.decode(response.toString());
 
       return CountryStats.fromJson(jsonResult);
+    } catch (e) {
+      print(e);
+      return e;
+    }
+  }
+
+  // Get results from covid19-us-api for all US counties
+  Future<List> getAllUSCountiesResults() async {
+    final List resultsList = List();
+
+    try {
+      final Response response = await dio.get(_usCountiesURL);
+      for(int i = 0; i <response.data.length; i++) {
+        resultsList.add(response.data[i]);
+      }
+      return resultsList;
     } catch (e) {
       print(e);
       return e;
