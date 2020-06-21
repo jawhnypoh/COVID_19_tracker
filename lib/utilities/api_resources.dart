@@ -3,6 +3,7 @@
 import 'package:covid_19_tracker/models/country_model.dart';
 import 'package:covid_19_tracker/models/global_model.dart';
 import 'package:covid_19_tracker/models/news_article_model.dart';
+import 'package:covid_19_tracker/models/us_county_model.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert';
 
@@ -115,15 +116,18 @@ class ApiResources {
   }
 
   // Get results from covid19-us-api for all US counties
-  Future<List> getAllUSCountiesResults() async {
-    final List resultsList = List();
+  Future<List<USCountyStats>> getUSCountiesResults(String stateName) async {
+    final List<USCountyStats> resultsList = List();
+    List<USCountyStats> filteredResultsList = List();
 
     try {
       final Response response = await dio.get(_usCountiesURL);
       for(int i = 0; i <response.data.length; i++) {
-        resultsList.add(response.data[i]);
+        resultsList.add(USCountyStats.fromJson(response.data['message'][i]));
       }
-      return resultsList;
+
+      filteredResultsList = resultsList.where((county) => county.stateName == stateName).toList();
+      return filteredResultsList;
     } catch (e) {
       print(e);
       return e;

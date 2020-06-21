@@ -5,6 +5,7 @@ import 'package:covid_19_tracker/charts/LegendColoredBox.dart';
 import 'package:covid_19_tracker/charts/StateDonutPieChart.dart';
 import 'package:covid_19_tracker/charts/StateHistoricalLineChart.dart';
 import 'package:covid_19_tracker/models/state_model.dart';
+import 'package:covid_19_tracker/utilities/api_resources.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:covid_19_tracker/utilities/utilities.dart';
@@ -12,14 +13,14 @@ import 'package:us_states/us_states.dart';
 
 class SingleStateViewState extends State<SingleStateView> {
   StateStats stateStats;
-  List countiesList;
 
   final numberFormatter = NumberFormat('#,###', 'en_US');
   var donutPieChart;
   var historicalLineChart;
 
-  SingleStateViewState(this.stateStats, List countiesList);
+  SingleStateViewState(this.stateStats);
 
+  ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -28,7 +29,6 @@ class SingleStateViewState extends State<SingleStateView> {
     }
     historicalLineChart = StateHistoricalLineChart.withHistoricalData(stateStats.state);
 
-    print(countiesList);
     super.initState();
   }
 
@@ -85,6 +85,9 @@ class SingleStateViewState extends State<SingleStateView> {
                 const Padding(padding: EdgeInsets.only(top: 20.0)),
                 const Divider(color: Colors.grey),
                 const Padding(padding: EdgeInsets.only(top: 10.0)),
+                _buildCountiesContainer(),
+                const Padding(padding: EdgeInsets.only(top: 10.0)),
+                const Divider(color: Colors.grey),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Text('state data updated ' + Utilities().convertDateTimeTimeStamp(stateStats.dateChecked),
@@ -96,6 +99,15 @@ class SingleStateViewState extends State<SingleStateView> {
           )
         )
       )
+    );
+  }
+
+  Widget _buildProgressIndicator() {
+    return const Padding(
+      padding: EdgeInsets.all(100.0),
+      child: Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 
@@ -219,16 +231,63 @@ class SingleStateViewState extends State<SingleStateView> {
       ),
     );
   }
+
+  Widget _buildCountiesContainer() {
+    return Container(
+      height: 500.0,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Center(
+            child: Text('Top Counties', style: TextStyle(fontSize: 25.0, color: Colors.grey[350]))
+          ),
+          FutureBuilder(
+            future: ApiResources().getUSCountiesResults(USStates.getName(stateStats.state)),
+            builder: (context, snapshot) {
+              return snapshot.data != null
+                  ? _buildCountiesResultsList(snapshot.data)
+                  : _buildProgressIndicator();
+            },
+          ),
+        ],
+      )
+    );
+  }
+
+  Widget _buildCountiesResultsList(List usCountiesList) {
+    return Expanded(
+      child: ListView.separated(
+        itemCount: usCountiesList == null ? 0 : usCountiesList.length,
+        itemBuilder: (BuildContext context, int idx) {
+          if (usCountiesList.isEmpty) {
+            Text('No data found for counties',
+                style: TextStyle(color: Colors.grey));
+            return null;
+          } else {
+            print(usCountiesList);
+            return ListTile(
+                title: Text(usCountiesList[idx]['countyName'],
+                    style: const TextStyle(fontSize: 25.0)),
+                subtitle: Text(numberFormatter.format(usCountiesList[idx]['cases']).toString() + ' cases',
+                ));
+          }
+        },
+        separatorBuilder: (context, idx) {
+          return Divider();
+        },
+        controller: _scrollController,
+      ),
+    );
+  }
 }
 
 class SingleStateView extends StatefulWidget {
   // Declare stateName that holds state name
   final StateStats stateStats;
-  final List countiesList;
 
   // Require stateName in constructor
-  SingleStateView({Key key, @required this.stateStats, @required this.countiesList}) : super(key : key);
+  SingleStateView({Key key, @required this.stateStats}) : super(key : key);
 
   @override
-  SingleStateViewState createState() => SingleStateViewState(stateStats, countiesList);
+  SingleStateViewState createState() => SingleStateViewState(stateStats);
 }

@@ -1,7 +1,6 @@
 // United States Screen
 
 import 'package:covid_19_tracker/models/state_model.dart';
-import 'package:covid_19_tracker/models/us_county_model.dart';
 import 'package:covid_19_tracker/views/SingleStateView.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,6 @@ import 'package:us_states/us_states.dart';
 
 class USViewState extends State<USView> {
   final String _statesURL = "https://covidtracking.com/api/states";
-  final String _usCountiesURL = "https://covid19-us-api.herokuapp.com/county";
   var dio = Dio();
 
   ScrollController _scrollController = ScrollController();
@@ -20,7 +18,6 @@ class USViewState extends State<USView> {
 
   List statesList = List();
   List searchStatesList = List();
-  List usCountiesList = List();
 
   final numberFormatter = new NumberFormat("#,###", "en_US");
 
@@ -29,7 +26,7 @@ class USViewState extends State<USView> {
   @override
   void initState() {
     super.initState();
-    _future = getUSStateAndCountyResults();
+    _future = getUSStatesResults();
   }
 
   @override
@@ -45,7 +42,7 @@ class USViewState extends State<USView> {
         future: _future,
         builder: (context, snapshot) {
           return snapshot.data != null
-            ? _buildListAndSearchContainer(snapshot.data, usCountiesList)
+            ? _buildListAndSearchContainer(snapshot.data)
             : _buildProgressIndicator();
           },
       ),
@@ -68,7 +65,7 @@ class USViewState extends State<USView> {
     );
   }
 
-  Widget _buildListAndSearchContainer(List statesList, List usCountiesList) {
+  Widget _buildListAndSearchContainer(List statesList) {
     return Container(
       child: Column(
         children: <Widget>[
@@ -86,14 +83,14 @@ class USViewState extends State<USView> {
             ),
           ),
           Expanded(
-            child: _buildStatesResultsList(searchStatesList, usCountiesList),
+            child: _buildStatesResultsList(searchStatesList),
           )
         ],
       ),
     );
   }
 
-  Widget _buildStatesResultsList(List statesList, List usCountiesList) {
+  Widget _buildStatesResultsList(List statesList) {
     return ListView.separated(
       itemCount: statesList == null ? 0 : statesList.length,
       itemBuilder: (BuildContext context, int idx) {
@@ -107,7 +104,7 @@ class USViewState extends State<USView> {
             onTap: () {
               Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SingleStateView(stateStats: statesList[idx], countiesList: usCountiesList))
+                  MaterialPageRoute(builder: (context) => SingleStateView(stateStats: statesList[idx]))
               );
             },
           );
@@ -147,9 +144,8 @@ class USViewState extends State<USView> {
     }
   }
 
-  Future<List<StateStats>> getUSStateAndCountyResults() async {
+  Future<List<StateStats>> getUSStatesResults() async {
     final List<StateStats> statesResultsList = List();
-    final List<USCountyStats> countiesResultsList = List();
 
     try {
       // Get results from disease.sh API for all US states
@@ -158,20 +154,12 @@ class USViewState extends State<USView> {
         statesResultsList.add(StateStats.fromJson(stateResponse.data[i]));
       }
 
-      // Get results from covid19-us-api for all US counties
-      final Response countiesResponse = await dio.get(_usCountiesURL);
-      for(int i = 0; i < countiesResponse.data.length; i++) {
-        countiesResultsList.add(USCountyStats.fromJson(countiesResponse.data['message'][i]));
-      }
-
       statesResultsList.sort((b, a) => a.positive.compareTo(b.positive));
 
       setState(() {
         statesList = statesResultsList;
         searchStatesList.addAll(statesResultsList);
-        usCountiesList = countiesResultsList;
       });
-      print(usCountiesList);
 
       return statesResultsList;
     } catch (e) {
