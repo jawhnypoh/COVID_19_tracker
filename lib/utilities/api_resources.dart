@@ -122,11 +122,11 @@ class ApiResources {
 
     try {
       final Response response = await dio.get(_usCountiesURL);
-      for(int i = 0; i <response.data.length; i++) {
+      for(int i = 0; i <response.data['message'].length; i++) {
         resultsList.add(USCountyStats.fromJson(response.data['message'][i]));
       }
-
       filteredResultsList = resultsList.where((county) => county.stateName == stateName).toList();
+
       return filteredResultsList;
     } catch (e) {
       print(e);

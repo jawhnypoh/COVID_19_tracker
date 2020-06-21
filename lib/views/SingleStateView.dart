@@ -84,7 +84,7 @@ class SingleStateViewState extends State<SingleStateView> {
                 _buildLineChartLegend(),
                 const Padding(padding: EdgeInsets.only(top: 20.0)),
                 const Divider(color: Colors.grey),
-                const Padding(padding: EdgeInsets.only(top: 10.0)),
+                const Padding(padding: EdgeInsets.only(top: 20.0)),
                 _buildCountiesContainer(),
                 const Padding(padding: EdgeInsets.only(top: 10.0)),
                 const Divider(color: Colors.grey),
@@ -234,13 +234,14 @@ class SingleStateViewState extends State<SingleStateView> {
 
   Widget _buildCountiesContainer() {
     return Container(
-      height: 500.0,
+      height: 300.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Center(
-            child: Text('Top Counties', style: TextStyle(fontSize: 25.0, color: Colors.grey[350]))
-          ),
+//          Center(
+//            child: Text('Top Counties', style: TextStyle(fontSize: 25.0, color: Colors.grey[350]))
+//          ),
+          const Padding(padding: EdgeInsets.only(top: 10.0)),
           FutureBuilder(
             future: ApiResources().getUSCountiesResults(USStates.getName(stateStats.state)),
             builder: (context, snapshot) {
@@ -257,19 +258,21 @@ class SingleStateViewState extends State<SingleStateView> {
   Widget _buildCountiesResultsList(List usCountiesList) {
     return Expanded(
       child: ListView.separated(
-        itemCount: usCountiesList == null ? 0 : usCountiesList.length,
+        itemCount: usCountiesList == null ? 0 : 3,
         itemBuilder: (BuildContext context, int idx) {
           if (usCountiesList.isEmpty) {
             Text('No data found for counties',
                 style: TextStyle(color: Colors.grey));
             return null;
           } else {
-            print(usCountiesList);
+            print(usCountiesList.length);
+            print(usCountiesList[idx].countyName);
+
             return ListTile(
-                title: Text(usCountiesList[idx]['countyName'],
+                title: Text(usCountiesList[idx].countyName + ' County',
                     style: const TextStyle(fontSize: 25.0)),
-                subtitle: Text(numberFormatter.format(usCountiesList[idx]['cases']).toString() + ' cases',
-                ));
+                subtitle: Text(numberFormatter.format(usCountiesList[idx].cases).toString() + ' cases',
+                    style: const TextStyle(fontSize: 20.0, color: Colors.orangeAccent)));
           }
         },
         separatorBuilder: (context, idx) {
