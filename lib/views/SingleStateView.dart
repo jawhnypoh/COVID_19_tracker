@@ -1,6 +1,7 @@
 // Single State Screen
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:covid_19_tracker/views/SingleCountyView.dart';
 import 'package:covid_19_tracker/charts/LegendColoredBox.dart';
 import 'package:covid_19_tracker/charts/StateDonutPieChart.dart';
 import 'package:covid_19_tracker/charts/StateHistoricalLineChart.dart';
@@ -234,7 +235,7 @@ class SingleStateViewState extends State<SingleStateView> {
 
   Widget _buildCountiesContainer() {
     return Container(
-      height: 300.0,
+      height: 310.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
@@ -250,6 +251,15 @@ class SingleStateViewState extends State<SingleStateView> {
                   : _buildProgressIndicator();
             },
           ),
+//          FlatButton(
+//            color: Colors.blueAccent,
+//            padding: EdgeInsets.all(8.0),
+//            onPressed: () {},
+//            child: Text(
+//              'See All Counties',
+//              style: TextStyle(fontSize: 15.0),
+//            ),
+//          )
         ],
       )
     );
@@ -265,14 +275,18 @@ class SingleStateViewState extends State<SingleStateView> {
                 style: TextStyle(color: Colors.grey));
             return null;
           } else {
-            print(usCountiesList.length);
-            print(usCountiesList[idx].countyName);
-
             return ListTile(
                 title: Text(usCountiesList[idx].countyName + ' County',
                     style: const TextStyle(fontSize: 25.0)),
                 subtitle: Text(numberFormatter.format(usCountiesList[idx].cases).toString() + ' cases',
-                    style: const TextStyle(fontSize: 20.0, color: Colors.orangeAccent)));
+                    style: const TextStyle(fontSize: 20.0, color: Colors.orangeAccent)),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SingleCountyView(countyStats: usCountiesList[idx]))
+                  );
+              },
+            );
           }
         },
         separatorBuilder: (context, idx) {
@@ -285,10 +299,10 @@ class SingleStateViewState extends State<SingleStateView> {
 }
 
 class SingleStateView extends StatefulWidget {
-  // Declare stateName that holds state name
+  // Declare stateStats that holds state info
   final StateStats stateStats;
 
-  // Require stateName in constructor
+  // Require statStats in constructor
   SingleStateView({Key key, @required this.stateStats}) : super(key : key);
 
   @override
