@@ -79,7 +79,7 @@ class SingleCountyViewState extends State<SingleCountyView> {
             child: Column(
                 children: <Widget>[
                   Text('Deaths Today', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-                  Text('+' + numberFormatter.format(countyStats.newDeaths).toString(), style: TextStyle(fontSize: 45.0, color: Colors.redAccent)),
+                  Text('+' + numberFormatter.format(countyStats.newDeaths).toString(), style: TextStyle(fontSize: 40.0, color: Colors.redAccent)),
                 ]
             )
         )
@@ -92,7 +92,7 @@ class SingleCountyViewState extends State<SingleCountyView> {
             child: Column(
                 children: <Widget>[
                   Text('Total Deaths', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-                  Text(numberFormatter.format(countyStats.deaths).toString(), style: TextStyle(fontSize: 45.0, color: Colors.redAccent)),
+                  Text(numberFormatter.format(countyStats.deaths).toString(), style: TextStyle(fontSize: 40.0, color: Colors.redAccent)),
                 ]
             )
         )
@@ -105,7 +105,7 @@ class SingleCountyViewState extends State<SingleCountyView> {
             child: Column(
                 children: <Widget>[
                   Text('Death Rate', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-                  Text(countyStats.fatalityRate, style: TextStyle(fontSize: 45.0, color: Colors.deepPurpleAccent)),
+                  Text(countyStats.fatalityRate, style: TextStyle(fontSize: 40.0, color: Colors.deepPurpleAccent)),
                 ]
             )
         )

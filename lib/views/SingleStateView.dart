@@ -2,6 +2,7 @@
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:covid_19_tracker/views/SingleCountyView.dart';
+import 'package:covid_19_tracker/views/CountiesListView.dart';
 import 'package:covid_19_tracker/charts/LegendColoredBox.dart';
 import 'package:covid_19_tracker/charts/StateDonutPieChart.dart';
 import 'package:covid_19_tracker/charts/StateHistoricalLineChart.dart';
@@ -88,13 +89,13 @@ class SingleStateViewState extends State<SingleStateView> {
                 const Padding(padding: EdgeInsets.only(top: 20.0)),
                 _buildCountiesContainer(),
                 const Padding(padding: EdgeInsets.only(top: 10.0)),
-                const Divider(color: Colors.grey),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Text('state data updated ' + Utilities().convertDateTimeTimeStamp(stateStats.dateChecked),
-                      style: const TextStyle(color: Colors.grey)),
-                ),
-                const Padding(padding: EdgeInsets.only(top: 20.0)),
+//                const Divider(color: Colors.grey),
+//                Align(
+//                  alignment: Alignment.bottomCenter,
+//                  child: Text('state data updated ' + Utilities().convertDateTimeTimeStamp(stateStats.dateChecked),
+//                      style: const TextStyle(color: Colors.grey)),
+//                ),
+//                const Padding(padding: EdgeInsets.only(top: 20.0)),
               ],
             ),
           )
@@ -247,35 +248,45 @@ class SingleStateViewState extends State<SingleStateView> {
             future: ApiResources().getUSCountiesResults(USStates.getName(stateStats.state)),
             builder: (context, snapshot) {
               return snapshot.data != null
-                  ? _buildCountiesResultsList(snapshot.data)
+                  ? _buildCountiesResultsList(snapshot.data, USStates.getName(stateStats.state))
                   : _buildProgressIndicator();
             },
           ),
-//          FlatButton(
-//            color: Colors.blueAccent,
-//            padding: EdgeInsets.all(8.0),
-//            onPressed: () {},
-//            child: Text(
-//              'See All Counties',
-//              style: TextStyle(fontSize: 15.0),
-//            ),
-//          )
         ],
       )
     );
   }
 
-  Widget _buildCountiesResultsList(List usCountiesList) {
+  Widget _buildCountiesResultsList(List usCountiesList, String stateName) {
     return Expanded(
       child: ListView.separated(
-        itemCount: usCountiesList == null ? 0 : 3,
+        itemCount: usCountiesList == null ? 0 : 4,
         itemBuilder: (BuildContext context, int idx) {
           if (usCountiesList.isEmpty) {
             Text('No data found for counties',
                 style: TextStyle(color: Colors.grey));
             return null;
           } else {
-            return ListTile(
+            print(stateName);
+            return (idx == 3)
+              ? Container(
+                child: FlatButton(
+                  padding: EdgeInsets.all(8.0),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CountiesListView(
+                            countiesList: usCountiesList,
+                            stateName: stateName))
+                    );
+                  },
+                  child: Text(
+                    'See all counties',
+                    style: TextStyle(fontSize: 15.0),
+                  ),
+                )
+              )
+              : ListTile(
                 title: Text(usCountiesList[idx].countyName + ' County',
                     style: const TextStyle(fontSize: 25.0)),
                 subtitle: Text(numberFormatter.format(usCountiesList[idx].cases).toString() + ' cases',
