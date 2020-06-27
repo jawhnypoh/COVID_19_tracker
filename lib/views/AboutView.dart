@@ -37,7 +37,7 @@ class AboutView extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text('Version 1.1.0', style: TextStyle(color: Colors.grey)),
+                      Text('Version 2.0.0', style: TextStyle(color: Colors.grey)),
                       Text('Developed by Johnny Po', style: TextStyle(color: Colors.grey)),
                     ],
                   ),
@@ -67,6 +67,10 @@ class AboutView extends StatelessWidget {
               style: TextStyle(color: Colors.grey[350], fontSize: 20.0),
               textAlign: TextAlign.left),
           const Padding(padding: EdgeInsets.only(top: 10.0)),
+          Text('• New York Times COVID-19 Data',
+              style: TextStyle(color: Colors.grey[350], fontSize: 20.0),
+              textAlign: TextAlign.left),
+          const Padding(padding: EdgeInsets.only(top: 10.0)),
           Text('• World Meters Coronavirus Update',
               style: TextStyle(color: Colors.grey[350], fontSize: 20.0),
               textAlign: TextAlign.right),
@@ -84,6 +88,10 @@ class AboutView extends StatelessWidget {
               textAlign: TextAlign.left),
           const Padding(padding: EdgeInsets.only(top: 10.0)),
           Text('• covidtracking.com API',
+              style: TextStyle(color: Colors.grey[350], fontSize: 20.0),
+              textAlign: TextAlign.left),
+          const Padding(padding: EdgeInsets.only(top: 10.0)),
+          Text('• covid19-us API',
               style: TextStyle(color: Colors.grey[350], fontSize: 20.0),
               textAlign: TextAlign.left)
         ],
