@@ -11,14 +11,14 @@ A cross platform application that efficiently integrates data from a variety of 
 
 
 ## Meta
--  **State:** Release v1.1.0
+-  **State:** Release v2.0.0
 - **Point People:** [@jawhnypoh](https://github.com/jawhnypoh)
 
 ## Features
 - **Cross Platform:** This application was designed from the ground up to run on both iOS and Android devices
 - **Updated Data:** The most updated data provided by various data sources
-- **Statistics:** Statistics for global, country specific, or US state specific cases 
-- **Color Coded:** Color coded statistics for Tested, Confirmed, Active, Deaths, Critical, and Recovered cases 
+- **Statistics:** Statistics for global, country specific, or US state and county specific cases 
+- **Color Coded:** Color coded statistics for Tested, Confirmed, Active, Deaths, Critical, Recovered, and many more!
 - **Charts:** Pie Chart showing percentages, Line Chart showing historical data, Bar Chart showing the most affected countries
 - **News:** Get the latest on COVID related news, tapping on a news article leads to a webview of that article via the URL
 
@@ -33,6 +33,7 @@ A cross platform application that efficiently integrates data from a variety of 
 * disease.sh API ([disease.sh](https://disease.sh/))
 * r/Coronavirus Subreddit ([r/Coronavirus](https://www.reddit.com/r/Coronavirus/))
 * covidtracking.com API ([covidtracking.com](https://covidtracking.com/data))
+* ncov19.us API ([ncov19.us](https://covid19-us-api.herokuapp.com))
 
 ### Libraries
 * [font_awesome_flutter](https://pub.dev/packages/font_awesome_flutter) for icons 
