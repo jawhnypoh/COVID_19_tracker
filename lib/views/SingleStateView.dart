@@ -338,7 +338,7 @@ class SingleStateViewState extends State<SingleStateView> {
 
   Widget _buildCountiesContainer() {
     return Container(
-      height: 310.0,
+      height: 330.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
@@ -362,43 +362,55 @@ class SingleStateViewState extends State<SingleStateView> {
   Widget _buildCountiesResultsList(List usCountiesList, String stateName) {
     return Expanded(
       child: ListView.separated(
-        itemCount: usCountiesList == null ? 0 : 4,
+        itemCount: usCountiesList == null ? 0 : usCountiesList.length,
         itemBuilder: (BuildContext context, int idx) {
           if (usCountiesList.isEmpty) {
             Text('No data found for counties',
                 style: TextStyle(color: Colors.grey));
             return null;
           } else {
-            return (idx == 3)
-              ? Container(
-                child: FlatButton(
-                  padding: EdgeInsets.all(8.0),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => CountiesListView(
-                            countiesList: usCountiesList,
-                            stateName: stateName))
-                    );
-                  },
-                  child: Text(
-                    'See all counties',
-                    style: TextStyle(fontSize: 15.0),
-                  ),
-                )
-              )
-              : ListTile(
-                title: Text(usCountiesList[idx].countyName + ' County',
-                    style: const TextStyle(fontSize: 25.0)),
-                subtitle: Text(numberFormatter.format(usCountiesList[idx].cases).toString() + ' cases',
-                    style: const TextStyle(fontSize: 20.0, color: Colors.orangeAccent)),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SingleCountyView(countyStats: usCountiesList[idx]))
-                  );
+            return ListTile(
+              title: Text(usCountiesList[idx].countyName + ' County',
+                  style: const TextStyle(fontSize: 25.0)),
+              subtitle: Text(numberFormatter.format(usCountiesList[idx].cases).toString() + ' cases',
+                  style: const TextStyle(fontSize: 20.0, color: Colors.orangeAccent)),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SingleCountyView(countyStats: usCountiesList[idx]))
+                );
               },
             );
+//            (idx == 3)
+//              ? Container(
+//                child: FlatButton(
+//                  padding: EdgeInsets.all(8.0),
+//                  onPressed: () {
+//                    Navigator.push(
+//                        context,
+//                        MaterialPageRoute(builder: (context) => CountiesListView(
+//                            countiesList: usCountiesList,
+//                            stateName: stateName))
+//                    );
+//                  },
+//                  child: Text(
+//                    'See all counties',
+//                    style: TextStyle(fontSize: 15.0),
+//                  ),
+//                )
+//              )
+//              : ListTile(
+//                title: Text(usCountiesList[idx].countyName + ' County',
+//                    style: const TextStyle(fontSize: 25.0)),
+//                subtitle: Text(numberFormatter.format(usCountiesList[idx].cases).toString() + ' cases',
+//                    style: const TextStyle(fontSize: 20.0, color: Colors.orangeAccent)),
+//                onTap: () {
+//                  Navigator.push(
+//                      context,
+//                      MaterialPageRoute(builder: (context) => SingleCountyView(countyStats: usCountiesList[idx]))
+//                  );
+//              },
+//            );
           }
         },
         separatorBuilder: (context, idx) {
