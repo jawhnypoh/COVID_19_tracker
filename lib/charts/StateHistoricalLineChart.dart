@@ -54,7 +54,7 @@ class StateHistoricalLineChart extends StatelessWidget {
                         color: charts.ColorUtil.fromDartColor(Colors.grey[600])
                     ),
                   ),
-                  tickProviderSpec: const charts.DayTickProviderSpec(increments: [15]),
+                  tickProviderSpec: const charts.DayTickProviderSpec(increments: [18]),
                   tickFormatterSpec: const charts.AutoDateTimeTickFormatterSpec(
                     day: charts.TimeFormatterSpec(
                       format: 'MMM dd', transitionFormat: 'MMM dd',
