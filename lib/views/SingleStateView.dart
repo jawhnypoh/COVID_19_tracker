@@ -170,7 +170,8 @@ class SingleStateViewState extends State<SingleStateView> {
         child: Column(
             children: <Widget>[
               Text('Confirmed', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-              Text(numberFormatter.format(stateStat.positive).toString(), style: TextStyle(fontSize: 40.0, color: Colors.orangeAccent)),
+              AutoSizeText(numberFormatter.format(stateStat.positive).toString(),
+                  style: TextStyle(fontSize: 40.0, color: Colors.orangeAccent), maxLines: 1),
               Text('+' + numberFormatter.format(stateStat.positiveIncrease).toString() + ' Today',
                   style: TextStyle(fontSize: 20.0, color: Colors.orangeAccent))
             ]
