@@ -58,6 +58,16 @@ class SingleCountryViewState extends State<SingleCountryView> {
                           _buildTotalRecovered(snapshot),
                         ],
                       ),
+                      const Padding(padding: EdgeInsets.only(top: 10.0)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          _buildDeathsToday(snapshot),
+                          _buildDeathRate(snapshot),
+                          _buildRecoveryRate(snapshot)
+                        ],
+                      ),
+                      const Divider(color: Colors.grey),
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -220,6 +230,72 @@ class SingleCountryViewState extends State<SingleCountryView> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildDeathsToday(snapshot) {
+    return Container(
+        child: ConstrainedBox(
+        constraints: const BoxConstraints(
+        minWidth: 110.0,
+        maxWidth: 110.0,
+        minHeight: 80.0,
+        maxHeight: 80.0
+      ),
+      child: Column(
+        children: <Widget>[
+            Text('Deaths Today', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
+            AutoSizeText(snapshot.data.data.today.deaths == null
+                ? 'N/A'
+                : "+" + numberFormatter.format(snapshot.data.data.today.deaths).toString(),
+            style: TextStyle(fontSize: 35.0, color: Colors.redAccent), maxLines: 1),
+          ],
+        ),
+      )
+    );
+  }
+
+  Widget _buildDeathRate(snapshot) {
+    return Container(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+              minWidth: 110.0,
+              maxWidth: 110.0,
+              minHeight: 80.0,
+              maxHeight: 80.0
+          ),
+          child: Column(
+            children: <Widget>[
+              Text('Death Rate', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
+              AutoSizeText(snapshot.data.data.latestData.calculated.deathRate == null
+                  ? 'N/A'
+                  : numberFormatter.format(snapshot.data.data.latestData.calculated.deathRate).toString() + "%",
+                  style: TextStyle(fontSize: 35.0, color: Colors.red[800]), maxLines: 1),
+            ],
+          ),
+        )
+    );
+  }
+
+  Widget _buildRecoveryRate(snapshot) {
+    return Container(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+              minWidth: 110.0,
+              maxWidth: 110.0,
+              minHeight: 80.0,
+              maxHeight: 80.0
+          ),
+          child: Column(
+            children: <Widget>[
+              Text('Recovery Rate', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
+              AutoSizeText(snapshot.data.data.latestData.calculated.recoveryRate == null
+                  ? 'N/A'
+                  : numberFormatter.format(snapshot.data.data.latestData.calculated.recoveryRate).toString() + "%",
+                  style: TextStyle(fontSize: 35.0, color: Colors.green), maxLines: 1),
+            ],
+          ),
+        )
     );
   }
 

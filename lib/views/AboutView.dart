@@ -37,7 +37,7 @@ class AboutView extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text('Version 2.0.0', style: TextStyle(color: Colors.grey)),
+                      Text('Version 2.1.0', style: TextStyle(color: Colors.grey)),
                       Text('Developed by Johnny Po', style: TextStyle(color: Colors.grey)),
                     ],
                   ),

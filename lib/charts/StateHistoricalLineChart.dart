@@ -30,7 +30,7 @@ class StateHistoricalLineChart extends StatelessWidget {
               dataList(snapshot.data),
               animate: animate,
               primaryMeasureAxis: charts.NumericAxisSpec(
-                tickProviderSpec: charts.BasicNumericTickProviderSpec(desiredTickCount: 6),
+                tickProviderSpec: charts.BasicNumericTickProviderSpec(desiredTickCount: 8),
                 tickFormatterSpec: charts.BasicNumericTickFormatterSpec(
                     Utilities().convertNumberToReadable
                 ),
@@ -54,10 +54,10 @@ class StateHistoricalLineChart extends StatelessWidget {
                         color: charts.ColorUtil.fromDartColor(Colors.grey[600])
                     ),
                   ),
-                  tickProviderSpec: const charts.DayTickProviderSpec(increments: [18]),
+                  tickProviderSpec: const charts.DayTickProviderSpec(increments: [30]),
                   tickFormatterSpec: const charts.AutoDateTimeTickFormatterSpec(
                     day: charts.TimeFormatterSpec(
-                      format: 'MMM dd', transitionFormat: 'MMM dd',
+                      format: 'MMM', transitionFormat: 'MMM dd'
                     ),
                   )
               ),

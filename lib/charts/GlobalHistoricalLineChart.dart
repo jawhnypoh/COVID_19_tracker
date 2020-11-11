@@ -53,10 +53,10 @@ class GlobalHistoricalLineChart extends StatelessWidget {
                       color: charts.ColorUtil.fromDartColor(Colors.grey[600])
                   ),
                 ),
-                tickProviderSpec: const charts.DayTickProviderSpec(increments: [25]),
+                tickProviderSpec: const charts.DayTickProviderSpec(increments: [40]),
                 tickFormatterSpec: const charts.AutoDateTimeTickFormatterSpec(
                   day: charts.TimeFormatterSpec(
-                    format: 'MMM dd', transitionFormat: 'MMM dd',
+                    format: 'MMM', transitionFormat: 'MMM dd',
                   ),
                 )
               ),
