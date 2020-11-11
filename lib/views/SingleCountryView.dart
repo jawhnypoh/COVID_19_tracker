@@ -125,17 +125,23 @@ class SingleCountryViewState extends State<SingleCountryView> {
 
   Widget _buildTotalTestedWidget(snapshot) {
     return Container(
-        child: Center(
-            child: Column(
-                children: <Widget>[
-                  Text('Total Tested', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-                  Text(totalTested == 0
-                      ? 'N/A'
-                      : numberFormatter.format(totalTested).toString(),
-                      style: TextStyle(fontSize: 60.0, color: Colors.lightBlueAccent)),
-                ]
-            )
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            minWidth: 350.0,
+            maxWidth: 350.0,
+            minHeight: 110.0,
+            maxHeight: 110.0
+        ),
+        child: Column(
+          children: <Widget>[
+            Text('Total Tested', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
+            AutoSizeText(totalTested == 0
+                ? 'N/A'
+                : numberFormatter.format(totalTested).toString(),
+                style: TextStyle(fontSize: 60.0, color: Colors.lightBlueAccent)),
+          ]
         )
+      )
     );
   }
 
