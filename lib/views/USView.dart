@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:us_states/us_states.dart';
 
 class USViewState extends State<USView> {
-  final String _statesURL = "https://covidtracking.com/api/states";
+  final String _statesURL = "https://covidtracking.com/api/v1/states/current.json";
   var dio = Dio();
 
   ScrollController _scrollController = ScrollController();
