@@ -48,7 +48,7 @@ class SingleCountryViewState extends State<SingleCountryView> {
                     children: <Widget>[
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
                       _buildTotalTestedWidget(snapshot),
-                      const Padding(padding: EdgeInsets.only(top: 30.0)),
+                      const Padding(padding: EdgeInsets.only(top: 10.0)),
                       _buildTotalCasesWidget(snapshot),
                       const Padding(padding: EdgeInsets.only(top: 30.0)),
                       Row(
@@ -127,8 +127,8 @@ class SingleCountryViewState extends State<SingleCountryView> {
     return Container(
         child: ConstrainedBox(
           constraints: const BoxConstraints(
-            minWidth: 350.0,
-            maxWidth: 350.0,
+            minWidth: 300.0,
+            maxWidth: 300.0,
             minHeight: 110.0,
             maxHeight: 110.0
         ),
@@ -138,7 +138,7 @@ class SingleCountryViewState extends State<SingleCountryView> {
             AutoSizeText(totalTested == 0
                 ? 'N/A'
                 : numberFormatter.format(totalTested).toString(),
-                style: TextStyle(fontSize: 60.0, color: Colors.lightBlueAccent)),
+                style: TextStyle(fontSize: 60.0, color: Colors.lightBlueAccent), maxLines: 1),
           ]
         )
       )
@@ -170,8 +170,8 @@ class SingleCountryViewState extends State<SingleCountryView> {
         ),
         child: Column(
           children: <Widget>[
-            AutoSizeText('Total Deaths', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            Text(numberFormatter.format(snapshot.data.data.latestData.deaths).toString(),
+            Text('Total Deaths', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
+            AutoSizeText(numberFormatter.format(snapshot.data.data.latestData.deaths).toString(),
                 style: TextStyle(fontSize: 40.0, color: Colors.redAccent), maxLines: 1),
           ],
         ),
