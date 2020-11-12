@@ -11,7 +11,7 @@ A cross platform application that efficiently integrates data from a variety of 
 
 
 ## Meta
--  **State:** Release v2.0.0
+-  **State:** Release v2.1.0
 - **Point People:** [@jawhnypoh](https://github.com/jawhnypoh)
 
 ## Features
