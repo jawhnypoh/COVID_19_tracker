@@ -1,6 +1,9 @@
 // Single State Screen
+import 'dart:collection';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:covid_19_tracker/views/NewsURLView.dart';
+import 'package:covid_19_tracker/views/MapView.dart';
 import 'package:covid_19_tracker/views/SingleCountyView.dart';
 import 'package:covid_19_tracker/charts/LegendColoredBox.dart';
 import 'package:covid_19_tracker/charts/StateDonutPieChart.dart';
@@ -41,7 +44,6 @@ class SingleStateViewState extends State<SingleStateView> {
         title: Text(USStates.getName(stateStats.state)),
       ),
       body: Container(
-//          margin: const EdgeInsets.only(left: 10.0, right: 10.0),
           child: SingleChildScrollView(
             child: FutureBuilder<StateStats>(
               future: ApiResources().getSingleStateResults(stateStats.state),
@@ -51,7 +53,7 @@ class SingleStateViewState extends State<SingleStateView> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        _buildGetTestBanner(USStates.getName(stateStats.state)),
+                        _buildGetTestBanner(stateStats.state),
                         const Padding(padding: EdgeInsets.only(top: 20.0)),
                         _buildTotalTestedWidget(stateStats),
                         const Padding(padding: EdgeInsets.only(top: 30.0)),
@@ -147,13 +149,14 @@ class SingleStateViewState extends State<SingleStateView> {
 
   Widget _buildGetTestBanner(String stateName) {
     return MaterialBanner(
-      content: Text('COVID-19 tests are available for free at health care centers and select pharmacies nationwide. Tap to find testing centers in ' + stateName),
+      content: Text('COVID-19 tests are available for free at health care centers and select pharmacies nationwide. Tap to find testing centers located in ' + USStates.getName(stateStats.state)),
 //      leading: CircleAvatar(child: Icon(Icons.info)),
       leading: Icon(Icons.info),
       actions: [
         FlatButton(
           child: const Text('LEARN MORE'),
           onPressed: () {
+            // Go to CDC website about US COVID Testing
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => NewsURLView(newsURL: 'https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/testing.html'))
@@ -163,7 +166,11 @@ class SingleStateViewState extends State<SingleStateView> {
         FlatButton(
           child: const Text('FIND CENTERS'),
           onPressed: () {
-            // TODO: Go to Testing Centers Screen
+            // Go to Testing Centers Map View
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MapView(stateAbr: stateStats.state))
+            );
           },
         )
       ]
