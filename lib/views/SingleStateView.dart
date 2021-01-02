@@ -1,7 +1,7 @@
 // Single State Screen
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:covid_19_tracker/views/NewsURLView.dart';
 import 'package:covid_19_tracker/views/SingleCountyView.dart';
-import 'package:covid_19_tracker/views/CountiesListView.dart';
 import 'package:covid_19_tracker/charts/LegendColoredBox.dart';
 import 'package:covid_19_tracker/charts/StateDonutPieChart.dart';
 import 'package:covid_19_tracker/charts/StateHistoricalLineChart.dart';
@@ -41,7 +41,7 @@ class SingleStateViewState extends State<SingleStateView> {
         title: Text(USStates.getName(stateStats.state)),
       ),
       body: Container(
-          margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+//          margin: const EdgeInsets.only(left: 10.0, right: 10.0),
           child: SingleChildScrollView(
             child: FutureBuilder<StateStats>(
               future: ApiResources().getSingleStateResults(stateStats.state),
@@ -51,6 +51,7 @@ class SingleStateViewState extends State<SingleStateView> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
+                        _buildGetTestBanner(USStates.getName(stateStats.state)),
                         const Padding(padding: EdgeInsets.only(top: 20.0)),
                         _buildTotalTestedWidget(stateStats),
                         const Padding(padding: EdgeInsets.only(top: 30.0)),
@@ -79,7 +80,7 @@ class SingleStateViewState extends State<SingleStateView> {
                           ],
                         ),
                         const Padding(padding: EdgeInsets.only(top: 10.0)),
-                        const Divider(color: Colors.grey),
+                        const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
                         Container(
                           height: 300,
                           width: 400,
@@ -92,7 +93,7 @@ class SingleStateViewState extends State<SingleStateView> {
                         ),
                         _buildPieChartLegend(),
                         const Padding(padding: EdgeInsets.only(top: 20.0)),
-                        const Divider(color: Colors.grey),
+                        const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
                         const Padding(padding: EdgeInsets.only(top: 20.0)),
                         Container(
                           height: 200,
@@ -102,17 +103,17 @@ class SingleStateViewState extends State<SingleStateView> {
                         const Padding(padding: EdgeInsets.only(top: 20.0)),
                         _buildLineChartLegend(),
                         const Padding(padding: EdgeInsets.only(top: 20.0)),
-                        const Divider(color: Colors.grey),
+                        const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
                         const Padding(padding: EdgeInsets.only(top: 20.0)),
                         _buildCountiesContainer(),
                         const Padding(padding: EdgeInsets.only(top: 10.0)),
-//                const Divider(color: Colors.grey),
-//                Align(
-//                  alignment: Alignment.bottomCenter,
-//                  child: Text('state data updated ' + Utilities().convertDateTimeTimeStamp(stateStats.dateChecked),
-//                      style: const TextStyle(color: Colors.grey)),
-//                ),
-//                const Padding(padding: EdgeInsets.only(top: 20.0)),
+                        const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Text('state data updated ' + Utilities().convertDateTimeTimeStamp(stateStats.dateChecked),
+                      style: const TextStyle(color: Colors.grey)),
+                ),
+                const Padding(padding: EdgeInsets.only(top: 20.0)),
                       ],
                     ),
                   );
@@ -144,9 +145,34 @@ class SingleStateViewState extends State<SingleStateView> {
     );
   }
 
+  Widget _buildGetTestBanner(String stateName) {
+    return MaterialBanner(
+      content: Text('COVID-19 tests are available for free at health care centers and select pharmacies nationwide. Tap to find testing centers in ' + stateName),
+//      leading: CircleAvatar(child: Icon(Icons.info)),
+      leading: Icon(Icons.info),
+      actions: [
+        FlatButton(
+          child: const Text('LEARN MORE'),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => NewsURLView(newsURL: 'https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/testing.html'))
+            );
+          },
+        ),
+        FlatButton(
+          child: const Text('FIND CENTERS'),
+          onPressed: () {
+            // TODO: Go to Testing Centers Screen
+          },
+        )
+      ]
+    );
+  }
+
   Widget _buildTotalTestedWidget(stateStat) {
     return Container(
-        child: Center(
+    child: Center(
             child: Column(
                 children: <Widget>[
                   Text('Total Tested', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
@@ -346,7 +372,7 @@ class SingleStateViewState extends State<SingleStateView> {
 //          Center(
 //            child: Text('Top Counties', style: TextStyle(fontSize: 25.0, color: Colors.grey[350]))
 //          ),
-          const Padding(padding: EdgeInsets.only(top: 10.0)),
+          const Padding(padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0)),
           FutureBuilder(
             future: ApiResources().getUSCountiesResults(USStates.getName(stateStats.state)),
             builder: (context, snapshot) {

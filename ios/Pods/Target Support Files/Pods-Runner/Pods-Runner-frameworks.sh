@@ -197,15 +197,15 @@ if [ -r "${ARTIFACT_LIST_FILE}" ]; then
 fi
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "${PODS_ROOT}/../.symlinks/flutter/ios/Flutter.framework"
+  install_framework "${PODS_ROOT}/../Flutter/Flutter.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/flutter_webview_plugin/flutter_webview_plugin.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "${PODS_ROOT}/../.symlinks/flutter/ios/Flutter.framework"
+  install_framework "${PODS_ROOT}/../Flutter/Flutter.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/flutter_webview_plugin/flutter_webview_plugin.framework"
 fi
 if [[ "$CONFIGURATION" == "Profile" ]]; then
-  install_framework "${PODS_ROOT}/../.symlinks/flutter/ios/Flutter.framework"
+  install_framework "${PODS_ROOT}/../Flutter/Flutter.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/flutter_webview_plugin/flutter_webview_plugin.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
