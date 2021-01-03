@@ -376,9 +376,6 @@ class SingleStateViewState extends State<SingleStateView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-//          Center(
-//            child: Text('Top Counties', style: TextStyle(fontSize: 25.0, color: Colors.grey[350]))
-//          ),
           const Padding(padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0)),
           FutureBuilder(
             future: ApiResources().getUSCountiesResults(USStates.getName(stateStats.state)),

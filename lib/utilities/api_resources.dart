@@ -4,6 +4,7 @@ import 'package:covid_19_tracker/models/country_model.dart';
 import 'package:covid_19_tracker/models/global_model.dart';
 import 'package:covid_19_tracker/models/news_article_model.dart';
 import 'package:covid_19_tracker/models/state_model.dart';
+import 'package:covid_19_tracker/models/testing_center_model.dart';
 import 'package:covid_19_tracker/models/us_county_model.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert';
@@ -16,7 +17,8 @@ class ApiResources {
   final String _globalHistoricalTimelineURL = 'https://corona-api.com/timeline';
   final String _stateHistoricalTimelineURL = 'https://covidtracking.com/api/v1/states/';
   final String _newsArticlesURL = 'https://www.reddit.com/r/Coronavirus.json?limit=100';
-  final String _usCountiesURL = "https://covid19-us-api.herokuapp.com/county";
+  final String _usCountiesURL = 'https://covid19-us-api.herokuapp.com/county';
+  final String _usTestingCentersURL = 'https://sheetlabs.com/NCOR/covidtestcentersinUS?state=';
 
   var dio = Dio();
 
@@ -71,7 +73,6 @@ class ApiResources {
 
     try {
       final Response response = await dio.get(_newsArticlesURL);
-      final jsonResult = json.decode(response.toString());
 
       for (int i = 2; i < response.data['data']['children'].length; i++) {
         newsArticlesFromReddit.add(response.data['data']['children'][i]);
@@ -143,6 +144,28 @@ class ApiResources {
       filteredResultsList = resultsList.where((county) => county.stateName == stateName).toList();
 
       return filteredResultsList;
+    } catch (e) {
+      print(e);
+      return e;
+    }
+  }
+
+  // Get results from sheetlabs NCOR for all covid testing centers in the us
+  Future<List<TestingCenter>> getUSTestingCenters(String stateAbr) async {
+    final List resultsList = List();
+    List<TestingCenter> testingCentersList = List();
+
+    try {
+      final Response response = await dio.get(_usTestingCentersURL + stateAbr);
+      for(int i = 0; i <response.data.length; i++) {
+        resultsList.add(response.data[i]);
+      }
+
+      testingCentersList = resultsList.map<TestingCenter>((json) =>
+        TestingCenter.fromJson(json)).toList();
+
+      print(testingCentersList);
+      return testingCentersList;
     } catch (e) {
       print(e);
       return e;
