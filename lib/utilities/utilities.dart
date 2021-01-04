@@ -1,7 +1,9 @@
 // Utility class for conversions and stuff
-
+import 'dart:convert';
+import 'package:covid_19_tracker/models/state_location_model.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:flutter/services.dart';
 
 class Utilities {
   String convertEpochTimeStamp(int epochTimestamp) {
@@ -64,5 +66,15 @@ class Utilities {
       return confirmed - (deaths + recovered);
     }
     return null;
+  }
+
+  Future<String> loadAsset() async {
+    return jsonDecode(await rootBundle.loadString('assets/stateLocations.json'));
+  }
+
+  StateLocation getLatLngFromStateName(String stateName) {
+    var stateLocationJson = loadAsset();
+
+    print(stateLocationJson);
   }
 }

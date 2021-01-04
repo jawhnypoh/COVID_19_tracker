@@ -1,7 +1,8 @@
 // Single State Screen
 import 'dart:collection';
-
+import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:covid_19_tracker/models/state_location_model.dart';
 import 'package:covid_19_tracker/views/NewsURLView.dart';
 import 'package:covid_19_tracker/views/MapView.dart';
 import 'package:covid_19_tracker/views/SingleCountyView.dart';
@@ -11,6 +12,7 @@ import 'package:covid_19_tracker/charts/StateHistoricalLineChart.dart';
 import 'package:covid_19_tracker/models/state_model.dart';
 import 'package:covid_19_tracker/utilities/api_resources.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:covid_19_tracker/utilities/utilities.dart';
 import 'package:us_states/us_states.dart';
@@ -19,8 +21,11 @@ class SingleStateViewState extends State<SingleStateView> {
   StateStats stateStats;
 
   final numberFormatter = NumberFormat('#,###', 'en_US');
+
   var donutPieChart;
   var historicalLineChart;
+
+  StateLocation stateLatLng;
 
   SingleStateViewState(this.stateStats);
 
@@ -148,32 +153,46 @@ class SingleStateViewState extends State<SingleStateView> {
   }
 
   Widget _buildGetTestBanner(String stateName) {
-    return MaterialBanner(
-      content: Text('COVID-19 tests are available for free at health care centers and select pharmacies nationwide. Tap to find testing centers located in ' + USStates.getName(stateStats.state)),
-//      leading: CircleAvatar(child: Icon(Icons.info)),
-      leading: Icon(Icons.info),
-      actions: [
-        FlatButton(
-          child: const Text('LEARN MORE'),
-          onPressed: () {
-            // Go to CDC website about US COVID Testing
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NewsURLView(newsURL: 'https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/testing.html'))
-            );
-          },
-        ),
-        FlatButton(
-          child: const Text('FIND CENTERS'),
-          onPressed: () {
-            // Go to Testing Centers Map View
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MapView(stateAbr: stateStats.state))
-            );
-          },
-        )
-      ]
+    return Container(
+      child: FutureBuilder(
+        future: DefaultAssetBundle.of(context).loadString('assets/stateLocations.json'),
+        builder: (context, snapshot) {
+          if(!snapshot.hasData) {
+            return Container();
+          }
+          var stateLocationData = json.decode(snapshot.data);
+          List<StateLocation> stateLocationsList = stateLocationData.map<StateLocation>((json) => StateLocation.fromJson(json)).toList();
+          var stateLocation = stateLocationsList.where((state) => state.name.contains(USStates.getName(stateName))).toList();
+          LatLng stateLatLng = LatLng(stateLocation[0].lat, stateLocation[0].lon);
+          print(stateLocation);
+          return MaterialBanner(
+            content: Text('COVID-19 tests are available for free at health care centers and select pharmacies nationwide. Tap to find testing centers located in ' + USStates.getName(stateName)),
+            leading: Icon(Icons.info),
+            actions: [
+              FlatButton(
+                child: const Text('LEARN MORE'),
+                onPressed: () {
+                // Go to CDC website about US COVID Testing
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NewsURLView(newsURL: 'https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/testing.html'))
+                  );
+                },
+              ),
+              FlatButton(
+              child: const Text('FIND CENTERS'),
+                onPressed: () {
+                  // Go to Testing Centers Map View
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MapView(stateAbr: stateStats.state, stateLatLng: stateLatLng))
+                 );
+                },
+              )
+            ]
+          );
+        },
+      )
     );
   }
 

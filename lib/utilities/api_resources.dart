@@ -164,7 +164,6 @@ class ApiResources {
       testingCentersList = resultsList.map<TestingCenter>((json) =>
         TestingCenter.fromJson(json)).toList();
 
-      print(testingCentersList);
       return testingCentersList;
     } catch (e) {
       print(e);
