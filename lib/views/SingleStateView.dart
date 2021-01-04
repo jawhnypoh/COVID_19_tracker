@@ -158,13 +158,9 @@ class SingleStateViewState extends State<SingleStateView> {
         future: DefaultAssetBundle.of(context).loadString('assets/stateLocations.json'),
         builder: (context, snapshot) {
           if(!snapshot.hasData) {
-            return Container();
+            return Container(height: 135.0,);
           }
-          var stateLocationData = json.decode(snapshot.data);
-          List<StateLocation> stateLocationsList = stateLocationData.map<StateLocation>((json) => StateLocation.fromJson(json)).toList();
-          var stateLocation = stateLocationsList.where((state) => state.name.contains(USStates.getName(stateName))).toList();
-          LatLng stateLatLng = LatLng(stateLocation[0].lat, stateLocation[0].lon);
-          print(stateLocation);
+          
           return MaterialBanner(
             content: Text('COVID-19 tests are available for free at health care centers and select pharmacies nationwide. Tap to find testing centers located in ' + USStates.getName(stateName)),
             leading: Icon(Icons.info),
@@ -175,7 +171,8 @@ class SingleStateViewState extends State<SingleStateView> {
                 // Go to CDC website about US COVID Testing
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => NewsURLView(newsURL: 'https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/testing.html'))
+                  MaterialPageRoute(builder: (context) =>
+                      NewsURLView(newsURL: 'https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/testing.html'))
                   );
                 },
               ),
@@ -185,7 +182,9 @@ class SingleStateViewState extends State<SingleStateView> {
                   // Go to Testing Centers Map View
                   Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MapView(stateAbr: stateStats.state, stateLatLng: stateLatLng))
+                  MaterialPageRoute(builder: (context) =>
+                      MapView(stateAbr: stateStats.state,
+                          stateLatLng: findStateLatLng(snapshot, stateName)))
                  );
                 },
               )
@@ -431,36 +430,6 @@ class SingleStateViewState extends State<SingleStateView> {
                 );
               },
             );
-//            (idx == 3)
-//              ? Container(
-//                child: FlatButton(
-//                  padding: EdgeInsets.all(8.0),
-//                  onPressed: () {
-//                    Navigator.push(
-//                        context,
-//                        MaterialPageRoute(builder: (context) => CountiesListView(
-//                            countiesList: usCountiesList,
-//                            stateName: stateName))
-//                    );
-//                  },
-//                  child: Text(
-//                    'See all counties',
-//                    style: TextStyle(fontSize: 15.0),
-//                  ),
-//                )
-//              )
-//              : ListTile(
-//                title: Text(usCountiesList[idx].countyName + ' County',
-//                    style: const TextStyle(fontSize: 25.0)),
-//                subtitle: Text(numberFormatter.format(usCountiesList[idx].cases).toString() + ' cases',
-//                    style: const TextStyle(fontSize: 20.0, color: Colors.orangeAccent)),
-//                onTap: () {
-//                  Navigator.push(
-//                      context,
-//                      MaterialPageRoute(builder: (context) => SingleCountyView(countyStats: usCountiesList[idx]))
-//                  );
-//              },
-//            );
           }
         },
         separatorBuilder: (context, idx) {
@@ -469,6 +438,13 @@ class SingleStateViewState extends State<SingleStateView> {
         controller: _scrollController,
       ),
     );
+  }
+
+  LatLng findStateLatLng(AsyncSnapshot<String> snapshot, String stateName) {
+    var stateLocationData = json.decode(snapshot.data);
+    List<StateLocation> stateLocationsList = stateLocationData.map<StateLocation>((json) => StateLocation.fromJson(json)).toList();
+    var stateLocation = stateLocationsList.where((state) => state.name.contains(USStates.getName(stateName))).toList();
+    return LatLng(stateLocation[0].lat, stateLocation[0].lon);
   }
 }
 

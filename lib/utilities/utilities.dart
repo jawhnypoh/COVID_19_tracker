@@ -67,14 +67,4 @@ class Utilities {
     }
     return null;
   }
-
-  Future<String> loadAsset() async {
-    return jsonDecode(await rootBundle.loadString('assets/stateLocations.json'));
-  }
-
-  StateLocation getLatLngFromStateName(String stateName) {
-    var stateLocationJson = loadAsset();
-
-    print(stateLocationJson);
-  }
 }

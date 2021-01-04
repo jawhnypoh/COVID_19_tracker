@@ -37,7 +37,7 @@ class AboutView extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text('Version 2.1.0', style: TextStyle(color: Colors.grey)),
+                      Text('Version 3.0.0', style: TextStyle(color: Colors.grey)),
                       Text('Developed by Johnny Po', style: TextStyle(color: Colors.grey)),
                     ],
                   ),
@@ -57,8 +57,8 @@ class AboutView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           // Insert icon here later
-          Text('The COVID-19 Dashboard efficiently integrates data from a variety of API sources '
-              'and generates colorful statistics for the 2019 Novel Coronavirus. '
+          Text('The COVID-19 Dashboard application visualizes data from a variety of API sources, '
+              'provides the latest news, and supplies additional information related to the 2019 Novel Coronavirus Pandemic. '
               'Data is pulled from following sources: ',
               style: TextStyle(color: Colors.grey[350], fontSize: 20.0),
               textAlign: TextAlign.left),
@@ -93,6 +93,10 @@ class AboutView extends StatelessWidget {
           const Padding(padding: EdgeInsets.only(top: 10.0)),
           Text('• covid19-us API',
               style: TextStyle(color: Colors.grey[350], fontSize: 20.0),
+              textAlign: TextAlign.left),
+          const Padding(padding: EdgeInsets.only(top: 10.0)),
+          Text('• sheetlabs NCOR API',
+              style: TextStyle(color: Colors.grey[350], fontSize: 20.0),
               textAlign: TextAlign.left)
         ],
       ),
@@ -109,8 +113,8 @@ class AboutView extends StatelessWidget {
               textAlign: TextAlign.left,
             ),
             const Padding(padding: EdgeInsets.only(top: 10.0)),
-            Text('COVID-19 is caused by the SARS-CoV-2 coronavirus. '
-                'Older adults and those with underlying '
+            Text('COVID-19 is the disease caused by the SARS-CoV-2 coronavirus. '
+                'Older adults and individuals with underlying '
                 'medical conditions appear to be most at risk. ', style: TextStyle(color: Colors.grey[350], fontSize: 20.0)),
             const Padding(padding: EdgeInsets.only(top: 30.0)),
             Text('What are the symptoms?',
@@ -118,8 +122,8 @@ class AboutView extends StatelessWidget {
               textAlign: TextAlign.left,
             ),
             const Padding(padding: EdgeInsets.only(top: 10.0)),
-            Text('Symptoms may appear between a 2-14 day period after exposure. '
-                'The most common symtoms are dry coughs or shortness of breath. '
+            Text('Symptoms may appear between a 2 - 14 day period after exposure. '
+                'The most common symptoms are dry coughs or shortness of breath. '
                 'If you are experiencing extreme symptoms, please seek medical '
                 'attention immediately.', style: TextStyle(color: Colors.grey[350], fontSize: 20.0)),
           ],

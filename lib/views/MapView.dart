@@ -17,15 +17,11 @@ class MapViewState extends State<MapView> {
 
   LatLng stateLatLng;
 
-  // Defaults location to Portland, OR if _firstCenterLocation is null
+  // Default location to Portland, OR if stateLatLng is null for some reason
   final LatLng _defaultLocation = const LatLng(45.521563, -122.677433);
-  LatLng _firstCenterLocation;
 
   Future<void> _onMapCreated(GoogleMapController controller) async {
     final List<TestingCenter> testingLocations = await ApiResources().getUSTestingCenters(stateAbr);
-
-    _firstCenterLocation = LatLng(double.parse(testingLocations[0].lat), testingLocations[0].lon);
-    print('_firstCenterLocation: ' + _firstCenterLocation.toString());
 
     setState(() {
       _markers.clear();
@@ -36,7 +32,9 @@ class MapViewState extends State<MapView> {
           infoWindow: InfoWindow(
             title: testingCenter.centerName,
             snippet: testingCenter.address,
-            onTap: () {}
+            onTap: () {
+              // TODO: What to do if user taps on the infoWindow?
+            }
           )
         );
         _markers[testingCenter.centerName] = marker;
@@ -48,7 +46,6 @@ class MapViewState extends State<MapView> {
 
   @override
   Widget build(BuildContext context) {
-    print('_firstCenterLocation: ' + _firstCenterLocation.toString());
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
