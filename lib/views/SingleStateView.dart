@@ -158,11 +158,11 @@ class SingleStateViewState extends State<SingleStateView> {
         future: DefaultAssetBundle.of(context).loadString('assets/stateLocations.json'),
         builder: (context, snapshot) {
           if(!snapshot.hasData) {
-            return Container(height: 135.0,);
+            return Container(height: 150.0,);
           }
           
           return MaterialBanner(
-            content: Text('COVID-19 tests are available for free at health care centers and select pharmacies nationwide. Tap to find testing centers located in ' + USStates.getName(stateName)),
+            content: Text("COVID-19 tests are available for free at health care centers and select pharmacies nationwide. Visit the state health department\'\s website for the latest information on testing. "),
             leading: Icon(Icons.info),
             actions: [
               FlatButton(
@@ -177,7 +177,7 @@ class SingleStateViewState extends State<SingleStateView> {
                 },
               ),
               FlatButton(
-              child: const Text('FIND CENTERS'),
+              child: Text('FIND CENTERS'),
                 onPressed: () {
                   // Go to Testing Centers Map View
                   Navigator.push(

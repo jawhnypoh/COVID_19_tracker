@@ -34,7 +34,6 @@ class SingleCountryViewState extends State<SingleCountryView> {
         title: Text(Utilities().convertToFullName(countryName)),
       ),
       body: Container(
-          margin: const EdgeInsets.only(left: 10.0, right: 10.0),
           child: SingleChildScrollView(
           child: FutureBuilder<CountryStats>(
             future: ApiResources().getSingleCountryResults(countryCode),
@@ -67,7 +66,7 @@ class SingleCountryViewState extends State<SingleCountryView> {
                           _buildRecoveryRate(snapshot)
                         ],
                       ),
-                      const Divider(color: Colors.grey),
+                      const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -77,7 +76,7 @@ class SingleCountryViewState extends State<SingleCountryView> {
                         ],
                       ),
                       const Padding(padding: EdgeInsets.only(top: 10.0)),
-                      const Divider(color: Colors.grey),
+                      const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
                       Container(
                         height: 300,
                         width: 400,
@@ -85,7 +84,7 @@ class SingleCountryViewState extends State<SingleCountryView> {
                       ),
                       _buildPieChartLegend(),
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
-                      const Divider(color: Colors.grey),
+                      const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
                       Container(
                         height: 200,
@@ -95,7 +94,7 @@ class SingleCountryViewState extends State<SingleCountryView> {
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
                       _buildLineChartLegend(),
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
-                      const Divider(color: Colors.grey),
+                      const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
                       const Padding(padding: EdgeInsets.only(top: 10.0)),
                       Align(
                         alignment: Alignment.bottomCenter,
@@ -191,7 +190,9 @@ class SingleCountryViewState extends State<SingleCountryView> {
         child: Column(
           children: <Widget>[
             Text('Total Recovered', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            AutoSizeText(numberFormatter.format(snapshot.data.data.latestData.recovered).toString(),
+            AutoSizeText(snapshot.data.data.latestData.recovered == null
+                ? 'N/A'
+                : numberFormatter.format(snapshot.data.data.latestData.recovered).toString(),
                 style: TextStyle(fontSize: 40.0, color: Colors.green), maxLines: 1),
           ],
         ),

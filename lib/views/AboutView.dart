@@ -58,7 +58,7 @@ class AboutView extends StatelessWidget {
         children: <Widget>[
           // Insert icon here later
           Text('The COVID-19 Dashboard application visualizes data from a variety of API sources, '
-              'provides the latest news, and supplies critical information related to the 2019 Novel Coronavirus Pandemic. '
+              'provides the latest news, and supplies acute information related to the 2019 Novel Coronavirus Pandemic. '
               'Data is pulled from following sources: ',
               style: TextStyle(color: Colors.grey[350], fontSize: 20.0),
               textAlign: TextAlign.left),

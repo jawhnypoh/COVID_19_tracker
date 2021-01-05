@@ -32,7 +32,6 @@ class GlobalViewState extends State<GlobalView> {
         title: Text('Worldwide'),
       ),
       body: Container(
-        margin: const EdgeInsets.only(left: 10.0, right: 10.0),
         child: SingleChildScrollView(
           child: FutureBuilder<GlobalStats>(
             future: ApiResources().getGlobalResult(),
@@ -64,7 +63,7 @@ class GlobalViewState extends State<GlobalView> {
                         ],
                       ),
                       const Padding(padding: EdgeInsets.only(top: 10.0)),
-                      const Divider(color: Colors.grey),
+                      const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
                       Container(
                         height: 300,
                         width: 400,
@@ -72,7 +71,7 @@ class GlobalViewState extends State<GlobalView> {
                       ),
                       _buildPieChartLegend(),
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
-                      const Divider(color: Colors.grey),
+                      const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
                       Container(
                         height: 200,
@@ -82,7 +81,7 @@ class GlobalViewState extends State<GlobalView> {
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
                       _buildLineChartLegend(),
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
-                      const Divider(color: Colors.grey),
+                      const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
                       const Padding(padding: EdgeInsets.only(top: 10.0)),
                       _buildAffectedCountries(snapshot),
                       Container(
@@ -95,7 +94,7 @@ class GlobalViewState extends State<GlobalView> {
                         child: Text('Countries Most Affected', style: TextStyle(color: Colors.grey[350])),
                       ),
                       const Padding(padding: EdgeInsets.only(top: 20.0)),
-                      const Divider(color: Colors.grey),
+                      const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
                       const Padding(padding: EdgeInsets.only(top: 10.0)),
                       Align(
                         alignment: Alignment.bottomCenter,
