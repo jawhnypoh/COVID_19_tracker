@@ -36,6 +36,7 @@ A cross platform application that visualizes data from a variety of API sources,
 * r/Coronavirus Subreddit ([r/Coronavirus](https://www.reddit.com/r/Coronavirus/))
 * covidtracking.com API ([covidtracking.com](https://covidtracking.com/data))
 * ncov19.us API ([ncov19.us](https://covid19-us-api.herokuapp.com))
+* corona-api.com API ([corona-api.com](https://about-corona.net/documentation))
 * sheetlabs NCOR API ([sheetlabs NCOR](https://app.sheetlabs.com/#/services/doc/NCOR/covidtestcentersinUS))
 
 ### Libraries
