@@ -58,7 +58,7 @@ class AboutView extends StatelessWidget {
         children: <Widget>[
           // Insert icon here later
           Text('The COVID-19 Dashboard application visualizes data from a variety of API sources, '
-              'provides the latest news, and supplies additional information related to the 2019 Novel Coronavirus Pandemic. '
+              'provides the latest news, and supplies critical information related to the 2019 Novel Coronavirus Pandemic. '
               'Data is pulled from following sources: ',
               style: TextStyle(color: Colors.grey[350], fontSize: 20.0),
               textAlign: TextAlign.left),
@@ -113,7 +113,7 @@ class AboutView extends StatelessWidget {
               textAlign: TextAlign.left,
             ),
             const Padding(padding: EdgeInsets.only(top: 10.0)),
-            Text('COVID-19 is the disease caused by the SARS-CoV-2 coronavirus. '
+            Text('COVID-19 is the illness caused by the SARS-CoV-2 coronavirus. '
                 'Older adults and individuals with underlying '
                 'medical conditions appear to be most at risk. ', style: TextStyle(color: Colors.grey[350], fontSize: 20.0)),
             const Padding(padding: EdgeInsets.only(top: 30.0)),
@@ -126,6 +126,34 @@ class AboutView extends StatelessWidget {
                 'The most common symptoms are dry coughs or shortness of breath. '
                 'If you are experiencing extreme symptoms, please seek medical '
                 'attention immediately.', style: TextStyle(color: Colors.grey[350], fontSize: 20.0)),
+            const Padding(padding: EdgeInsets.only(top: 30.0)),
+            Text('How can I help stop the spread?',
+              style: TextStyle(color: Colors.grey[350], fontWeight: FontWeight.bold, fontSize: 25.0),
+              textAlign: TextAlign.left,
+            ),
+            const Padding(padding: EdgeInsets.only(top: 10.0)),
+            Text('The best way to prevent illness is to avoid any exposure to the virus. These methods include: ',
+                style: TextStyle(color: Colors.grey[350], fontSize: 20.0)),
+            const Padding(padding: EdgeInsets.only(top: 10.0)),
+            Text('• Wearing a mask as often as you can, especially around others',
+                style: TextStyle(color: Colors.grey[350], fontSize: 20.0),
+                textAlign: TextAlign.left),
+            const Padding(padding: EdgeInsets.only(top: 10.0)),
+            Text('• Obeying social distancing measures and avoiding large gatherings',
+                style: TextStyle(color: Colors.grey[350], fontSize: 20.0),
+                textAlign: TextAlign.left),
+            const Padding(padding: EdgeInsets.only(top: 10.0)),
+            Text('• Washing your hands often',
+                style: TextStyle(color: Colors.grey[350], fontSize: 20.0),
+                textAlign: TextAlign.left),
+            const Padding(padding: EdgeInsets.only(top: 10.0)),
+            Text('• Staying home as much as possible',
+                style: TextStyle(color: Colors.grey[350], fontSize: 20.0),
+                textAlign: TextAlign.left),
+            const Padding(padding: EdgeInsets.only(top: 10.0)),
+            Text('• Avoiding contact with people that are sick or may have been exposed',
+                style: TextStyle(color: Colors.grey[350], fontSize: 20.0),
+                textAlign: TextAlign.left),
           ],
       )
     );

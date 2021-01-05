@@ -58,7 +58,7 @@ class MapViewState extends State<MapView> {
             zoom: 7
         ),
         markers: _markers.values.toSet(),
-      )
+      ),
     );
   }
 }

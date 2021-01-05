@@ -66,7 +66,7 @@ class ApiResources {
     }
   }
 
-  // Get results from api.smartable.ai API for news
+  // Get results from r/Coronavirus subreddit API for news
   Future<List<NewsArticleModel>> getNewsArticleResults() async {
     List<NewsArticleModel> newsArticlesList;
     List newsArticlesFromReddit = List();
