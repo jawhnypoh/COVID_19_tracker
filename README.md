@@ -1,6 +1,6 @@
 # COVID-19 Dashboard
 
-A cross platform application that visualizes data from a variety of API sources, provides the latest news, and supplies acute information related to the 2019 Novel Coronavirus (COVID-19) Pandemic. This application was developed using the [Flutter SDK](https://flutter.dev/), and is compatible with both iOS and Android devices. 
+A cross platform application that visualizes data from a variety of API sources, provides the latest news, and supplies acute information related to the 2019 Novel Coronavirus (COVID-19) Pandemic. This application was developed using the [Flutter SDK](https://flutter.dev/), and is natively compatible with both iOS and Android devices. 
 
 ![COVID-19 Dashboard Screenshots](https://i.imgur.com/g2iQW8c.png)
 
@@ -15,13 +15,13 @@ A cross platform application that visualizes data from a variety of API sources,
 - **Point People:** [@jawhnypoh](https://github.com/jawhnypoh)
 
 ## Features
-- **Cross Platform:** Designed to be natively compatible with both iOS and Android devices
+- **Cross Platform:** Runs on both iOS and Android devices, yay!
 - **Updated Data:** The most up to date data provided by a number of sources
 - **Statistics:** Statistics for global, country specific, or US state and county specific cases 
 - **Color Coded:** Color coded statistics for Tested, Confirmed, Active, Deaths, Critical, Recovered, and many more
 - **Charts:** Pie Chart showing percentages, Line Chart showing historical data, Bar Chart showing the most affected countries
 - **News:** Get the latest on COVID related news, tapping on a news article leads to a webview of that article via the URL
-- **Testing Centers:** NEW! Find COVID testing center locations for any US state on within a map view with Google Maps
+- **Testing Centers:** NEW! Find COVID testing locations for any US state within a map view using Google Maps services
 
 ## Potential Future Features:
 - **Swipe to Refresh:** Swiping down from any of the detail screens will cause the page to refresh with new data
