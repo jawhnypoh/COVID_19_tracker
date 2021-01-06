@@ -21,12 +21,15 @@ A cross platform application that visualizes data from a variety of API sources,
 - **Color Coded:** Color coded statistics for Tested, Confirmed, Active, Deaths, Critical, Recovered, and many more
 - **Charts:** Pie Chart showing percentages, Line Chart showing historical data, Bar Chart showing the most affected countries
 - **News:** Get the latest on COVID related news, tapping on a news article leads to a webview of that article via the URL
-- **Testing Centers:** NEW! Find COVID testing locations for any US state within a map view using Google Maps services
+- **Testing Centers:** Find COVID testing locations for any US state within a map view using Google Maps services
 
-## Potential Future Features:
+## Potential Features:
+- **Navigation Bar in Map View:** Bottom nav bar in the Map View to toggle between map and list of COVID testing centers 
 - **Swipe to Refresh:** Swiping down from any of the detail screens will cause the page to refresh with new data
+- **Counties View:** Add additional information in US States counties screen
 - **Murica Tab:** Current tab is only for showing US States data; allow the user to choose/search for provinces or counties of other countries instead (dependent on API availability)
-- **Vaccine Data:** Current data on vaccines are limited, will plan to eventually add a screen on vaccine related information 
+- **News Filter:** Adding filtering functionality in the News tab 
+- **Vaccine Data:** Current data on vaccines is limited, will plan to eventually add a screen on vaccine related information 
 
 ## Installation Instructions:
 ### Android 
@@ -34,7 +37,7 @@ The latest version of the Android app can be found on the [release page](https:/
 
 ### iOS/Flutter Project 
 iOS users or anyone interested in compiling the app on their own can follow these instructions: <br>
-_NOTE: iOS users **MUST** compile this project on a macOS machine (for XCode) in order to have the app running on your iOS device. No exceptions._
+NOTE: _iOS users **MUST** compile this project on a macOS machine (for XCode) in order to have the app running on your iOS device. No exceptions._
 1. Make sure to have a compatible IDE (I recommend [Android Studio](https://developer.android.com/studio)) installed on your machine 
 2. Make sure to install and set up the Flutter SDK on your machine ([follow the instructions for your OS here](https://flutter.dev/docs/get-started/install))
 3. Clone this project onto your local machine 
