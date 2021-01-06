@@ -11,7 +11,7 @@ A cross platform application that visualizes data from a variety of API sources,
 
 
 ## Meta
--  **State:** Release v3.0.0
+- **State:** Release v3.0.0
 - **Point People:** [@jawhnypoh](https://github.com/jawhnypoh)
 
 ## Features
@@ -27,6 +27,19 @@ A cross platform application that visualizes data from a variety of API sources,
 - **Swipe to Refresh:** Swiping down from any of the detail screens will cause the page to refresh with new data
 - **Murica Tab:** Current tab is only for showing US States data; allow the user to choose/search for provinces or counties of other countries instead (dependent on API availability)
 - **Vaccine Data:** Current data on vaccines are limited, will plan to eventually add a screen on vaccine related information 
+
+## Installation Instructions:
+### Android 
+The latest version of the Android app can be found on the [release page](https://github.com/jawhnypoh/COVID_19_tracker/release) under the 'Assets' folder
+
+### iOS/Flutter Project 
+iOS users or anyone interested in compiling the app on their own can follow these instructions: <br>
+_NOTE: iOS users **MUST** compile this project on a macOS machine (for XCode) in order to have the app running on your iOS device. No exceptions._
+1. Make sure to have a compatible IDE (I recommend [Android Studio](https://developer.android.com/studio)) installed on your machine 
+2. Make sure to install and set up the Flutter SDK on your machine ([follow the instructions for your OS here](https://flutter.dev/docs/get-started/install))
+3. Clone this project onto your local machine 
+4. Run `flutter pub get` in order to get the dependencies the app needs to function 
+4. Plug your device in, allow permissions, and let the IDE run the install!
 
 ## Credits
 ### Data
