@@ -2,7 +2,7 @@
 
 A cross platform application that visualizes data from a variety of API sources, provides the latest news, and supplies acute information related to the 2019 Novel Coronavirus (COVID-19) Pandemic. This application was developed using the [Flutter SDK](https://flutter.dev/), and is natively compatible with both iOS and Android devices. 
 
-![COVID-19 Dashboard Screenshots](https://i.imgur.com/g2iQW8c.png)
+![COVID-19 Dashboard Screenshots](https://i.imgur.com/TW2jbbE.png)
 
 ![Build](https://img.shields.io/badge/build-passing-brightgreen)
 ![iOS](https://img.shields.io/badge/iOS-10%20-blue?logo=Apple)
