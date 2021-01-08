@@ -33,7 +33,7 @@ A cross platform application that visualizes data from a variety of API sources,
 
 ## Installation Instructions:
 ### Android 
-The latest version of the Android app can be found on the [release page](https://github.com/jawhnypoh/COVID_19_tracker/release) under the 'Assets' folder
+The latest version of the Android app can be found on the [release page](https://github.com/jawhnypoh/COVID_19_tracker/releases) under the 'Assets' folder
 
 ### iOS/Flutter Project 
 iOS users or anyone interested in compiling the app on their own can follow these instructions: <br>
