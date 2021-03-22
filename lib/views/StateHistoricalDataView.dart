@@ -2,22 +2,27 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:covid_19_tracker/models/state_historical_data_model.dart';
 import 'package:covid_19_tracker/utilities/api_resources.dart';
+import 'package:covid_19_tracker/utilities/utilities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class StateHistoricalDataViewState extends State<StateHistoricalDataView> {
+  String stateAbr;
+
   // Selected date by the user, defaults to current date
   DateTime selectedDate = DateTime.now();
 
   final numberFormatter = NumberFormat('#,###', 'en_US');
+
+  StateHistoricalDataViewState(this.stateAbr);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Historical Data for OR'),
+        title: Text('Historical Data for ' + stateAbr),
       ),
       body: Container(
         child: SingleChildScrollView(
@@ -26,7 +31,7 @@ class StateHistoricalDataViewState extends State<StateHistoricalDataView> {
             children: <Widget>[
               const Padding(padding: EdgeInsets.only(bottom: 30.0)),
               buildDatePicker(),
-              const Padding(padding: EdgeInsets.only(bottom: 10.0)),
+              const Padding(padding: EdgeInsets.only(bottom: 30.0)),
               const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
               const Padding(padding: EdgeInsets.only(bottom: 20.0)),
               buildStateHistoricalData()
@@ -44,7 +49,7 @@ class StateHistoricalDataViewState extends State<StateHistoricalDataView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "${selectedDate.toLocal()}".split(' ')[0],
+              Utilities().convertDateTime(selectedDate.toString()),
               style: TextStyle(fontSize: 55, fontWeight: FontWeight.bold),
             ),
             SizedBox(
@@ -53,7 +58,7 @@ class StateHistoricalDataViewState extends State<StateHistoricalDataView> {
             RaisedButton(
               onPressed: () => selectDate(context), // Refer step 3
               child: Text(
-                'Choose a Date',
+                'Select a Date',
                 style:
                 TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
@@ -64,10 +69,23 @@ class StateHistoricalDataViewState extends State<StateHistoricalDataView> {
     );
   }
 
+  Widget buildNoDataError() {
+    return Container(
+      child: Padding(
+        padding: EdgeInsets.all(100.0),
+        child: Center(
+          child: Text('No Data Available for this Date'),
+        ),
+      ),
+    );
+  }
+
   Widget buildStateHistoricalData() {
+    print('selectedDate: ' + Utilities().convertDateTimeToStringNoDashes(selectedDate));
     return Container(
       child: FutureBuilder<StateHistoricalStats>(
-        future: ApiResources().getSingleStateHistoricalResults("or", "20201201"),
+        future: ApiResources().getSingleStateHistoricalResults(stateAbr.toLowerCase(),
+            Utilities().convertDateTimeToStringNoDashes(selectedDate)),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Container(
@@ -97,7 +115,7 @@ class StateHistoricalDataViewState extends State<StateHistoricalDataView> {
               ),
             );
           } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
+            buildNoDataError();
           } return const Center(
             child: Padding(
               padding: EdgeInsets.all(100.0),
@@ -259,8 +277,11 @@ class StateHistoricalDataViewState extends State<StateHistoricalDataView> {
 }
 
 class StateHistoricalDataView extends StatefulWidget {
-  StateHistoricalDataView({Key key}) : super(key : key);
+  // Declare stateAbr that has the abbreviation for the state
+  final String stateAbr;
+
+  StateHistoricalDataView({Key key, @required this.stateAbr}) : super(key : key);
 
   @override
-  StateHistoricalDataViewState createState() => StateHistoricalDataViewState();
+  StateHistoricalDataViewState createState() => StateHistoricalDataViewState(stateAbr);
 }

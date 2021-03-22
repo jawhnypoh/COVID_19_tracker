@@ -10,11 +10,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapViewState extends State<MapView> {
   GoogleMapController mapController;
-
   final Map<String, Marker> _markers = {};
-
   String stateAbr;
-
   LatLng stateLatLng;
 
   // Default location to Portland, OR if stateLatLng is null for some reason

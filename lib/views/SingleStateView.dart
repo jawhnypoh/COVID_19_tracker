@@ -118,7 +118,8 @@ class SingleStateViewState extends State<SingleStateView> {
                           onPressed: () {
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => StateHistoricalDataView())
+                                MaterialPageRoute(builder: (context) =>
+                                    StateHistoricalDataView(stateAbr: stateStats.state))
                             );
                           },
                           child: Text('See Detailed Historical Data'),
@@ -130,7 +131,8 @@ class SingleStateViewState extends State<SingleStateView> {
                         const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: Text('state data updated ' + Utilities().convertDateTimeTimeStamp(stateStats.dateChecked),
+                  child: Text('state data updated ' + Utilities()
+                      .convertDateTimeTimeStamp(stateStats.dateChecked),
                       style: const TextStyle(color: Colors.grey)),
                 ),
                 const Padding(padding: EdgeInsets.only(top: 20.0)),
@@ -214,7 +216,8 @@ class SingleStateViewState extends State<SingleStateView> {
             child: Column(
                 children: <Widget>[
                   Text('Total Tested', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-                  Text(numberFormatter.format(stateStat.totalTestResults).toString(), style: TextStyle(fontSize: 60.0, color: Colors.lightBlueAccent)),
+                  Text(numberFormatter.format(stateStat.totalTestResults).toString(),
+                      style: TextStyle(fontSize: 60.0, color: Colors.lightBlueAccent)),
 
                 ]
             )
@@ -258,7 +261,8 @@ class SingleStateViewState extends State<SingleStateView> {
             Text('Active', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
             AutoSizeText(Utilities().calculateActiveCases(stateStat.positive, stateStat.death, stateStat.recovered)  == null
                 ? "N/A"
-                : numberFormatter.format(Utilities().calculateActiveCases(stateStat.positive, stateStat.death, stateStat.recovered)).toString(),
+                : numberFormatter.format(Utilities()
+                  .calculateActiveCases(stateStat.positive, stateStat.death, stateStat.recovered)).toString(),
                 style: TextStyle(fontSize: 35.0, color: Colors.blueAccent), maxLines: 1),
           ],
         ),
@@ -322,7 +326,9 @@ class SingleStateViewState extends State<SingleStateView> {
         child: Column(
           children: <Widget>[
             Text('Hospitalized', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            AutoSizeText(stateStat.hospitalizedCurrently == null ? 'N/A' : numberFormatter.format(stateStat.hospitalizedCurrently).toString(),
+            AutoSizeText(stateStat.hospitalizedCurrently == null
+                ? 'N/A'
+                : numberFormatter.format(stateStat.hospitalizedCurrently).toString(),
                 style: TextStyle(fontSize: 35.0, color: Colors.amber), maxLines: 1),
           ],
         ),
@@ -342,7 +348,9 @@ class SingleStateViewState extends State<SingleStateView> {
         child: Column(
           children: <Widget>[
             Text('Intensive Care', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            AutoSizeText(stateStat.inIcuCurrently == null ? 'N/A' : numberFormatter.format(stateStat.inIcuCurrently).toString(),
+            AutoSizeText(stateStat.inIcuCurrently == null
+                ? 'N/A'
+                : numberFormatter.format(stateStat.inIcuCurrently).toString(),
                 style: TextStyle(fontSize: 35.0, color: Colors.orange[800]), maxLines: 1),
           ],
         ),
@@ -362,7 +370,9 @@ class SingleStateViewState extends State<SingleStateView> {
         child: Column(
           children: <Widget>[
             Text('On Ventilator', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            AutoSizeText(stateStat.onVentilatorCurrently == null ? 'N/A' : numberFormatter.format(stateStat.onVentilatorCurrently).toString(),
+            AutoSizeText(stateStat.onVentilatorCurrently == null
+                ? 'N/A'
+                : numberFormatter.format(stateStat.onVentilatorCurrently).toString(),
                 style: TextStyle(fontSize: 35.0, color: Colors.deepOrange[700]), maxLines: 1),
           ],
         ),
@@ -439,7 +449,8 @@ class SingleStateViewState extends State<SingleStateView> {
               onTap: () {
                 Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SingleCountyView(countyStats: usCountiesList[idx]))
+                    MaterialPageRoute(builder: (context) =>
+                        SingleCountyView(countyStats: usCountiesList[idx]))
                 );
               },
             );
