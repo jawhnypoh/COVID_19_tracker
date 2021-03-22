@@ -11,6 +11,7 @@ import 'package:covid_19_tracker/charts/StateDonutPieChart.dart';
 import 'package:covid_19_tracker/charts/StateHistoricalLineChart.dart';
 import 'package:covid_19_tracker/models/state_model.dart';
 import 'package:covid_19_tracker/utilities/api_resources.dart';
+import 'package:covid_19_tracker/views/StateHistoricalDataView.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
@@ -107,9 +108,21 @@ class SingleStateViewState extends State<SingleStateView> {
                           width: 350,
                           child: historicalLineChart,
                         ),
-                        const Padding(padding: EdgeInsets.only(top: 20.0)),
+                        const Padding(padding: EdgeInsets.only(top: 10.0)),
                         _buildLineChartLegend(),
-                        const Padding(padding: EdgeInsets.only(top: 20.0)),
+                        const Padding(padding: EdgeInsets.only(top: 10.0)),
+                        TextButton(
+                          style: ButtonStyle(
+                            foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => StateHistoricalDataView())
+                            );
+                          },
+                          child: Text('See Detailed Historical Data'),
+                        ),
                         const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
                         const Padding(padding: EdgeInsets.only(top: 20.0)),
                         _buildCountiesContainer(),

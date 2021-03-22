@@ -3,6 +3,7 @@
 import 'package:covid_19_tracker/models/country_model.dart';
 import 'package:covid_19_tracker/models/global_model.dart';
 import 'package:covid_19_tracker/models/news_article_model.dart';
+import 'package:covid_19_tracker/models/state_historical_data_model.dart';
 import 'package:covid_19_tracker/models/state_model.dart';
 import 'package:covid_19_tracker/models/testing_center_model.dart';
 import 'package:covid_19_tracker/models/us_county_model.dart';
@@ -13,7 +14,7 @@ class ApiResources {
   final String _globalURL = 'https://disease.sh/v2/all';
   final String _countriesURL = 'https://disease.sh/v2/countries';
   final String _singleCountryURL = 'https://corona-api.com/countries/';
-  final String _singleStateURL = 'https://covidtracking.com/api/v1/states/';
+  final String _singleStateURL = 'https://api.covidtracking.com/v1/states/';
   final String _globalHistoricalTimelineURL = 'https://corona-api.com/timeline';
   final String _stateHistoricalTimelineURL = 'https://covidtracking.com/api/v1/states/';
   final String _newsArticlesURL = 'https://www.reddit.com/r/Coronavirus.json?limit=100';
@@ -125,6 +126,21 @@ class ApiResources {
       final jsonResult = json.decode(response.toString());
 
       return StateStats.fromJson(jsonResult);
+    } catch (e) {
+      print(e);
+      return e;
+    }
+  }
+
+  // Get historical results from covidtracking for single US state by date
+  Future<StateHistoricalStats> getSingleStateHistoricalResults(String state, String date) async {
+    try {
+      final Response response = await dio.get(_singleStateURL + state + "/" + date + ".json");
+      final jsonResult = json.decode(response.toString());
+
+      print(response);
+
+      return StateHistoricalStats.fromJson(jsonResult);
     } catch (e) {
       print(e);
       return e;
