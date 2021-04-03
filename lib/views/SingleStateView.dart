@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:covid_19_tracker/utilities/utilities.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:us_states/us_states.dart';
 
 class SingleStateViewState extends State<SingleStateView> {
@@ -116,19 +117,22 @@ class SingleStateViewState extends State<SingleStateView> {
                             foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
                           ),
                           onPressed: () {
+                            // selectedDate is one month before current date for dataset purposes
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) =>
-                                    StateHistoricalDataView(stateAbr: stateStats.state))
+                                    StateHistoricalDataView(stateAbr: stateStats.state,
+                                        selectedDate: Jiffy(DateTime.now()).subtract(months: 1)
+                                ))
                             );
                           },
                           child: Text('See Detailed Historical Data'),
                         ),
                         const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
                         const Padding(padding: EdgeInsets.only(top: 20.0)),
-                        _buildCountiesContainer(),
-                        const Padding(padding: EdgeInsets.only(top: 10.0)),
-                        const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
+//                        _buildCountiesContainer(),
+//                        const Padding(padding: EdgeInsets.only(top: 10.0)),
+//                        const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Text('state data updated ' + Utilities()
@@ -177,7 +181,8 @@ class SingleStateViewState extends State<SingleStateView> {
           }
           
           return MaterialBanner(
-            content: Text("COVID-19 tests are available for free at health care centers and select pharmacies nationwide. Visit the state health department\'\s website for the latest information on testing. "),
+            content: Text('COVID-19 tests are available for free at health care centers and select pharmacies nationwide. '
+                'Visit the state health department\'\s website for the latest information on testing. '),
             leading: Icon(Icons.info),
             actions: [
               FlatButton(

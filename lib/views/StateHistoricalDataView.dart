@@ -9,13 +9,12 @@ import 'package:intl/intl.dart';
 
 class StateHistoricalDataViewState extends State<StateHistoricalDataView> {
   String stateAbr;
-
-  // Selected date by the user, defaults to current date
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate;
+  bool isLoading = false;
 
   final numberFormatter = NumberFormat('#,###', 'en_US');
 
-  StateHistoricalDataViewState(this.stateAbr);
+  StateHistoricalDataViewState(this.stateAbr, this.selectedDate);
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +41,20 @@ class StateHistoricalDataViewState extends State<StateHistoricalDataView> {
     );
   }
 
+  Widget buildInfoDialog() {
+      return AlertDialog(
+        title: Text('Why No Data?'),
+        content: Text('Certain dates have no data because of an incomplete and developing dataset. Data before February of 2020 is scarce for most states. '
+            'Because of the way the API handles storage, historical data within the past 30 days is unavailable. '),
+        actions: [
+          FlatButton(onPressed: () => Navigator.pop(context), child: Text('OK'))
+        ],
+      );
+  }
+
   Widget buildDatePicker() {
     return Container(
         child: Column(
-//          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
@@ -74,7 +83,20 @@ class StateHistoricalDataViewState extends State<StateHistoricalDataView> {
       child: Padding(
         padding: EdgeInsets.all(100.0),
         child: Center(
-          child: Text('No Data Available for this Date'),
+          child: Column(
+            children: <Widget>[
+              Text('No Data Available for this Date'),
+              TextButton(
+                style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                ),
+                onPressed: () {
+                  showDialog<void>(context: context, builder: (context) => buildInfoDialog());
+                },
+                child: Text('Why?'),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -115,13 +137,11 @@ class StateHistoricalDataViewState extends State<StateHistoricalDataView> {
               ),
             );
           } else if (snapshot.hasError) {
-            buildNoDataError();
-          } return const Center(
-            child: Padding(
-              padding: EdgeInsets.all(100.0),
-              child: CircularProgressIndicator(),
-            ),
-          );
+            print('ERROR: ' + snapshot.error.toString());
+            return buildNoDataError();
+          } else {
+            return isLoading ? buildProgressIndicator() : Container();
+          }
         },
       ),
     );
@@ -279,9 +299,10 @@ class StateHistoricalDataViewState extends State<StateHistoricalDataView> {
 class StateHistoricalDataView extends StatefulWidget {
   // Declare stateAbr that has the abbreviation for the state
   final String stateAbr;
+  final DateTime selectedDate;
 
-  StateHistoricalDataView({Key key, @required this.stateAbr}) : super(key : key);
+  StateHistoricalDataView({Key key, @required this.stateAbr, @required this.selectedDate}) : super(key : key);
 
   @override
-  StateHistoricalDataViewState createState() => StateHistoricalDataViewState(stateAbr);
+  StateHistoricalDataViewState createState() => StateHistoricalDataViewState(stateAbr, selectedDate);
 }
