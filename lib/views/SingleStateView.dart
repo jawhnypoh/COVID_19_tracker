@@ -114,7 +114,7 @@ class SingleStateViewState extends State<SingleStateView> {
                         const Padding(padding: EdgeInsets.only(top: 10.0)),
                         TextButton(
                           style: ButtonStyle(
-                            foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                            foregroundColor: MaterialStateProperty.all<Color>(Colors.greenAccent),
                           ),
                           onPressed: () {
                             // selectedDate is one month before current date for dataset purposes

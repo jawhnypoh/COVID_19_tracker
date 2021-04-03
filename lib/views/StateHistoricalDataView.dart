@@ -44,8 +44,9 @@ class StateHistoricalDataViewState extends State<StateHistoricalDataView> {
   Widget buildInfoDialog() {
       return AlertDialog(
         title: Text('Why No Data?'),
-        content: Text('Certain dates have no data because of an incomplete and developing dataset. Data before February of 2020 is scarce for most states. '
-            'Because of the way the API handles storage, historical data within the past 30 days is unavailable. '),
+        content: Text('Certain calendar dates have no COVID data because of an incomplete and developing dataset. '
+            'Data before February of 2020 is scarce for most states. '
+            'Historical data within the past 30 days is also unavailable.'),
         actions: [
           FlatButton(onPressed: () => Navigator.pop(context), child: Text('OK'))
         ],
@@ -88,7 +89,7 @@ class StateHistoricalDataViewState extends State<StateHistoricalDataView> {
               Text('No Data Available for this Date'),
               TextButton(
                 style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                  foregroundColor: MaterialStateProperty.all<Color>(Colors.greenAccent),
                 ),
                 onPressed: () {
                   showDialog<void>(context: context, builder: (context) => buildInfoDialog());
