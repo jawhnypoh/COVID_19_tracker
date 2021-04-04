@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:us_states/us_states.dart';
 
 class USViewState extends State<USView> {
-  final String _statesURL = "https://covidtracking.com/api/v1/states/current.json";
+  final String _statesURL = 'https://api.covidactnow.org/v2/states.json?apiKey=c3cc1912d5ae41d88782d801c5abf346';
   var dio = Dio();
 
   ScrollController _scrollController = ScrollController();
@@ -21,7 +21,7 @@ class USViewState extends State<USView> {
 
   final numberFormatter = new NumberFormat("#,###", "en_US");
 
-  USViewState() {}
+  USViewState();
 
   @override
   void initState() {
@@ -99,7 +99,7 @@ class USViewState extends State<USView> {
         } else {
           return ListTile(
             title: Text(USStates.getName(statesList[idx].state), style: const TextStyle(fontSize: 25)),
-            subtitle: Text(numberFormatter.format(statesList[idx].positive).toString() + ' cases',
+            subtitle: Text(numberFormatter.format(statesList[idx].actuals.cases).toString() + ' cases',
                 style: const TextStyle(fontSize: 20.0, color: Colors.orangeAccent)),
             onTap: () {
               Navigator.push(
@@ -153,17 +153,16 @@ class USViewState extends State<USView> {
       for(int i = 0; i < stateResponse.data.length; i++) {
         statesResultsList.add(StateStats.fromJson(stateResponse.data[i]));
       }
-
-      statesResultsList.sort((b, a) => a.positive.compareTo(b.positive));
+      statesResultsList.sort((b, a) => a.actuals.cases.compareTo(b.actuals.cases));
 
       setState(() {
         statesList = statesResultsList;
         searchStatesList.addAll(statesResultsList);
       });
-
       return statesResultsList;
     } catch (e) {
       print(e);
+      return null;
     }
   }
 }

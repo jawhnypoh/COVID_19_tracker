@@ -35,9 +35,6 @@ class SingleStateViewState extends State<SingleStateView> {
 
   @override
   void initState() {
-    if (stateStats.recovered != null) {
-      donutPieChart = StateDonutPieChart.withCountsData(stateStats);
-    }
     historicalLineChart = StateHistoricalLineChart.withHistoricalData(stateStats.state);
 
     super.initState();
@@ -75,35 +72,13 @@ class SingleStateViewState extends State<SingleStateView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            _buildTotalActive(stateStats),
-                            _buildTotalRecovered(stateStats),
-                          ],
-                        ),
-                        const Padding(padding: EdgeInsets.only(top: 10.0)),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
                             _buildCurrentHospitalized(stateStats),
-                            _buildCurrentICU(stateStats),
-                            _buildCurrentVentilator(stateStats),
+                            _buildCurrentICU(stateStats)
                           ],
                         ),
                         const Padding(padding: EdgeInsets.only(top: 10.0)),
                         const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
-                        Container(
-                          height: 300,
-                          width: 400,
-                          child: stateStats.recovered == null
-                              ? const Center(
-                            child: Text('Not enough data to generate Pie Chart',
-                                style: TextStyle(color: Colors.grey)),
-                          )
-                              : donutPieChart,
-                        ),
-                        _buildPieChartLegend(),
-                        const Padding(padding: EdgeInsets.only(top: 20.0)),
-                        const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
-                        const Padding(padding: EdgeInsets.only(top: 20.0)),
+                        const Padding(padding: EdgeInsets.only(top: 10.0)),
                         Container(
                           height: 200,
                           width: 350,
@@ -136,7 +111,7 @@ class SingleStateViewState extends State<SingleStateView> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Text('state data updated ' + Utilities()
-                      .convertDateTimeTimeStamp(stateStats.dateChecked),
+                      .convertDateTimeTimeStamp(stateStats.lastUpdatedDate),
                       style: const TextStyle(color: Colors.grey)),
                 ),
                 const Padding(padding: EdgeInsets.only(top: 20.0)),
@@ -221,7 +196,7 @@ class SingleStateViewState extends State<SingleStateView> {
             child: Column(
                 children: <Widget>[
                   Text('Total Tested', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-                  Text(numberFormatter.format(stateStat.totalTestResults).toString(),
+                  Text(numberFormatter.format(stateStat.actuals.positiveTests + stateStat.actuals.negativeTests).toString(),
                       style: TextStyle(fontSize: 60.0, color: Colors.lightBlueAccent)),
 
                 ]
@@ -242,9 +217,9 @@ class SingleStateViewState extends State<SingleStateView> {
         child: Column(
             children: <Widget>[
               Text('Confirmed', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-              AutoSizeText(numberFormatter.format(stateStat.positive).toString(),
+              AutoSizeText(numberFormatter.format(stateStat.actuals.cases).toString(),
                   style: TextStyle(fontSize: 40.0, color: Colors.orangeAccent), maxLines: 1),
-              Text('+' + numberFormatter.format(stateStat.positiveIncrease).toString() + ' Today',
+              Text('+' + numberFormatter.format(stateStat.actuals.newCases).toString() + ' Today',
                   style: TextStyle(fontSize: 20.0, color: Colors.orangeAccent))
             ]
         )
@@ -252,50 +227,28 @@ class SingleStateViewState extends State<SingleStateView> {
     );
   }
 
-  Widget _buildTotalActive(stateStat) {
-    return Container(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(
-            minWidth: 150.0,
-            maxWidth: 150.0,
-            minHeight: 80.0,
-            maxHeight: 80.0
-        ),
-        child: Column(
-          children: <Widget>[
-            Text('Active', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            AutoSizeText(Utilities().calculateActiveCases(stateStat.positive, stateStat.death, stateStat.recovered)  == null
-                ? "N/A"
-                : numberFormatter.format(Utilities()
-                  .calculateActiveCases(stateStat.positive, stateStat.death, stateStat.recovered)).toString(),
-                style: TextStyle(fontSize: 35.0, color: Colors.blueAccent), maxLines: 1),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTotalRecovered(stateStat) {
-    return Container(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(
-            minWidth: 150.0,
-            maxWidth: 150.0,
-            minHeight: 80.0,
-            maxHeight: 80.0
-        ),
-        child: Column(
-          children: <Widget>[
-            Text('Recovered', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            AutoSizeText(stateStat.recovered == null
-                ? "N/A"
-                : numberFormatter.format(stateStat.recovered).toString(),
-                style: TextStyle(fontSize: 35.0, color: Colors.green), maxLines: 1),
-          ],
-        ),
-      ),
-    );
-  }
+//  Widget _buildTotalActive(stateStat) {
+//    return Container(
+//      child: ConstrainedBox(
+//        constraints: const BoxConstraints(
+//            minWidth: 150.0,
+//            maxWidth: 150.0,
+//            minHeight: 80.0,
+//            maxHeight: 80.0
+//        ),
+//        child: Column(
+//          children: <Widget>[
+//            Text('Active', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
+//            AutoSizeText(Utilities().calculateActiveCases(stateStat.actuals.cases, stateStat.actuals.deaths, 0)  == null
+//                ? "N/A"
+//                : numberFormatter.format(Utilities()
+//                  .calculateActiveCases(stateStat.positive, stateStat.death, stateStat.recovered)).toString(),
+//                style: TextStyle(fontSize: 35.0, color: Colors.blueAccent), maxLines: 1),
+//          ],
+//        ),
+//      ),
+//    );
+//  }
 
   Widget _buildTotalDeaths(stateStat) {
     return Container(
@@ -309,9 +262,9 @@ class SingleStateViewState extends State<SingleStateView> {
         child: Column(
           children: <Widget>[
             Text('Deaths', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            AutoSizeText(numberFormatter.format(stateStat.death).toString(),
+            AutoSizeText(numberFormatter.format(stateStat.actuals.deaths).toString(),
                 style: TextStyle(fontSize: 40.0, color: Colors.redAccent), maxLines: 1),
-            Text('+' + numberFormatter.format(stateStat.deathIncrease).toString() + ' Today',
+            Text('+' + numberFormatter.format(stateStat.actuals.newDeaths).toString() + ' Today',
                 style: TextStyle(fontSize: 20.0, color: Colors.redAccent))
           ],
         ),
@@ -331,9 +284,9 @@ class SingleStateViewState extends State<SingleStateView> {
         child: Column(
           children: <Widget>[
             Text('Hospitalized', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            AutoSizeText(stateStat.hospitalizedCurrently == null
+            AutoSizeText(stateStat.actuals.hospitalBeds.currentUsageTotal == null
                 ? 'N/A'
-                : numberFormatter.format(stateStat.hospitalizedCurrently).toString(),
+                : numberFormatter.format(stateStat.actuals.hospitalBeds.currentUsageCovid).toString(),
                 style: TextStyle(fontSize: 35.0, color: Colors.amber), maxLines: 1),
           ],
         ),
@@ -353,48 +306,10 @@ class SingleStateViewState extends State<SingleStateView> {
         child: Column(
           children: <Widget>[
             Text('Intensive Care', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            AutoSizeText(stateStat.inIcuCurrently == null
+            AutoSizeText(stateStat.actuals.icuBeds.currentUsageCovid == null
                 ? 'N/A'
-                : numberFormatter.format(stateStat.inIcuCurrently).toString(),
+                : numberFormatter.format(stateStat.actuals.icuBeds.currentUsageCovid).toString(),
                 style: TextStyle(fontSize: 35.0, color: Colors.orange[800]), maxLines: 1),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCurrentVentilator(stateStat) {
-    return Container(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(
-            minWidth: 110.0,
-            maxWidth: 110.0,
-            minHeight: 80.0,
-            maxHeight: 80.0
-        ),
-        child: Column(
-          children: <Widget>[
-            Text('On Ventilator', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-            AutoSizeText(stateStat.onVentilatorCurrently == null
-                ? 'N/A'
-                : numberFormatter.format(stateStat.onVentilatorCurrently).toString(),
-                style: TextStyle(fontSize: 35.0, color: Colors.deepOrange[700]), maxLines: 1),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPieChartLegend() {
-    return Container(
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            LegendColoredBox(color: Colors.blueAccent, text: 'Active'),
-            LegendColoredBox(color: Colors.redAccent, text: 'Deaths'),
-            LegendColoredBox(color: Colors.deepOrangeAccent, text: 'Critical'),
-            LegendColoredBox(color: Colors.green, text: 'Recovered'),
           ],
         ),
       ),

@@ -1,169 +1,330 @@
 // StatesStats Class for an Individual State Screen
 class StateStats {
-  int date;
-  String state;
-  int positive;
-  int negative;
-  int pending;
-  int hospitalizedCurrently;
-  int hospitalizedCumulative;
-  int inIcuCurrently;
-  int inIcuCumulative;
-  int onVentilatorCurrently;
-  int onVentilatorCumulative;
-  int recovered;
-  String dataQualityGrade;
-  String lastUpdateEt;
-  String dateModified;
-  String checkTimeEt;
-  int death;
-  int hospitalized;
-  String dateChecked;
-  int totalTestsViral;
-  int positiveTestsViral;
-  int negativeTestsViral;
-  int positiveCasesViral;
   String fips;
-  int positiveIncrease;
-  int negativeIncrease;
-  int total;
-  int totalTestResults;
-  int totalTestResultsIncrease;
-  int posNeg;
-  int deathIncrease;
-  int hospitalizedIncrease;
-  String hash;
-  int commercialScore;
-  int negativeRegularScore;
-  int negativeScore;
-  int positiveScore;
-  int score;
-  String grade;
+  String country;
+  String state;
+  String county;
+  String level;
+  int lat;
+  String locationId;
+  int long;
+  int population;
+//  Metrics metrics;
+  RiskLevels riskLevels;
+  Actuals actuals;
+  String lastUpdatedDate;
 
   StateStats(
-      {this.date,
+      {this.fips,
+        this.country,
         this.state,
-        this.positive,
-        this.negative,
-        this.pending,
-        this.hospitalizedCurrently,
-        this.hospitalizedCumulative,
-        this.inIcuCurrently,
-        this.inIcuCumulative,
-        this.onVentilatorCurrently,
-        this.onVentilatorCumulative,
-        this.recovered,
-        this.dataQualityGrade,
-        this.lastUpdateEt,
-        this.dateModified,
-        this.checkTimeEt,
-        this.death,
-        this.hospitalized,
-        this.dateChecked,
-        this.totalTestsViral,
-        this.positiveTestsViral,
-        this.negativeTestsViral,
-        this.positiveCasesViral,
-        this.fips,
-        this.positiveIncrease,
-        this.negativeIncrease,
-        this.total,
-        this.totalTestResults,
-        this.totalTestResultsIncrease,
-        this.posNeg,
-        this.deathIncrease,
-        this.hospitalizedIncrease,
-        this.hash,
-        this.commercialScore,
-        this.negativeRegularScore,
-        this.negativeScore,
-        this.positiveScore,
-        this.score,
-        this.grade});
+        this.county,
+        this.level,
+        this.lat,
+        this.locationId,
+        this.long,
+        this.population,
+//        this.metrics,
+        this.riskLevels,
+        this.actuals,
+        this.lastUpdatedDate});
 
   StateStats.fromJson(Map<String, dynamic> json) {
-    date = json['date'];
-    state = json['state'];
-    positive = json['positive'];
-    negative = json['negative'];
-    pending = json['pending'];
-    hospitalizedCurrently = json['hospitalizedCurrently'];
-    hospitalizedCumulative = json['hospitalizedCumulative'];
-    inIcuCurrently = json['inIcuCurrently'];
-    inIcuCumulative = json['inIcuCumulative'];
-    onVentilatorCurrently = json['onVentilatorCurrently'];
-    onVentilatorCumulative = json['onVentilatorCumulative'];
-    recovered = json['recovered'];
-    dataQualityGrade = json['dataQualityGrade'];
-    lastUpdateEt = json['lastUpdateEt'];
-    dateModified = json['dateModified'];
-    checkTimeEt = json['checkTimeEt'];
-    death = json['death'];
-    hospitalized = json['hospitalized'];
-    dateChecked = json['dateChecked'];
-    totalTestsViral = json['totalTestsViral'];
-    positiveTestsViral = json['positiveTestsViral'];
-    negativeTestsViral = json['negativeTestsViral'];
-    positiveCasesViral = json['positiveCasesViral'];
     fips = json['fips'];
-    positiveIncrease = json['positiveIncrease'];
-    negativeIncrease = json['negativeIncrease'];
-    total = json['total'];
-    totalTestResults = json['totalTestResults'];
-    totalTestResultsIncrease = json['totalTestResultsIncrease'];
-    posNeg = json['posNeg'];
-    deathIncrease = json['deathIncrease'];
-    hospitalizedIncrease = json['hospitalizedIncrease'];
-    hash = json['hash'];
-    commercialScore = json['commercialScore'];
-    negativeRegularScore = json['negativeRegularScore'];
-    negativeScore = json['negativeScore'];
-    positiveScore = json['positiveScore'];
-    score = json['score'];
-    grade = json['grade'];
+    country = json['country'];
+    state = json['state'];
+    county = json['county'];
+    level = json['level'];
+    lat = json['lat'];
+    locationId = json['locationId'];
+    long = json['long'];
+    population = json['population'];
+//    metrics =
+//    json['metrics'] != null ? new Metrics.fromJson(json['metrics']) : null;
+//    riskLevels = json['riskLevels'] != null
+//        ? new RiskLevels.fromJson(json['riskLevels'])
+//        : null;
+    actuals =
+    json['actuals'] != null ? new Actuals.fromJson(json['actuals']) : null;
+    lastUpdatedDate = json['lastUpdatedDate'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['date'] = this.date;
-    data['state'] = this.state;
-    data['positive'] = this.positive;
-    data['negative'] = this.negative;
-    data['pending'] = this.pending;
-    data['hospitalizedCurrently'] = this.hospitalizedCurrently;
-    data['hospitalizedCumulative'] = this.hospitalizedCumulative;
-    data['inIcuCurrently'] = this.inIcuCurrently;
-    data['inIcuCumulative'] = this.inIcuCumulative;
-    data['onVentilatorCurrently'] = this.onVentilatorCurrently;
-    data['onVentilatorCumulative'] = this.onVentilatorCumulative;
-    data['recovered'] = this.recovered;
-    data['dataQualityGrade'] = this.dataQualityGrade;
-    data['lastUpdateEt'] = this.lastUpdateEt;
-    data['dateModified'] = this.dateModified;
-    data['checkTimeEt'] = this.checkTimeEt;
-    data['death'] = this.death;
-    data['hospitalized'] = this.hospitalized;
-    data['dateChecked'] = this.dateChecked;
-    data['totalTestsViral'] = this.totalTestsViral;
-    data['positiveTestsViral'] = this.positiveTestsViral;
-    data['negativeTestsViral'] = this.negativeTestsViral;
-    data['positiveCasesViral'] = this.positiveCasesViral;
     data['fips'] = this.fips;
-    data['positiveIncrease'] = this.positiveIncrease;
-    data['negativeIncrease'] = this.negativeIncrease;
-    data['total'] = this.total;
-    data['totalTestResults'] = this.totalTestResults;
-    data['totalTestResultsIncrease'] = this.totalTestResultsIncrease;
-    data['posNeg'] = this.posNeg;
-    data['deathIncrease'] = this.deathIncrease;
-    data['hospitalizedIncrease'] = this.hospitalizedIncrease;
-    data['hash'] = this.hash;
-    data['commercialScore'] = this.commercialScore;
-    data['negativeRegularScore'] = this.negativeRegularScore;
-    data['negativeScore'] = this.negativeScore;
-    data['positiveScore'] = this.positiveScore;
-    data['score'] = this.score;
-    data['grade'] = this.grade;
+    data['country'] = this.country;
+    data['state'] = this.state;
+    data['county'] = this.county;
+    data['level'] = this.level;
+    data['lat'] = this.lat;
+    data['locationId'] = this.locationId;
+    data['long'] = this.long;
+    data['population'] = this.population;
+//    if (this.metrics != null) {
+//      data['metrics'] = this.metrics.toJson();
+//    }
+    if (this.riskLevels != null) {
+      data['riskLevels'] = this.riskLevels.toJson();
+    }
+    if (this.actuals != null) {
+      data['actuals'] = this.actuals.toJson();
+    }
+    data['lastUpdatedDate'] = this.lastUpdatedDate;
+    return data;
+  }
+}
+
+//class Metrics {
+//  double testPositivityRatio;
+//  TestPositivityRatioDetails testPositivityRatioDetails;
+//  double caseDensity;
+//  double contactTracerCapacityRatio;
+//  double infectionRate;
+//  double infectionRateCI90;
+//  double icuHeadroomRatio;
+//  IcuHeadroomDetails icuHeadroomDetails;
+//  double icuCapacityRatio;
+//  double vaccinationsInitiatedRatio;
+//  double vaccinationsCompletedRatio;
+//
+//  Metrics(
+//      {this.testPositivityRatio,
+//        this.testPositivityRatioDetails,
+//        this.caseDensity,
+//        this.contactTracerCapacityRatio,
+//        this.infectionRate,
+//        this.infectionRateCI90,
+//        this.icuHeadroomRatio,
+//        this.icuHeadroomDetails,
+//        this.icuCapacityRatio,
+//        this.vaccinationsInitiatedRatio,
+//        this.vaccinationsCompletedRatio});
+//
+//  Metrics.fromJson(Map<String, dynamic> json) {
+//    testPositivityRatio = json['testPositivityRatio'];
+//    testPositivityRatioDetails = json['testPositivityRatioDetails'] != null
+//        ? new TestPositivityRatioDetails.fromJson(
+//        json['testPositivityRatioDetails'])
+//        : null;
+//    caseDensity = json['caseDensity'];
+//    contactTracerCapacityRatio = json['contactTracerCapacityRatio'];
+//    infectionRate = json['infectionRate'];
+//    infectionRateCI90 = json['infectionRateCI90'];
+//    icuHeadroomRatio = json['icuHeadroomRatio'];
+//    icuHeadroomDetails = json['icuHeadroomDetails'] != null
+//        ? new IcuHeadroomDetails.fromJson(json['icuHeadroomDetails'])
+//        : null;
+//    icuCapacityRatio = json['icuCapacityRatio'];
+//    vaccinationsInitiatedRatio = json['vaccinationsInitiatedRatio'];
+//    vaccinationsCompletedRatio = json['vaccinationsCompletedRatio'];
+//  }
+//
+//  Map<String, dynamic> toJson() {
+//    final Map<String, dynamic> data = new Map<String, dynamic>();
+//    data['testPositivityRatio'] = this.testPositivityRatio;
+//    if (this.testPositivityRatioDetails != null) {
+//      data['testPositivityRatioDetails'] =
+//          this.testPositivityRatioDetails.toJson();
+//    }
+//    data['caseDensity'] = this.caseDensity;
+//    data['contactTracerCapacityRatio'] = this.contactTracerCapacityRatio;
+//    data['infectionRate'] = this.infectionRate;
+//    data['infectionRateCI90'] = this.infectionRateCI90;
+//    data['icuHeadroomRatio'] = this.icuHeadroomRatio;
+//    if (this.icuHeadroomDetails != null) {
+//      data['icuHeadroomDetails'] = this.icuHeadroomDetails.toJson();
+//    }
+//    data['icuCapacityRatio'] = this.icuCapacityRatio;
+//    data['vaccinationsInitiatedRatio'] = this.vaccinationsInitiatedRatio;
+//    data['vaccinationsCompletedRatio'] = this.vaccinationsCompletedRatio;
+//    return data;
+//  }
+//}
+
+class TestPositivityRatioDetails {
+  String source;
+
+  TestPositivityRatioDetails({this.source});
+
+  TestPositivityRatioDetails.fromJson(Map<String, dynamic> json) {
+    source = json['source'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['source'] = this.source;
+    return data;
+  }
+}
+
+class IcuHeadroomDetails {
+  int currentIcuCovid;
+  String currentIcuCovidMethod;
+  int currentIcuNonCovid;
+  String currentIcuNonCovidMethod;
+
+  IcuHeadroomDetails(
+      {this.currentIcuCovid,
+        this.currentIcuCovidMethod,
+        this.currentIcuNonCovid,
+        this.currentIcuNonCovidMethod});
+
+  IcuHeadroomDetails.fromJson(Map<String, dynamic> json) {
+    currentIcuCovid = json['currentIcuCovid'];
+    currentIcuCovidMethod = json['currentIcuCovidMethod'];
+    currentIcuNonCovid = json['currentIcuNonCovid'];
+    currentIcuNonCovidMethod = json['currentIcuNonCovidMethod'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['currentIcuCovid'] = this.currentIcuCovid;
+    data['currentIcuCovidMethod'] = this.currentIcuCovidMethod;
+    data['currentIcuNonCovid'] = this.currentIcuNonCovid;
+    data['currentIcuNonCovidMethod'] = this.currentIcuNonCovidMethod;
+    return data;
+  }
+}
+
+class RiskLevels {
+  int overall;
+  double testPositivityRatio;
+  int caseDensity;
+  int contactTracerCapacityRatio;
+  int infectionRate;
+  int icuHeadroomRatio;
+  int icuCapacityRatio;
+
+  RiskLevels(
+      {this.overall,
+        this.testPositivityRatio,
+        this.caseDensity,
+        this.contactTracerCapacityRatio,
+        this.infectionRate,
+        this.icuHeadroomRatio,
+        this.icuCapacityRatio});
+
+  RiskLevels.fromJson(Map<String, dynamic> json) {
+    overall = json['overall'];
+    testPositivityRatio = json['testPositivityRatio'];
+    caseDensity = json['caseDensity'];
+    contactTracerCapacityRatio = json['contactTracerCapacityRatio'];
+    infectionRate = json['infectionRate'];
+    icuHeadroomRatio = json['icuHeadroomRatio'];
+    icuCapacityRatio = json['icuCapacityRatio'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['overall'] = this.overall;
+    data['testPositivityRatio'] = this.testPositivityRatio;
+    data['caseDensity'] = this.caseDensity;
+    data['contactTracerCapacityRatio'] = this.contactTracerCapacityRatio;
+    data['infectionRate'] = this.infectionRate;
+    data['icuHeadroomRatio'] = this.icuHeadroomRatio;
+    data['icuCapacityRatio'] = this.icuCapacityRatio;
+    return data;
+  }
+}
+
+class Actuals {
+  int cases;
+  int deaths;
+  int positiveTests;
+  int negativeTests;
+  int contactTracers;
+  HospitalBeds hospitalBeds;
+  HospitalBeds icuBeds;
+  int newCases;
+  int newDeaths;
+  int vaccinesDistributed;
+  int vaccinationsInitiated;
+  int vaccinationsCompleted;
+  int vaccinesAdministered;
+
+  Actuals(
+      {this.cases,
+        this.deaths,
+        this.positiveTests,
+        this.negativeTests,
+        this.contactTracers,
+        this.hospitalBeds,
+        this.icuBeds,
+        this.newCases,
+        this.newDeaths,
+        this.vaccinesDistributed,
+        this.vaccinationsInitiated,
+        this.vaccinationsCompleted,
+        this.vaccinesAdministered});
+
+  Actuals.fromJson(Map<String, dynamic> json) {
+    cases = json['cases'];
+    deaths = json['deaths'];
+    positiveTests = json['positiveTests'];
+    negativeTests = json['negativeTests'];
+    contactTracers = json['contactTracers'];
+    hospitalBeds = json['hospitalBeds'] != null
+        ? new HospitalBeds.fromJson(json['hospitalBeds'])
+        : null;
+    icuBeds = json['icuBeds'] != null
+        ? new HospitalBeds.fromJson(json['icuBeds'])
+        : null;
+    newCases = json['newCases'];
+    newDeaths = json['newDeaths'];
+    vaccinesDistributed = json['vaccinesDistributed'];
+    vaccinationsInitiated = json['vaccinationsInitiated'];
+    vaccinationsCompleted = json['vaccinationsCompleted'];
+    vaccinesAdministered = json['vaccinesAdministered'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['cases'] = this.cases;
+    data['deaths'] = this.deaths;
+    data['positiveTests'] = this.positiveTests;
+    data['negativeTests'] = this.negativeTests;
+    data['contactTracers'] = this.contactTracers;
+    if (this.hospitalBeds != null) {
+      data['hospitalBeds'] = this.hospitalBeds.toJson();
+    }
+    if (this.icuBeds != null) {
+      data['icuBeds'] = this.icuBeds.toJson();
+    }
+    data['newCases'] = this.newCases;
+    data['newDeaths'] = this.newDeaths;
+    data['vaccinesDistributed'] = this.vaccinesDistributed;
+    data['vaccinationsInitiated'] = this.vaccinationsInitiated;
+    data['vaccinationsCompleted'] = this.vaccinationsCompleted;
+    data['vaccinesAdministered'] = this.vaccinesAdministered;
+    return data;
+  }
+}
+
+class HospitalBeds {
+  int capacity;
+  int currentUsageTotal;
+  int currentUsageCovid;
+  double typicalUsageRate;
+
+  HospitalBeds(
+      {this.capacity,
+        this.currentUsageTotal,
+        this.currentUsageCovid,
+        this.typicalUsageRate});
+
+  HospitalBeds.fromJson(Map<String, dynamic> json) {
+    capacity = json['capacity'];
+    currentUsageTotal = json['currentUsageTotal'];
+    currentUsageCovid = json['currentUsageCovid'];
+    typicalUsageRate = json['typicalUsageRate'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['capacity'] = this.capacity;
+    data['currentUsageTotal'] = this.currentUsageTotal;
+    data['currentUsageCovid'] = this.currentUsageCovid;
+    data['typicalUsageRate'] = this.typicalUsageRate;
     return data;
   }
 }

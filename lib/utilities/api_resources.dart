@@ -14,12 +14,14 @@ class ApiResources {
   final String _globalURL = 'https://disease.sh/v2/all';
   final String _countriesURL = 'https://disease.sh/v2/countries';
   final String _singleCountryURL = 'https://corona-api.com/countries/';
-  final String _singleStateURL = 'https://api.covidtracking.com/v1/states/';
+  final String _singleStateURL = 'https://api.covidactnow.org/v2/state/';
   final String _globalHistoricalTimelineURL = 'https://corona-api.com/timeline';
   final String _stateHistoricalTimelineURL = 'https://covidtracking.com/api/v1/states/';
   final String _newsArticlesURL = 'https://www.reddit.com/r/Coronavirus.json?limit=100';
   final String _usCountiesURL = 'https://covid19-us-api.herokuapp.com/county';
   final String _usTestingCentersURL = 'https://sheetlabs.com/NCOR/covidtestcentersinUS?state=';
+
+  final String apiKey = 'c3cc1912d5ae41d88782d801c5abf346';
 
   var dio = Dio();
 
@@ -122,7 +124,7 @@ class ApiResources {
   // Get results from covidtracking for single US state
   Future<StateStats> getSingleStateResults(String state) async {
     try {
-      final Response response = await dio.get(_singleStateURL + state.toLowerCase() + '/current.json');
+      final Response response = await dio.get(_singleStateURL + state.toUpperCase() + '.json?apiKey=' + apiKey);
       final jsonResult = json.decode(response.toString());
 
       return StateStats.fromJson(jsonResult);
