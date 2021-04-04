@@ -9,7 +9,7 @@ class StateStats {
   String locationId;
   int long;
   int population;
-//  Metrics metrics;
+  Metrics metrics;
   RiskLevels riskLevels;
   Actuals actuals;
   String lastUpdatedDate;
@@ -24,7 +24,7 @@ class StateStats {
         this.locationId,
         this.long,
         this.population,
-//        this.metrics,
+        this.metrics,
         this.riskLevels,
         this.actuals,
         this.lastUpdatedDate});
@@ -39,11 +39,11 @@ class StateStats {
     locationId = json['locationId'];
     long = json['long'];
     population = json['population'];
-//    metrics =
-//    json['metrics'] != null ? new Metrics.fromJson(json['metrics']) : null;
-//    riskLevels = json['riskLevels'] != null
-//        ? new RiskLevels.fromJson(json['riskLevels'])
-//        : null;
+    metrics =
+    json['metrics'] != null ? new Metrics.fromJson(json['metrics']) : null;
+    riskLevels = json['riskLevels'] != null
+        ? new RiskLevels.fromJson(json['riskLevels'])
+        : null;
     actuals =
     json['actuals'] != null ? new Actuals.fromJson(json['actuals']) : null;
     lastUpdatedDate = json['lastUpdatedDate'];
@@ -60,9 +60,9 @@ class StateStats {
     data['locationId'] = this.locationId;
     data['long'] = this.long;
     data['population'] = this.population;
-//    if (this.metrics != null) {
-//      data['metrics'] = this.metrics.toJson();
-//    }
+    if (this.metrics != null) {
+      data['metrics'] = this.metrics.toJson();
+    }
     if (this.riskLevels != null) {
       data['riskLevels'] = this.riskLevels.toJson();
     }
@@ -74,85 +74,55 @@ class StateStats {
   }
 }
 
-//class Metrics {
-//  double testPositivityRatio;
-//  TestPositivityRatioDetails testPositivityRatioDetails;
-//  double caseDensity;
-//  double contactTracerCapacityRatio;
-//  double infectionRate;
-//  double infectionRateCI90;
-//  double icuHeadroomRatio;
-//  IcuHeadroomDetails icuHeadroomDetails;
-//  double icuCapacityRatio;
-//  double vaccinationsInitiatedRatio;
-//  double vaccinationsCompletedRatio;
-//
-//  Metrics(
-//      {this.testPositivityRatio,
-//        this.testPositivityRatioDetails,
-//        this.caseDensity,
-//        this.contactTracerCapacityRatio,
-//        this.infectionRate,
-//        this.infectionRateCI90,
-//        this.icuHeadroomRatio,
-//        this.icuHeadroomDetails,
-//        this.icuCapacityRatio,
-//        this.vaccinationsInitiatedRatio,
-//        this.vaccinationsCompletedRatio});
-//
-//  Metrics.fromJson(Map<String, dynamic> json) {
-//    testPositivityRatio = json['testPositivityRatio'];
-//    testPositivityRatioDetails = json['testPositivityRatioDetails'] != null
-//        ? new TestPositivityRatioDetails.fromJson(
-//        json['testPositivityRatioDetails'])
-//        : null;
-//    caseDensity = json['caseDensity'];
-//    contactTracerCapacityRatio = json['contactTracerCapacityRatio'];
-//    infectionRate = json['infectionRate'];
-//    infectionRateCI90 = json['infectionRateCI90'];
-//    icuHeadroomRatio = json['icuHeadroomRatio'];
-//    icuHeadroomDetails = json['icuHeadroomDetails'] != null
-//        ? new IcuHeadroomDetails.fromJson(json['icuHeadroomDetails'])
-//        : null;
-//    icuCapacityRatio = json['icuCapacityRatio'];
-//    vaccinationsInitiatedRatio = json['vaccinationsInitiatedRatio'];
-//    vaccinationsCompletedRatio = json['vaccinationsCompletedRatio'];
-//  }
-//
-//  Map<String, dynamic> toJson() {
-//    final Map<String, dynamic> data = new Map<String, dynamic>();
-//    data['testPositivityRatio'] = this.testPositivityRatio;
-//    if (this.testPositivityRatioDetails != null) {
-//      data['testPositivityRatioDetails'] =
-//          this.testPositivityRatioDetails.toJson();
-//    }
-//    data['caseDensity'] = this.caseDensity;
-//    data['contactTracerCapacityRatio'] = this.contactTracerCapacityRatio;
-//    data['infectionRate'] = this.infectionRate;
-//    data['infectionRateCI90'] = this.infectionRateCI90;
-//    data['icuHeadroomRatio'] = this.icuHeadroomRatio;
-//    if (this.icuHeadroomDetails != null) {
-//      data['icuHeadroomDetails'] = this.icuHeadroomDetails.toJson();
-//    }
-//    data['icuCapacityRatio'] = this.icuCapacityRatio;
-//    data['vaccinationsInitiatedRatio'] = this.vaccinationsInitiatedRatio;
-//    data['vaccinationsCompletedRatio'] = this.vaccinationsCompletedRatio;
-//    return data;
-//  }
-//}
+class Metrics {
+  dynamic testPositivityRatio;
+  dynamic caseDensity;
+  dynamic contactTracerCapacityRatio;
+  dynamic infectionRate;
+  dynamic icuHeadroomRatio;
+  IcuHeadroomDetails icuHeadroomDetails;
+  dynamic icuCapacityRatio;
+  dynamic vaccinationsInitiatedRatio;
+  dynamic vaccinationsCompletedRatio;
 
-class TestPositivityRatioDetails {
-  String source;
+  Metrics(
+      {this.testPositivityRatio,
+        this.caseDensity,
+        this.contactTracerCapacityRatio,
+        this.infectionRate,
+        this.icuHeadroomRatio,
+        this.icuHeadroomDetails,
+        this.icuCapacityRatio,
+        this.vaccinationsInitiatedRatio,
+        this.vaccinationsCompletedRatio});
 
-  TestPositivityRatioDetails({this.source});
-
-  TestPositivityRatioDetails.fromJson(Map<String, dynamic> json) {
-    source = json['source'];
+  Metrics.fromJson(Map<String, dynamic> json) {
+    testPositivityRatio = json['testPositivityRatio'];
+    caseDensity = json['caseDensity'];
+    contactTracerCapacityRatio = json['contactTracerCapacityRatio'];
+    infectionRate = json['infectionRate'];
+    icuHeadroomRatio = json['icuHeadroomRatio'];
+    icuHeadroomDetails = json['icuHeadroomDetails'] != null
+        ? new IcuHeadroomDetails.fromJson(json['icuHeadroomDetails'])
+        : null;
+    icuCapacityRatio = json['icuCapacityRatio'];
+    vaccinationsInitiatedRatio = json['vaccinationsInitiatedRatio'];
+    vaccinationsCompletedRatio = json['vaccinationsCompletedRatio'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['source'] = this.source;
+    data['testPositivityRatio'] = this.testPositivityRatio;
+    data['caseDensity'] = this.caseDensity;
+    data['contactTracerCapacityRatio'] = this.contactTracerCapacityRatio;
+    data['infectionRate'] = this.infectionRate;
+    data['icuHeadroomRatio'] = this.icuHeadroomRatio;
+    if (this.icuHeadroomDetails != null) {
+      data['icuHeadroomDetails'] = this.icuHeadroomDetails.toJson();
+    }
+    data['icuCapacityRatio'] = this.icuCapacityRatio;
+    data['vaccinationsInitiatedRatio'] = this.vaccinationsInitiatedRatio;
+    data['vaccinationsCompletedRatio'] = this.vaccinationsCompletedRatio;
     return data;
   }
 }
@@ -188,7 +158,7 @@ class IcuHeadroomDetails {
 
 class RiskLevels {
   int overall;
-  double testPositivityRatio;
+  dynamic testPositivityRatio;
   int caseDensity;
   int contactTracerCapacityRatio;
   int infectionRate;

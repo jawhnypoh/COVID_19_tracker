@@ -227,29 +227,6 @@ class SingleStateViewState extends State<SingleStateView> {
     );
   }
 
-//  Widget _buildTotalActive(stateStat) {
-//    return Container(
-//      child: ConstrainedBox(
-//        constraints: const BoxConstraints(
-//            minWidth: 150.0,
-//            maxWidth: 150.0,
-//            minHeight: 80.0,
-//            maxHeight: 80.0
-//        ),
-//        child: Column(
-//          children: <Widget>[
-//            Text('Active', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-//            AutoSizeText(Utilities().calculateActiveCases(stateStat.actuals.cases, stateStat.actuals.deaths, 0)  == null
-//                ? "N/A"
-//                : numberFormatter.format(Utilities()
-//                  .calculateActiveCases(stateStat.positive, stateStat.death, stateStat.recovered)).toString(),
-//                style: TextStyle(fontSize: 35.0, color: Colors.blueAccent), maxLines: 1),
-//          ],
-//        ),
-//      ),
-//    );
-//  }
-
   Widget _buildTotalDeaths(stateStat) {
     return Container(
       child: ConstrainedBox(
