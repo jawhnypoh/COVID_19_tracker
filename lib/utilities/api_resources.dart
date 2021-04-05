@@ -15,6 +15,7 @@ class ApiResources {
   final String _countriesURL = 'https://disease.sh/v2/countries';
   final String _singleCountryURL = 'https://corona-api.com/countries/';
   final String _singleStateURL = 'https://api.covidactnow.org/v2/state/';
+  final String _singleStateHistoricalURL = 'https://covidtracking.com/api/v1/states/';
   final String _globalHistoricalTimelineURL = 'https://corona-api.com/timeline';
   final String _stateHistoricalTimelineURL = 'https://covidtracking.com/api/v1/states/';
   final String _newsArticlesURL = 'https://www.reddit.com/r/Coronavirus.json?limit=100';
@@ -137,7 +138,9 @@ class ApiResources {
   // Get historical results from covidtracking for single US state by date
   Future<StateHistoricalStats> getSingleStateHistoricalResults(String state, String date) async {
     try {
-      final Response response = await dio.get(_singleStateURL + state + "/" + date + ".json");
+      print(_singleStateHistoricalURL + state + "/" + date + ".json");
+
+      final Response response = await dio.get(_singleStateHistoricalURL + state + "/" + date + ".json");
       final jsonResult = json.decode(response.toString());
 
       print(response);
