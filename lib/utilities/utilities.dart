@@ -1,4 +1,5 @@
 // Utility class for conversions and stuff
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 
@@ -40,6 +41,40 @@ class Utilities {
         break;
       default:
         return countryName;
+    }
+  }
+
+  String convertRiskLevels(int riskLevel) {
+    switch (riskLevel) {
+      case 0:
+        return 'Low Risk';
+      case 1:
+        return 'Medium Risk';
+      case 2:
+        return 'High Risk';
+      case 3:
+        return 'Extreme Risk';
+      case 4:
+        return 'Severe Risk';
+      default:
+        return 'NA';
+    }
+  }
+
+  MaterialColor convertRiskLevelColors(int riskLevel) {
+    switch (riskLevel) {
+      case 0:
+        return Colors.green;
+      case 1:
+        return Colors.yellow;
+      case 2:
+        return Colors.orange;
+      case 3:
+        return Colors.red;
+      case 4:
+        return Colors.red[900];
+      default:
+        return Colors.grey;
     }
   }
 

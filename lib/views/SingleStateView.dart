@@ -2,12 +2,12 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:covid_19_tracker/models/state_location_model.dart';
 import 'package:covid_19_tracker/views/NewsURLView.dart';
 import 'package:covid_19_tracker/views/MapView.dart';
 import 'package:covid_19_tracker/views/SingleCountyView.dart';
 import 'package:covid_19_tracker/charts/LegendColoredBox.dart';
-import 'package:covid_19_tracker/charts/StateDonutPieChart.dart';
 import 'package:covid_19_tracker/charts/StateHistoricalLineChart.dart';
 import 'package:covid_19_tracker/models/state_model.dart';
 import 'package:covid_19_tracker/utilities/api_resources.dart';
@@ -23,6 +23,7 @@ class SingleStateViewState extends State<SingleStateView> {
   StateStats stateStats;
 
   final numberFormatter = NumberFormat('#,###', 'en_US');
+  final percentFormatter = NumberFormat('###.0', 'en_US');
 
   var donutPieChart;
   var historicalLineChart;
@@ -59,6 +60,8 @@ class SingleStateViewState extends State<SingleStateView> {
                       children: <Widget>[
                         _buildGetTestBanner(stateStats.state),
                         const Padding(padding: EdgeInsets.only(top: 20.0)),
+                        _buildRiskLevelWidget(stateStats),
+                        const Padding(padding: EdgeInsets.only(top: 20.0)),
                         _buildTotalTestedWidget(stateStats),
                         const Padding(padding: EdgeInsets.only(top: 30.0)),
                         Row(
@@ -74,6 +77,15 @@ class SingleStateViewState extends State<SingleStateView> {
                           children: <Widget>[
                             _buildCurrentHospitalized(stateStats),
                             _buildCurrentICU(stateStats)
+                          ],
+                        ),
+                        const Padding(padding: EdgeInsets.only(top: 20.0)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            _buildInfectionRate(stateStats),
+                            _buildIcuCapUsed(stateStats),
+                            _buildVaccinated(stateStats)
                           ],
                         ),
                         const Padding(padding: EdgeInsets.only(top: 10.0)),
@@ -190,6 +202,23 @@ class SingleStateViewState extends State<SingleStateView> {
     );
   }
 
+  Widget _buildRiskLevelWidget(stateStats) {
+    return Container(
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(FontAwesomeIcons.solidCircle,
+                color: Utilities().convertRiskLevelColors(
+                    stateStats.riskLevels.overall)),
+            Text(' ' + Utilities().convertRiskLevels(stateStats.riskLevels.overall),
+                style: TextStyle(fontSize: 25.0, color: Colors.grey[350]))
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildTotalTestedWidget(stateStat) {
     return Container(
     child: Center(
@@ -287,6 +316,72 @@ class SingleStateViewState extends State<SingleStateView> {
                 ? 'N/A'
                 : numberFormatter.format(stateStat.actuals.icuBeds.currentUsageCovid).toString(),
                 style: TextStyle(fontSize: 35.0, color: Colors.orange[800]), maxLines: 1),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfectionRate(stateStat) {
+    return Container(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+            minWidth: 110.0,
+            maxWidth: 110.0,
+            minHeight: 80.0,
+            maxHeight: 80.0
+        ),
+        child: Column(
+          children: <Widget>[
+            Text('Infection Rate', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
+            AutoSizeText(stateStat.metrics.infectionRate == null
+                ? 'N/A'
+                : percentFormatter.format(stateStat.metrics.infectionRate).toString(),
+                style: TextStyle(fontSize: 35.0, color: Colors.orange[800]), maxLines: 1),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIcuCapUsed(stateStat) {
+    return Container(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+            minWidth: 110.0,
+            maxWidth: 110.0,
+            minHeight: 80.0,
+            maxHeight: 80.0
+        ),
+        child: Column(
+          children: <Widget>[
+            Text('ICU Capacity', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
+            AutoSizeText(stateStat.metrics.icuCapacityRatio == null
+                ? 'N/A'
+                : percentFormatter.format(stateStat.metrics.icuCapacityRatio * 100) + '%',
+                style: TextStyle(fontSize: 35.0, color: Colors.orange[800]), maxLines: 1),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildVaccinated(stateStat) {
+    return Container(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+            minWidth: 110.0,
+            maxWidth: 110.0,
+            minHeight: 80.0,
+            maxHeight: 80.0
+        ),
+        child: Column(
+          children: <Widget>[
+            Text('Vaccinated', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
+            AutoSizeText(stateStat.metrics.vaccinationsInitiatedRatio == null
+                ? 'N/A'
+                : percentFormatter.format(stateStat.metrics.vaccinationsInitiatedRatio * 100) + '%',
+                style: TextStyle(fontSize: 35.0, color: Colors.green), maxLines: 1),
           ],
         ),
       ),
