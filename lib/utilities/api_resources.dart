@@ -5,7 +5,7 @@ import 'package:covid_19_tracker/models/global_model.dart';
 import 'package:covid_19_tracker/models/news_article_model.dart';
 import 'package:covid_19_tracker/models/state_historical_data_model.dart';
 import 'package:covid_19_tracker/models/state_model.dart';
-import 'package:covid_19_tracker/models/testing_center_model.dart';
+import 'package:covid_19_tracker/models/vaccine_locations_model.dart';
 import 'package:covid_19_tracker/models/us_county_model.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert';
@@ -20,7 +20,7 @@ class ApiResources {
   final String _stateHistoricalTimelineURL = 'https://covidtracking.com/api/v1/states/';
   final String _newsArticlesURL = 'https://www.reddit.com/r/Coronavirus.json?limit=100';
   final String _usCountiesURL = 'https://covid19-us-api.herokuapp.com/county';
-  final String _usTestingCentersURL = 'https://sheetlabs.com/NCOR/covidtestcentersinUS?state=';
+  final String _usVaccineLocationsURL = 'https://www.vaccinespotter.org/api/v0/states/';
 
   final String apiKey = 'c3cc1912d5ae41d88782d801c5abf346';
 
@@ -172,18 +172,20 @@ class ApiResources {
   }
 
   // Get results from sheetlabs NCOR for all covid testing centers in the us
-  Future<List<TestingCenter>> getUSTestingCenters(String stateAbr) async {
+  Future<List<VaccineLocation>> getUSVaccineLocations(String stateAbr) async {
     final List resultsList = List();
-    List<TestingCenter> testingCentersList = List();
+    List<VaccineLocation> testingCentersList = List();
 
     try {
-      final Response response = await dio.get(_usTestingCentersURL + stateAbr);
-      for(int i = 0; i <response.data.length; i++) {
-        resultsList.add(response.data[i]);
+      final Response response = await dio.get(_usVaccineLocationsURL + stateAbr + '.json');
+
+      print(response.data['features']);
+      for(int i = 0; i <response.data['features'].length; i++) {
+        resultsList.add(response.data['features'][i]);
       }
 
-      testingCentersList = resultsList.map<TestingCenter>((json) =>
-        TestingCenter.fromJson(json)).toList();
+      testingCentersList = resultsList.map<VaccineLocation>((json)
+        => VaccineLocation.fromJson(json)).toList();
 
       return testingCentersList;
     } catch (e) {

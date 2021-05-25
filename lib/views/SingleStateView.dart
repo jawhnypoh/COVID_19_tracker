@@ -168,8 +168,8 @@ class SingleStateViewState extends State<SingleStateView> {
           }
           
           return MaterialBanner(
-            content: Text('COVID-19 tests are available for free at health care centers and select pharmacies nationwide. '
-                'Visit the state health department\'\s website for the latest information on testing. '),
+            content: Text('COVID-19 vaccines are now widely available for free at health care centers, clinics, and retail pharmacies nationwide. '
+                'Visit the state health department\'\s website for the latest information on vaccines. '),
             leading: Icon(Icons.info),
             actions: [
               FlatButton(
@@ -179,12 +179,12 @@ class SingleStateViewState extends State<SingleStateView> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) =>
-                      NewsURLView(newsURL: 'https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/testing.html'))
+                      NewsURLView(newsURL: 'https://www.cdc.gov/coronavirus/2019-ncov/vaccines/keythingstoknow.html'))
                   );
                 },
               ),
               FlatButton(
-              child: Text('FIND CENTERS'),
+              child: Text('GET VACCINATED'),
                 onPressed: () {
                   // Go to Testing Centers Map View
                   Navigator.push(

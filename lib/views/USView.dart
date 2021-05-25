@@ -66,6 +66,7 @@ class USViewState extends State<USView> {
   }
 
   Widget _buildListAndSearchContainer(List statesList) {
+    var filterResult = 0;
     return Container(
       child: Column(
         children: <Widget>[
@@ -79,11 +80,34 @@ class USViewState extends State<USView> {
               decoration: InputDecoration(
                 hintText: 'Search for State',
                 prefixIcon: Icon(Icons.search),
+                suffixIcon: PopupMenuButton(
+                  icon: Icon(Icons.filter_list_outlined),
+                  onSelected: (value) {
+                    value();
+                  },
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      child: Text('Cases'),
+                      value: () {
+                        filterResult = 0;
+                      },
+                    ),
+                    PopupMenuItem(
+                      child: Text('Vaccines'),
+                      value: () {
+                        filterResult = 1;
+                        print(filterResult);
+                      },
+                    ),
+                  ],
+                )
               ),
             ),
           ),
           Expanded(
-            child: _buildStatesResultsList(searchStatesList),
+            child: filterResult == 0
+                ? _buildStatesResultsList(searchStatesList)
+                : _buildStatesVaccineResultsList(searchStatesList)
           )
         ],
       ),
@@ -115,6 +139,10 @@ class USViewState extends State<USView> {
       },
       controller: _scrollController,
     );
+  }
+
+  Widget _buildStatesVaccineResultsList(List vaccinesList) {
+
   }
 
   // Filter state results list based on querying value from search
