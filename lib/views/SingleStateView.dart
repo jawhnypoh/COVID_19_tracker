@@ -61,7 +61,9 @@ class SingleStateViewState extends State<SingleStateView> {
                         _buildGetTestBanner(stateStats.state),
                         const Padding(padding: EdgeInsets.only(top: 20.0)),
                         _buildRiskLevelWidget(stateStats),
-                        const Padding(padding: EdgeInsets.only(top: 20.0)),
+                        const Padding(padding: EdgeInsets.only(top: 10.0)),
+                        const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
+                        const Padding(padding: EdgeInsets.only(top: 10.0)),
                         _buildTotalTestedWidget(stateStats),
                         const Padding(padding: EdgeInsets.only(top: 30.0)),
                         Row(

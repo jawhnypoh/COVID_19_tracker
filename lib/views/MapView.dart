@@ -2,6 +2,7 @@
 
 import 'package:covid_19_tracker/models/vaccine_locations_model.dart';
 import 'package:covid_19_tracker/utilities/api_resources.dart';
+import 'package:covid_19_tracker/views/VaccineWebView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -10,8 +11,7 @@ class MapViewState extends State<MapView> {
   GoogleMapController mapController;
   Set<Marker> markerSet = Set();
 
-  final Map<String, Marker> _markers = {};
-  String stateAbr;
+  String stateAbr, finalAddress;
   LatLng stateLatLng;
 
   // Default location to Portland, OR if stateLatLng is null for some reason
@@ -21,8 +21,11 @@ class MapViewState extends State<MapView> {
     final List<VaccineLocation> vaccineLocations = await ApiResources().getUSVaccineLocations(stateAbr);
 
     setState(() {
-      _markers.clear();
       for (final VaccineLocation vaccineLocation in vaccineLocations) {
+        finalAddress = vaccineLocation.properties.address + ', '
+            + vaccineLocation.properties.city + ', ' + vaccineLocation.properties.state
+            + ', ' + vaccineLocation.properties.postalCode;
+
         final marker = Marker(
           markerId: MarkerId(vaccineLocation.properties.id.toString()),
           position: LatLng(
@@ -32,12 +35,18 @@ class MapViewState extends State<MapView> {
             title: vaccineLocation.properties.providerBrandName,
             snippet: vaccineLocation.properties.address,
             onTap: () {
-              // TODO: What to do if user taps on the infoWindow?
-              print('onTap() called');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>
+                      VaccineWebView(
+                          vaccineURL: vaccineLocation.properties.url,
+                          name: vaccineLocation.properties.providerBrandName,
+                          address: finalAddress,
+                      ))
+              );
             }
           )
         );
-        _markers[vaccineLocation.properties.providerBrandName] = marker;
         markerSet.add(marker);
       }
     });
@@ -47,7 +56,6 @@ class MapViewState extends State<MapView> {
 
   @override
   Widget build(BuildContext context) {
-    print('Markers: ' + _markers.values.toString());
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
