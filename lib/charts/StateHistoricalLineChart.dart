@@ -54,7 +54,7 @@ class StateHistoricalLineChart extends StatelessWidget {
                         color: charts.ColorUtil.fromDartColor(Colors.grey[600])
                     ),
                   ),
-                  tickProviderSpec: const charts.DayTickProviderSpec(increments: [30]),
+                  tickProviderSpec: const charts.DayTickProviderSpec(increments: [55]),
                   tickFormatterSpec: const charts.AutoDateTimeTickFormatterSpec(
                     day: charts.TimeFormatterSpec(
                       format: 'MMM', transitionFormat: 'MMM dd'
@@ -94,31 +94,21 @@ class StateHistoricalLineChart extends StatelessWidget {
   static List<charts.Series<CaseHistorical, DateTime>> dataList(List<dynamic> apiData) {
     List<CaseHistorical> confirmedHistoricalList = List();
     List<CaseHistorical> deathsHistoricalList = List();
-    List<CaseHistorical> recoveredHistoricalList = List();
 
     // Colors definition
     final confirmedColor = charts.ColorUtil.fromDartColor(Colors.orangeAccent);
     final deathsColor = charts.ColorUtil.fromDartColor(Colors.redAccent);
-    final recoveredColor = charts.ColorUtil.fromDartColor(Colors.green);
 
     // Confirmed Cases Timeline
     for(int i = 0; i < apiData.length; i++) {
       confirmedHistoricalList.add(CaseHistorical(apiData[i]['date'].toString(),
-          apiData[i]['positive'], [2,4]));
+          apiData[i]['cases'], [2,4]));
     }
 
     // Deaths Timeline
     for(int i = 0; i < apiData.length; i++) {
-      deathsHistoricalList.add(CaseHistorical(apiData[i]['date'].toString(),
-          apiData[i]['death'], [2,4]));
-    }
-
-    // Recovered Timeline
-    for(int i = 0; i < apiData.length; i++) {
-      if (apiData[i]['recovered'] != null) {
-        recoveredHistoricalList.add(CaseHistorical(apiData[i]['date'].toString(),
-            apiData[i]['recovered'], [2,4]));
-      }
+      deathsHistoricalList.add(CaseHistorical(apiData[i]['date'],
+          apiData[i]['deaths'], [2,4]));
     }
 
     return [
@@ -137,14 +127,6 @@ class StateHistoricalLineChart extends StatelessWidget {
         colorFn: (CaseHistorical caseHistorical, _) => deathsColor,
 //        dashPatternFn: (CaseHistorical caseHistorical, _) => caseHistorical.dashPattern,
         data: deathsHistoricalList,
-      ),
-      charts.Series<CaseHistorical, DateTime>(
-        id: 'Recovered Timeline',
-        domainFn: (CaseHistorical caseHistorical, _) => Utilities().convertStringToDateTime(caseHistorical.date),
-        measureFn: (CaseHistorical caseHistorical, _) => caseHistorical.count,
-        colorFn: (CaseHistorical caseHistorical, _) => recoveredColor,
-//        dashPatternFn: (CaseHistorical caseHistorical, _) => caseHistorical.dashPattern,
-        data: recoveredHistoricalList,
       )
     ];
   }

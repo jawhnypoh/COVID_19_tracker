@@ -17,7 +17,7 @@ class ApiResources {
   final String _singleStateURL = 'https://api.covidactnow.org/v2/state/';
   final String _singleStateHistoricalURL = 'https://covidtracking.com/api/v1/states/';
   final String _globalHistoricalTimelineURL = 'https://corona-api.com/timeline';
-  final String _stateHistoricalTimelineURL = 'https://covidtracking.com/api/v1/states/';
+  final String _stateHistoricalTimelineURL = 'https://api.covidactnow.org/v2/state/';
   final String _newsArticlesURL = 'https://www.reddit.com/r/Coronavirus.json?limit=100';
   final String _usCountiesURL = 'https://covid19-us-api.herokuapp.com/county';
   final String _usVaccineLocationsURL = 'https://www.vaccinespotter.org/api/v0/states/';
@@ -54,14 +54,15 @@ class ApiResources {
     }
   }
 
-  // Get results from covidtracking.com API for state timeline
+  // Get results from api.covidactnow API for state timeline
   Future<List> getStateHistoricalDataResults(String stateName) async {
     final List resultsList = List();
 
     try {
-      final Response response = await dio.get(_stateHistoricalTimelineURL + stateName.toLowerCase() + '/daily.json');
-      for(int i = 0; i < response.data.length; i++) {
-        resultsList.add(response.data[i]);
+      final Response response = await dio.get(_stateHistoricalTimelineURL
+          + stateName.toUpperCase() + '.timeseries.json?apiKey=' + apiKey);
+      for(int i = 0; i < response.data['actualsTimeseries'].length; i++) {
+        resultsList.add(response.data['actualsTimeseries'][i]);
       }
       return resultsList;
     } catch (e) {
@@ -122,10 +123,11 @@ class ApiResources {
     }
   }
 
-  // Get results from covidtracking for single US state
+  // Get results from api.covidactnow for single US state
   Future<StateStats> getSingleStateResults(String state) async {
     try {
-      final Response response = await dio.get(_singleStateURL + state.toUpperCase() + '.json?apiKey=' + apiKey);
+      final Response response = await dio.get(_singleStateURL
+          + state.toUpperCase() + '.json?apiKey=' + apiKey);
       final jsonResult = json.decode(response.toString());
 
       return StateStats.fromJson(jsonResult);
@@ -135,7 +137,7 @@ class ApiResources {
     }
   }
 
-  // Get historical results from covidtracking for single US state by date
+  // Get historical results from api.covidactnow for single US state by date
   Future<StateHistoricalStats> getSingleStateHistoricalResults(String state, String date) async {
     try {
       print(_singleStateHistoricalURL + state + "/" + date + ".json");

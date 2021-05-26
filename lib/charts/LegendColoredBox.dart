@@ -1,6 +1,7 @@
 // Colored Circle Class
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LegendColoredBox extends StatelessWidget {
   final String text;
@@ -12,11 +13,7 @@ class LegendColoredBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Container(
-          width: 10.0,
-          height: 10.0,
-          color: this.color,
-        ),
+        Icon(FontAwesomeIcons.solidCircle, color: this.color, size: 15.0,),
         Text('  ' + this.text, style: TextStyle(color: Colors.grey[350]),)
       ],
     );

@@ -170,7 +170,7 @@ class SingleStateViewState extends State<SingleStateView> {
           }
           
           return MaterialBanner(
-            content: Text('COVID-19 vaccines are now widely available for free at health care centers, clinics, and retail pharmacies nationwide. '
+            content: Text('COVID-19 vaccines are now available for free at health care centers, clinics, and retail pharmacies nationwide. '
                 'Visit the state health department\'\s website for the latest information on vaccines. '),
             leading: Icon(Icons.info),
             actions: [
@@ -397,8 +397,7 @@ class SingleStateViewState extends State<SingleStateView> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             LegendColoredBox(color: Colors.orangeAccent, text: 'Confirmed'),
-            LegendColoredBox(color: Colors.redAccent, text: 'Deaths'),
-            LegendColoredBox(color: Colors.green, text: 'Recovered'),
+            LegendColoredBox(color: Colors.redAccent, text: 'Deaths')
           ],
         ),
       ),
