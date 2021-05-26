@@ -22,9 +22,6 @@ class MapViewState extends State<MapView> {
 
     setState(() {
       for (final VaccineLocation vaccineLocation in vaccineLocations) {
-        finalAddress = vaccineLocation.properties.address + ', '
-            + vaccineLocation.properties.city + ', ' + vaccineLocation.properties.state
-            + ', ' + vaccineLocation.properties.postalCode;
 
         final marker = Marker(
           markerId: MarkerId(vaccineLocation.properties.id.toString()),
@@ -41,7 +38,9 @@ class MapViewState extends State<MapView> {
                       VaccineWebView(
                           vaccineURL: vaccineLocation.properties.url,
                           name: vaccineLocation.properties.providerBrandName,
-                          address: finalAddress,
+                          address: vaccineLocation.properties.address + ', '
+                              + vaccineLocation.properties.city + ', ' + vaccineLocation.properties.state
+                              + ', ' + vaccineLocation.properties.postalCode,
                       ))
               );
             }

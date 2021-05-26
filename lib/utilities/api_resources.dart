@@ -145,8 +145,6 @@ class ApiResources {
       final Response response = await dio.get(_singleStateHistoricalURL + state + "/" + date + ".json");
       final jsonResult = json.decode(response.toString());
 
-      print(response);
-
       return StateHistoricalStats.fromJson(jsonResult);
     } catch (e) {
       print(e);
@@ -173,7 +171,7 @@ class ApiResources {
     }
   }
 
-  // Get results from sheetlabs NCOR for all covid testing centers in the us
+  // Get results from vaccinespotter.org for all vaccine locations in the us
   Future<List<VaccineLocation>> getUSVaccineLocations(String stateAbr) async {
     final List resultsList = List();
     List<VaccineLocation> testingCentersList = List();

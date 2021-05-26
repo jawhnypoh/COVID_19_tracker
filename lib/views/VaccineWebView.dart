@@ -12,6 +12,7 @@ class VaccineWebViewState extends State<VaccineWebView> {
 
   Widget _buildAddressWidget() {
     return Container(
+        height: 200.0,
         padding: const EdgeInsets.all(25.0),
         child: Center(
             child: Column(
@@ -26,6 +27,7 @@ class VaccineWebViewState extends State<VaccineWebView> {
 
   Widget _buildWebView() {
     return Container(
+      height: 700.0,
       child: WebviewScaffold(
         url: vaccineURL,
         withJavascript: true,

@@ -95,7 +95,7 @@ class AboutView extends StatelessWidget {
               style: TextStyle(color: Colors.grey[350], fontSize: 20.0),
               textAlign: TextAlign.left),
           const Padding(padding: EdgeInsets.only(top: 10.0)),
-          Text('• sheetlabs NCOR API',
+          Text('• vaccinespotter API',
               style: TextStyle(color: Colors.grey[350], fontSize: 20.0),
               textAlign: TextAlign.left)
         ],
