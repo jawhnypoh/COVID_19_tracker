@@ -22,7 +22,7 @@ class SingleCountyViewState extends State<SingleCountyView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(countyStats.countyName + ' County'),
+        title: Text(countyStats.county + ' County'),
       ),
       body: Container(
         margin: const EdgeInsets.only(left: 10.0, right: 10.0),
@@ -31,15 +31,12 @@ class SingleCountyViewState extends State<SingleCountyView> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Padding(padding: EdgeInsets.only(top: 20.0)),
-                _buildTotalCasesWidget(countyStats),
                 const Padding(padding: EdgeInsets.only(top: 40.0)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    _buildDeathsTodayWidget(countyStats),
+                    _buildTotalCasesWidget(countyStats),
                     _buildTotalDeathsWidget(countyStats),
-                    _buildFatalityRateWidget(countyStats)
                   ],
                 )
               ],
@@ -65,21 +62,7 @@ class SingleCountyViewState extends State<SingleCountyView> {
             child: Column(
                 children: <Widget>[
                   Text('Total Confirmed', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-                  Text(numberFormatter.format(countyStats.cases).toString(), style: TextStyle(fontSize: 70.0, color: Colors.orangeAccent)),
-                  Text('+' + numberFormatter.format(countyStats.newCases).toString() + ' Today', style: TextStyle(fontSize: 25.0, color: Colors.orangeAccent))
-                ]
-            )
-        )
-    );
-  }
-
-  Widget _buildDeathsTodayWidget(countyStats) {
-    return Container(
-        child: Center(
-            child: Column(
-                children: <Widget>[
-                  Text('Deaths Today', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-                  Text('+' + numberFormatter.format(countyStats.newDeaths).toString(), style: TextStyle(fontSize: 40.0, color: Colors.redAccent)),
+                  Text(numberFormatter.format(countyStats.stats.confirmed).toString(), style: TextStyle(fontSize: 50.0, color: Colors.orangeAccent)),
                 ]
             )
         )
@@ -92,20 +75,7 @@ class SingleCountyViewState extends State<SingleCountyView> {
             child: Column(
                 children: <Widget>[
                   Text('Total Deaths', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-                  Text(numberFormatter.format(countyStats.deaths).toString(), style: TextStyle(fontSize: 40.0, color: Colors.redAccent)),
-                ]
-            )
-        )
-    );
-  }
-
-  Widget _buildFatalityRateWidget(countyStats) {
-    return Container(
-        child: Center(
-            child: Column(
-                children: <Widget>[
-                  Text('Death Rate', style: TextStyle(fontSize: 15.0, color: Colors.grey[350])),
-                  Text(countyStats.fatalityRate, style: TextStyle(fontSize: 40.0, color: Colors.deepPurpleAccent)),
+                  Text(numberFormatter.format(countyStats.stats.deaths).toString(), style: TextStyle(fontSize: 50.0, color: Colors.redAccent)),
                 ]
             )
         )

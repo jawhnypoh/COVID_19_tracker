@@ -119,9 +119,9 @@ class SingleStateViewState extends State<SingleStateView> {
                         ),
                         const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
                         const Padding(padding: EdgeInsets.only(top: 20.0)),
-//                        _buildCountiesContainer(),
-//                        const Padding(padding: EdgeInsets.only(top: 10.0)),
-//                        const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
+                        _buildCountiesContainer(),
+                        const Padding(padding: EdgeInsets.only(top: 10.0)),
+                        const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Text('state data updated ' + Utilities()
@@ -435,9 +435,9 @@ class SingleStateViewState extends State<SingleStateView> {
             return null;
           } else {
             return ListTile(
-              title: Text(usCountiesList[idx].countyName + ' County',
+              title: Text(usCountiesList[idx].county + ' County',
                   style: const TextStyle(fontSize: 25.0)),
-              subtitle: Text(numberFormatter.format(usCountiesList[idx].cases).toString() + ' cases',
+              subtitle: Text(numberFormatter.format(usCountiesList[idx].stats.confirmed).toString() + ' cases',
                   style: const TextStyle(fontSize: 20.0, color: Colors.orangeAccent)),
               onTap: () {
                 Navigator.push(

@@ -19,7 +19,7 @@ class ApiResources {
   final String _globalHistoricalTimelineURL = 'https://corona-api.com/timeline';
   final String _stateHistoricalTimelineURL = 'https://api.covidactnow.org/v2/state/';
   final String _newsArticlesURL = 'https://www.reddit.com/r/Coronavirus.json?limit=100';
-  final String _usCountiesURL = 'https://covid19-us-api.herokuapp.com/county';
+  final String _usCountiesURL = 'https://disease.sh/v3/covid-19/jhucsse/counties';
   final String _usVaccineLocationsURL = 'https://www.vaccinespotter.org/api/v0/states/';
 
   final String apiKey = 'c3cc1912d5ae41d88782d801c5abf346';
@@ -159,10 +159,10 @@ class ApiResources {
 
     try {
       final Response response = await dio.get(_usCountiesURL);
-      for(int i = 0; i <response.data['message'].length; i++) {
-        resultsList.add(USCountyStats.fromJson(response.data['message'][i]));
+      for(int i = 0; i <response.data.length; i++) {
+        resultsList.add(USCountyStats.fromJson(response.data[i]));
       }
-      filteredResultsList = resultsList.where((county) => county.stateName == stateName).toList();
+      filteredResultsList = resultsList.where((county) => county.province == stateName).toList();
 
       return filteredResultsList;
     } catch (e) {

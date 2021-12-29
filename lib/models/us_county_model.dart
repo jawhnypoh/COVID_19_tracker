@@ -1,44 +1,81 @@
 // USCountyStats Class for an Individual US County Screen
 class USCountyStats {
-  String countyName;
-  String stateName;
-  int cases;
-  int newCases;
+  String country;
+  String province;
+  String county;
+  String updatedAt;
+  Stats stats;
+  Coordinates coordinates;
+
+  USCountyStats(
+      {this.country,
+        this.province,
+        this.county,
+        this.updatedAt,
+        this.stats,
+        this.coordinates});
+
+  USCountyStats.fromJson(Map<String, dynamic> json) {
+    country = json['country'];
+    province = json['province'];
+    county = json['county'];
+    updatedAt = json['updatedAt'];
+    stats = json['stats'] != null ? new Stats.fromJson(json['stats']) : null;
+    coordinates = json['coordinates'] != null
+        ? new Coordinates.fromJson(json['coordinates'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['country'] = this.country;
+    data['province'] = this.province;
+    data['county'] = this.county;
+    data['updatedAt'] = this.updatedAt;
+    if (this.stats != null) {
+      data['stats'] = this.stats.toJson();
+    }
+    if (this.coordinates != null) {
+      data['coordinates'] = this.coordinates.toJson();
+    }
+    return data;
+  }
+}
+
+class Stats {
+  int confirmed;
   int deaths;
-  int newDeaths;
-  String fatalityRate;
-  String updated;
 
-  USCountyStats({
-    this.countyName,
-    this.stateName,
-    this.cases,
-    this.newCases,
-    this.deaths,
-    this.newDeaths,
-    this.fatalityRate,
-    this.updated
-  });
+  Stats({this.confirmed, this.deaths});
 
-  factory USCountyStats.fromJson(Map<String, dynamic> json) => USCountyStats(
-    countyName: json["county_name"],
-    stateName: json["state_name"],
-    cases: json["confirmed"],
-    newCases: json["new"],
-    deaths: json["death"],
-    newDeaths: json["new_death"],
-    fatalityRate: json["fatality_rate"],
-    updated: json["last_updated"]
-  );
+  Stats.fromJson(Map<String, dynamic> json) {
+    confirmed = json['confirmed'];
+    deaths = json['deaths'];
+  }
 
-  Map<String, dynamic> toJson() => {
-    "county_name": countyName,
-    "state_name": stateName,
-    "confirmed": cases,
-    "new": newCases,
-    "death": deaths,
-    "new_death": newDeaths,
-    "fatality_rate": fatalityRate,
-    "last_updated": updated
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['confirmed'] = this.confirmed;
+    data['deaths'] = this.deaths;
+    return data;
+  }
+}
+
+class Coordinates {
+  String latitude;
+  String longitude;
+
+  Coordinates({this.latitude, this.longitude});
+
+  Coordinates.fromJson(Map<String, dynamic> json) {
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
+    return data;
+  }
 }
