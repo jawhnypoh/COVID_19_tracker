@@ -71,6 +71,18 @@ class ApiResources {
     }
   }
 
+  // Get results from disease.sh API for all US county historical data
+  Future<List> getCountyHistoricalDataResults(String countyName) async {
+    final List resultsList = List();
+
+    try {
+
+    } catch (e) {
+      print(e);
+      return e;
+    }
+  }
+
   // Get results from r/Coronavirus subreddit API for news
   Future<List<NewsArticleModel>> getNewsArticleResults() async {
     List<NewsArticleModel> newsArticlesList;
@@ -152,7 +164,7 @@ class ApiResources {
     }
   }
 
-  // Get results from covid19-us-api for all US counties
+  // Get results from disease.sh API for all US counties
   Future<List<USCountyStats>> getUSCountiesResults(String stateName) async {
     final List<USCountyStats> resultsList = List();
     List<USCountyStats> filteredResultsList = List();

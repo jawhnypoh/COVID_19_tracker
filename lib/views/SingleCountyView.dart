@@ -1,12 +1,25 @@
 // Single County Screen
 
+import 'package:covid_19_tracker/charts/CountyHistoricalLineChart.dart';
 import 'package:covid_19_tracker/models/us_county_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:covid_19_tracker/charts/LegendColoredBox.dart';
 
 class SingleCountyViewState extends State<SingleCountyView> {
   USCountyStats countyStats;
+
+  GoogleMapController mapController;
+  Set<Marker> markerSet = Set();
+
+  LatLng stateLatLng;
+
+  var historicalLineChart;
+
+  // Default location to Portland, OR if stateLatLng is null for some reason
+  final LatLng _defaultLocation = const LatLng(45.521563, -122.677433);
 
   final numberFormatter = NumberFormat('#,###', 'en_US');
 
@@ -14,6 +27,8 @@ class SingleCountyViewState extends State<SingleCountyView> {
 
   @override
   void initState() {
+    historicalLineChart = CountyHistoricalLineChart.withHistoricalData(countyStats.county);
+
     super.initState();
   }
 
@@ -31,14 +46,26 @@ class SingleCountyViewState extends State<SingleCountyView> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Padding(padding: EdgeInsets.only(top: 40.0)),
+                const Padding(padding: EdgeInsets.only(top: 10.0)),
+                _buildCountyMapWidget(countyStats.coordinates.latitude, countyStats.coordinates.longitude),
+                const Padding(padding: EdgeInsets.only(top: 20.0)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     _buildTotalCasesWidget(countyStats),
                     _buildTotalDeathsWidget(countyStats),
                   ],
-                )
+                ),
+                const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
+                const Padding(padding: EdgeInsets.only(top: 10.0)),
+                Container(
+                  height: 200,
+                  width: 350,
+                  child: historicalLineChart,
+                ),
+                const Padding(padding: EdgeInsets.only(top: 10.0)),
+                _buildLineChartLegend(),
+                const Padding(padding: EdgeInsets.only(top: 10.0)),
               ],
             ),
           ),
@@ -79,6 +106,34 @@ class SingleCountyViewState extends State<SingleCountyView> {
                 ]
             )
         )
+    );
+  }
+
+  Widget _buildCountyMapWidget(lat, lng) {
+    return Container(
+      height: 300.0,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 16.0),
+        child: GoogleMap(
+//          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(target: LatLng(double.parse(lat), double.parse(lng)),
+            zoom: 9,
+        ),
+      ),
+    ));
+  }
+
+  Widget _buildLineChartLegend() {
+    return Container(
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            LegendColoredBox(color: Colors.orangeAccent, text: 'Confirmed'),
+            LegendColoredBox(color: Colors.redAccent, text: 'Deaths')
+          ],
+        ),
+      ),
     );
   }
 }
