@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:covid_19_tracker/models/case_historical_data_model.dart';
 import 'package:covid_19_tracker/utilities/api_resources.dart';
+import 'package:us_states/us_states.dart';
 
 class StateHistoricalLineChart extends StatelessWidget {
   final String stateName;
@@ -23,14 +24,14 @@ class StateHistoricalLineChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: ApiResources().getStateHistoricalDataResults(stateName),
+        future: ApiResources().getStateHistoricalDataResults(USStates.getName(stateName)),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return charts.TimeSeriesChart(
               dataList(snapshot.data),
               animate: animate,
               primaryMeasureAxis: charts.NumericAxisSpec(
-                tickProviderSpec: charts.BasicNumericTickProviderSpec(desiredTickCount: 8),
+                tickProviderSpec: charts.BasicNumericTickProviderSpec(desiredTickCount: 10),
                 tickFormatterSpec: charts.BasicNumericTickFormatterSpec(
                     Utilities().convertNumberToReadable
                 ),
@@ -54,10 +55,10 @@ class StateHistoricalLineChart extends StatelessWidget {
                         color: charts.ColorUtil.fromDartColor(Colors.grey[600])
                     ),
                   ),
-                  tickProviderSpec: const charts.DayTickProviderSpec(increments: [55]),
+                  tickProviderSpec: const charts.DayTickProviderSpec(increments: [5]),
                   tickFormatterSpec: const charts.AutoDateTimeTickFormatterSpec(
                     day: charts.TimeFormatterSpec(
-                      format: 'MMM', transitionFormat: 'MMM dd'
+                      format: 'MMM dd', transitionFormat: 'MMM dd'
                     ),
                   )
               ),
@@ -112,22 +113,18 @@ class StateHistoricalLineChart extends StatelessWidget {
     }
 
     return [
-      charts.Series<CaseHistorical, DateTime>(
-        id: 'Confirmed Timeline',
+      new charts.Series<CaseHistorical, DateTime>(
+        id: 'Confirmed',
         domainFn: (CaseHistorical caseHistorical, _) => Utilities().convertStringToDateTime(caseHistorical.date),
         measureFn: (CaseHistorical caseHistorical, _) => caseHistorical.count,
         colorFn: (CaseHistorical caseHistorical, _) => confirmedColor,
-//        dashPatternFn: (CaseHistorical caseHistorical, _) => caseHistorical.dashPattern,
-        data: confirmedHistoricalList,
-      ),
-      charts.Series<CaseHistorical, DateTime>(
-        id: 'Deaths Timeline',
+        data: confirmedHistoricalList),
+      new charts.Series<CaseHistorical, DateTime>(
+        id: 'Deaths',
         domainFn: (CaseHistorical caseHistorical, _) => Utilities().convertStringToDateTime(caseHistorical.date),
         measureFn: (CaseHistorical caseHistorical, _) => caseHistorical.count,
         colorFn: (CaseHistorical caseHistorical, _) => deathsColor,
-//        dashPatternFn: (CaseHistorical caseHistorical, _) => caseHistorical.dashPattern,
-        data: deathsHistoricalList,
-      )
+        data: deathsHistoricalList)
     ];
   }
 }

@@ -57,7 +57,7 @@ class Utilities {
       case 4:
         return 'Severe Risk';
       default:
-        return 'NA';
+        return 'Status Unavailable';
     }
   }
 

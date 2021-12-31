@@ -17,7 +17,7 @@ class ApiResources {
   final String _singleStateURL = 'https://api.covidactnow.org/v2/state/';
   final String _singleStateHistoricalURL = 'https://covidtracking.com/api/v1/states/';
   final String _globalHistoricalTimelineURL = 'https://corona-api.com/timeline';
-  final String _stateHistoricalTimelineURL = 'https://api.covidactnow.org/v2/state/';
+  final String _stateHistoricalTimelineURL = 'https://disease.sh/v3/covid-19/nyt/states/';
   final String _newsArticlesURL = 'https://www.reddit.com/r/Coronavirus.json?limit=100';
   final String _usCountiesURL = 'https://disease.sh/v3/covid-19/jhucsse/counties';
   final String _usVaccineLocationsURL = 'https://www.vaccinespotter.org/api/v0/states/';
@@ -59,12 +59,17 @@ class ApiResources {
     final List resultsList = List();
 
     try {
-      final Response response = await dio.get(_stateHistoricalTimelineURL
-          + stateName.toUpperCase() + '.timeseries.json?apiKey=' + apiKey);
-      for(int i = 0; i < response.data['actualsTimeseries'].length; i++) {
-        resultsList.add(response.data['actualsTimeseries'][i]);
+//      final Response response = await dio.get(_stateHistoricalTimelineURL
+//          + stateName.toUpperCase() + '.timeseries.json?apiKey=' + apiKey);
+//      for(int i = 0; i < response.data['actualsTimeseries'].length; i++) {
+//        resultsList.add(response.data['actualsTimeseries'][i]);
+//      }
+      final Response response = await dio.get(_stateHistoricalTimelineURL + stateName + '?lastdays=30');
+
+      for(int i=0; i<response.data.length; i++) {
+        resultsList.add(response.data[i]);
       }
-      return resultsList;
+        return resultsList;
     } catch (e) {
       print(e);
       return e;

@@ -12,10 +12,8 @@ class SingleCountyViewState extends State<SingleCountyView> {
   USCountyStats countyStats;
 
   GoogleMapController mapController;
-  Set<Marker> markerSet = Set();
-
+  Set<Circle> circleSet = Set();
   LatLng stateLatLng;
-
   var historicalLineChart;
 
   // Default location to Portland, OR if stateLatLng is null for some reason
@@ -40,15 +38,13 @@ class SingleCountyViewState extends State<SingleCountyView> {
         title: Text(countyStats.county + ' County'),
       ),
       body: Container(
-        margin: const EdgeInsets.only(left: 10.0, right: 10.0),
         child: SingleChildScrollView(
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Padding(padding: EdgeInsets.only(top: 10.0)),
                 _buildCountyMapWidget(countyStats.coordinates.latitude, countyStats.coordinates.longitude),
-                const Padding(padding: EdgeInsets.only(top: 20.0)),
+                const Padding(padding: EdgeInsets.only(top: 10.0)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -57,14 +53,14 @@ class SingleCountyViewState extends State<SingleCountyView> {
                   ],
                 ),
                 const Divider(color: Colors.grey, indent: 10.0, endIndent: 10.0),
-                const Padding(padding: EdgeInsets.only(top: 10.0)),
-                Container(
-                  height: 200,
-                  width: 350,
-                  child: historicalLineChart,
-                ),
-                const Padding(padding: EdgeInsets.only(top: 10.0)),
-                _buildLineChartLegend(),
+//                const Padding(padding: EdgeInsets.only(top: 10.0)),
+//                Container(
+//                  height: 200,
+//                  width: 350,
+//                  child: historicalLineChart,
+//                ),
+//                const Padding(padding: EdgeInsets.only(top: 10.0)),
+//                _buildLineChartLegend(),
                 const Padding(padding: EdgeInsets.only(top: 10.0)),
               ],
             ),
@@ -110,16 +106,29 @@ class SingleCountyViewState extends State<SingleCountyView> {
   }
 
   Widget _buildCountyMapWidget(lat, lng) {
+    _setCountyCircle(LatLng(double.parse(lat), double.parse(lng)));
+
     return Container(
       height: 300.0,
       child: Padding(
         padding: EdgeInsets.only(bottom: 16.0),
         child: GoogleMap(
-//          onMapCreated: _onMapCreated,
+          circles: circleSet,
           initialCameraPosition: CameraPosition(target: LatLng(double.parse(lat), double.parse(lng)),
-            zoom: 9,
+            zoom: 11,
         ),
       ),
+    ));
+  }
+
+  void _setCountyCircle(LatLng location) {
+    circleSet.add(Circle(
+      circleId: CircleId('CountyCircleId'),
+      center: location,
+      radius: 6000,
+      fillColor: Colors.redAccent.withOpacity(0.5),
+      strokeWidth: 3,
+      strokeColor: Colors.redAccent
     ));
   }
 
